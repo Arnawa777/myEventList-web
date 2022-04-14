@@ -1,0 +1,1 @@
+alert("Warning U wil get cursed")
