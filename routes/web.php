@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PersonController;
@@ -35,10 +37,46 @@ Route::get('/about', function () {
     ]);
 });
 
+
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+    Route::get('/register', [RegisterController::class, 'index']);
+    Route::post('/register', [RegisterController::class, 'store'])->name('user.store');
+    //add more Routes here
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::get('/profile', [UserController::class, 'profile']);
+    Route::post('/profile', [UserController::class, 'update_avatar']);
+
+    //add more Routes here
+});
+
+Route::group(['middleware' => 'role:admin'], function () {
+
+});
+
+Route::group(['middleware' => 'role:user'], function () {
+    
+});
+
+
+
+
+
 Route::get('/posts', [PostController::class, 'index']);
 //Halaman Single Post
 //Use route model binding
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
+
+
+
+
+
+
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user:username}', [UserController::class, 'show']);
