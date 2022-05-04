@@ -18,10 +18,9 @@ class CharacterFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
-            'role' => $this->faker->words(3),
-            'description' => $this->faker->sentence(),
-            'image' => $this->faker->imageUrl(640, 480),
+            'slug' => $this->faker->unique()->slug(),
+            'role' => $this->faker->word(),
+            'description' => $this->faker->paragraph(1,3),
         ];
     }
 }

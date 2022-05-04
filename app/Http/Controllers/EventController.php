@@ -15,7 +15,13 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        
+        return view('events.events', [
+        "title" => "All Character",
+        //eager loadng query dipindah ke model
+        "event" => Event::latest()->get()
+         ]);
+
     }
 
     /**
@@ -47,7 +53,9 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view ('events.event', [
+        "event" => $event
+        ]);
     }
 
     /**

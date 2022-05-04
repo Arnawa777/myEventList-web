@@ -17,15 +17,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('person_id')->nullable();
             $table->foreignId('character_id')->nullable();
-            $table->foreignId('category_id');
+            $table->foreignId('location_id')->nullable();
             $table->foreignId('review_id')->nullable();
+            $table->foreignId('category_id');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('excerpt');
-            $table->text('body');
+            $table->text('synopsis')->nullable();;
             $table->timestamp('date')->nullable();
-            $table->string('picture');
-            $table->string('link_video');
+            $table->string('picture')->default('default.jpg');
+            $table->string('video')->nullable();
             $table->timestamps();
         });
     }

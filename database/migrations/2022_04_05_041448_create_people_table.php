@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('role_id');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->foreignId('role_id');
-            $table->text('excerpt');
-            $table->text('biography');
-            $table->string('picture');
+            $table->text('biography')->nullable();
+            $table->string('picture')->default('default.jpg');
             $table->timestamps();
         });
     }

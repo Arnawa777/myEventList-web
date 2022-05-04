@@ -17,12 +17,11 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence(2,3),
-            'slug' => $this->faker->slug(),
-            'topic_id' => $this->faker->numberBetween(1,3),
+            'event_id' => $this->faker->numberBetween(1,3),
             'user_id' => $this->faker->numberBetween(1,4),
-            'category_id' => $this->faker->numberBetween(1,3),
-            'excerpt' => $this->faker->paragraph(1,3),
+            'topic_id' => $this->faker->numberBetween(1,3),
+            'title' => $this->faker->sentence(2,3),
+            'slug' => $this->faker->unique()->slug(),
             // 'body' => $this->faker->paragraph(10,15),
             'body' => collect($this->faker->paragraphs(mt_rand(5,10)))
                       ->map(fn($p) => "<p> $p </p>")
