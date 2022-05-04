@@ -10,6 +10,7 @@ use App\Models\Character;
 use App\Models\Person;
 use App\Models\Post;
 use App\Models\Role;
+use App\Models\SubRole;
 use App\Models\Topic;
 
 use Illuminate\Database\Seeder;
@@ -46,18 +47,19 @@ class DatabaseSeeder extends Seeder
 
         Role::create([
             'name' => 'Actor',
-            'slug' => 'actor',
-            'detailed' => 'Main'
         ]);
         Role::create([
             'name' => 'Staff',
-            'slug' => 'staff',
-            'detailed' => 'Director'
         ]);
-        Role::create([
-            'name' => 'Actor',
-            'slug' => 'actor',
-            'detailed' => 'support'
+        
+        SubRole::create([
+            'role_id'=> '1',
+            'name' => 'Main',
+        ]);
+
+        SubRole::create([
+            'role_id'=> '2',
+            'name' => 'Director',
         ]);
 
         Topic::create([
