@@ -21,7 +21,6 @@
                         @error('username')
                             <small><span> {{ $message }} </span></small>
                         @enderror
-                        
                     </div>
                     <div class="input-field">
                         <i class="fa-solid fa-at"></i>
@@ -62,8 +61,8 @@
             </div> 
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/a076c9a6eb.js" crossorigin="anonymous"></script>
 </body>
 </html>
 
 
-<script src="https://kit.fontawesome.com/a076c9a6eb.js" crossorigin="anonymous"></script>

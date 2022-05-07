@@ -8,6 +8,16 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        return view('users.users', [
+            'title' => 'Users',
+            //withQueryString membawa semua query diatas ke pagination (blom kepake)
+            'users' => User::latest()->paginate(7)->withQueryString()
+        ]);
+        
+    }
+
     public function show(User $author)
     {
         return view('posts', [
@@ -16,11 +26,20 @@ class UserController extends Controller
         ]);
     }
 
-    public function profile()
+    public function profile(User $user)
     {
-        return view('profile.profile', [
+        return view('users.profile', [
+            'user'=> $user,
+            'title' => "$user->username's Profile" ,
+        ]);
+    }
+
+    public function user_setting()
+    {
+        return view('users.setting', [
+            //data user yang sedang login
             'user'=> Auth::user(),
-            'title' => 'Profile',
+            'title' => 'User Setting',
     
         ]);
     }
@@ -48,5 +67,17 @@ class UserController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function reset_avatar()
+    {
+        if (Auth()->user()->picture !== 'default.jpg') {
+            $file = public_path('/storage/user-picture/' . Auth()->user()->picture);
+            
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+        Auth()->user()->update(['picture'=>'default.jpg']);
     }
 }

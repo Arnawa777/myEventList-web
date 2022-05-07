@@ -49,11 +49,14 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [LoginController::class, 'logout']);
-    Route::get('/profile', [UserController::class, 'profile']);
-    Route::post('/profile', [UserController::class, 'update_avatar']);
-
+    
+    Route::post('/setting', [UserController::class, 'update_avatar']);
+    
     //add more Routes here
 });
+
+Route::get('/users', [PostController::class, 'index']);
+Route::get('/profile/{user:username}', [UserController::class, 'profile']);
 
 Route::group(['middleware' => 'role:admin'], function () {
 
@@ -63,7 +66,7 @@ Route::group(['middleware' => 'role:user'], function () {
     
 });
 
-
+Route::get('/setting', [UserController::class, 'user_setting']);
 
 
 
