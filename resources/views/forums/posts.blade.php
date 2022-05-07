@@ -6,8 +6,9 @@
 
 {{-- isi dari layouts/main --}}
 @section('container')
-    <h1>{{ $title }}</h1>
-
+    
+    <div class="container">
+        <h1>{{ $title }}</h1>
     {{-- @if ($posts->count() > 0) --}}
     @if ($posts->count())
         <div class="card mb-3">
@@ -31,7 +32,7 @@
     @else
         <p class="text-center fs-4">404 No Post Found.</p>  
     @endif
-
+</div>
     
     <div class="container">
         <div class="row">

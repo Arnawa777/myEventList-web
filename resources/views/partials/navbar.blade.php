@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a class="nav-link {{ request()->segment(1) == 'about' ? 'active' : '' }}" href="/about">About</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->segment(1) == 'users' ? 'active' : '' }}" href="/users">Users</a>
+          </li>
         </ul
         
       </div>
@@ -41,8 +44,9 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" 
             role="button" aria-expanded="false"> {{ auth()->user()->username }}</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-              <li><a class="dropdown-item" href="#">Setting</a></li>
+              <li><a class="dropdown-item" href="/profile/{{ auth()->user()->username }}">Profile</a></li>
+              <li><a class="dropdown-item" href="/setting">Setting</a></li>
+              <li><a class="dropdown-item" href="#">Dashboard</a></li>
               <li><hr class="dropdown-divider"></li>
               <li>
                 <form action="/logout" method="POST">
@@ -54,7 +58,7 @@
               </li>
             </ul>
           </div>
-          <a href="#" >
+          <a href="/profile/{{ auth()->user()->username }}"" >
             <img src="/storage/user-picture/{{ auth()->user()->picture }}" alt="avatar" style="object-fit: cover; width: 32px; height:32px" class="rounded-circle">
           </a>
         @endadmin
