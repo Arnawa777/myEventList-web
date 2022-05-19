@@ -12,4 +12,19 @@ class Event extends Model
     protected $guarded = [
         'id'
     ];
+
+    protected $with = [
+        'category',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    //penggantian id menjadi slug {{-- Menit 36 eps 17 --}}
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

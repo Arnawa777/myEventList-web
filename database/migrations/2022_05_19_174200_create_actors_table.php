@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('actors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->nullable();
-            $table->foreignId('user_id');
-            $table->foreignId('topic_id');
-            $table->string('title', 100);
-            $table->string('slug', 125)->unique();
-            $table->text('body');
+            $table->foreignId('event_id');
+            $table->foreignId('person_id');
+            $table->foreignId('character_id');
+            $table->string('description', 50);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('actors');
     }
 };

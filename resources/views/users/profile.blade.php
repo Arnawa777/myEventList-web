@@ -36,6 +36,18 @@
         </div>
         <div class="col-sm-6">
           <div class="card">
+            {{-- Name --}}
+            <div class="card-body">
+              <h5 class="card-title">Name</h5>
+                <p class="card-text">
+                  @if (is_null($user->name))
+                     <p> This user doesn't have name yet... </p>
+                  @else
+                      {!! $user->name !!}
+                  @endif
+              </p>
+            </div>
+            {{-- Bio --}}
             <div class="card-body">
               <h5 class="card-title">Bio</h5>
                 <p class="card-text">

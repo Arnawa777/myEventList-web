@@ -15,15 +15,12 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('person_id')->nullable();
-            $table->foreignId('character_id')->nullable();
             $table->foreignId('location_id')->nullable();
-            $table->foreignId('review_id')->nullable();
             $table->foreignId('category_id');
-            $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('name', 100);
+            $table->string('slug', 125)->unique();
             $table->text('synopsis')->nullable();;
-            $table->timestamp('date')->nullable();
+            $table->dateTime('date')->nullable();
             $table->string('picture')->default('default.jpg');
             $table->string('video')->nullable();
             $table->timestamps();

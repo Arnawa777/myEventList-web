@@ -17,10 +17,8 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            'person_id' => $this->faker->numberBetween(1,3),
-            'character_id' => $this->faker->numberBetween(1,3),
-            'category_id' => $this->faker->numberBetween(1,3),
             'location_id' => $this->faker->numberBetween(1,3),
+            'category_id' => $this->faker->numberBetween(1,3),
             // 'review_id' => $this->faker->numberBetween(1,2),
             'name' => $this->faker->word(),
             'slug' => $this->faker->unique()->slug(),
@@ -28,7 +26,8 @@ class EventFactory extends Factory
                       ->map(fn($p) => "<p> $p </p>")
                       ->implode(''),
             'date' => $this->faker->dateTimeBetween('now', '+1 years'),
-            'video' => $this->faker->numberBetween(1,2)
+            'picture' => 'default.jpg',
+            'video' => "https://youtu.be/aKtb7Y3qOck",
         ];
     }
 }

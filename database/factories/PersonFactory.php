@@ -19,11 +19,12 @@ class PersonFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'slug' => $this->faker->unique()->slug(),
-            'role_id' => $this->faker->numberBetween(1,2),
+            'birthday' => $this->faker->dateTimeBetween('-50 years', '-18 years'),
             // 'body' => $this->faker->paragraph(10,15),
             'biography' => collect($this->faker->paragraphs(mt_rand(5,10)))
                       ->map(fn($p) => "<p> $p </p>")
                       ->implode(''),
+            'picture' => 'default.jpg',
         ];
     }
 }
