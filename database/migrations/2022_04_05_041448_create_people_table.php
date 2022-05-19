@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id');
-            $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('name', 50);
+            $table->string('slug', 75)->unique();
+            $table->date('birthday')->nullable();
             $table->text('biography')->nullable();
             $table->string('picture')->default('default.jpg');
             $table->timestamps();

@@ -21,6 +21,7 @@ class CharacterFactory extends Factory
             'slug' => $this->faker->unique()->slug(),
             'role' => $this->faker->word(),
             'description' => $this->faker->paragraph(1,3),
+            'picture' => 'default.jpg',
         ];
     }
 }

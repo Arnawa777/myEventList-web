@@ -10,6 +10,8 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\Dashboard\DashboardEventController;
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -49,9 +51,16 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [LoginController::class, 'logout']);
-    
+    Route::get('/setting', [UserController::class, 'user_setting']);
     Route::post('/setting', [UserController::class, 'update_avatar']);
     
+    //Dashboard
+    Route::get('/dashboard', function(){
+        return view('dashboard.home', [
+            "title" => "Dashboard"
+            ]);
+    });
+    Route::resource('/dashboard/events', DashboardEventController::class);
     //add more Routes here
 });
 
@@ -66,7 +75,7 @@ Route::group(['middleware' => 'role:user'], function () {
     
 });
 
-Route::get('/setting', [UserController::class, 'user_setting']);
+
 
 
 

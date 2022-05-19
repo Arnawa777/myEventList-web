@@ -22,3 +22,8 @@ MEL-03
 <br>~Half Finished Profile Page
 <br>~Add User Setting
 <br>~Add User List
+
+MEL-04
+<br>~Add Dashboard Page
+<br>~Reworked V2 database migration + Seeder
+<br>~Setting Profile V1

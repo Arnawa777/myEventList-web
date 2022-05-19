@@ -54,67 +54,67 @@
               </div> 
             </div>
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-              <div class="row">
-                {{-- Name --}}
-                <div class="col-md-3">
-                  <div class="card-body">
-                  <h5 style="margin-left:25px">Name</h5>
+              <form action="#" method="POST" class="edit-form">
+                @csrf
+              <div class="row">  
+                  {{-- Name --}}
+                  <div class="col-md-3">
+                    <div class="card-body">
+                    <h5 style="margin-left:25px">Name</h5>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="card-body">
-                    <h5>New Name <i class="fas fa-user"></i></h5>
-                      <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
-                        <input type="text" name="username" id="username" autofocus class="form-control">
-                        @error('username')
-                            <small><span> {{ $message }} </span></small>
-                        @enderror
-                      </div>
+                  <div class="col-md-9">
+                    <div class="card-body">
+                      <h5>New Name <i class="fas fa-user"></i></h5>
+                        <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
+                          <input type="text" name="username" id="username" autofocus class="form-control">
+                          @error('username')
+                              <small><span> {{ $message }} </span></small>
+                          @enderror
+                        </div>
+                    </div>
                   </div>
-                </div>
-                {{-- Email --}}
-                <div class="col-md-3">
-                  <div class="card-body">
-                  <h5 style="margin-left:25px">Email</h5>
+                  {{-- Email --}}
+                  <div class="col-md-3">
+                    <div class="card-body">
+                    <h5 style="margin-left:25px">Email</h5>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="card-body">
-                    <h5>New Email <i class="fas fa-user"></i></h5>
-                      <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
-                        <input type="email" name="email" id="email" autofocus class="form-control">
-                        @error('email')
-                            <small><span> {{ $message }} </span></small>
-                        @enderror
-                      </div>
+                  <div class="col-md-9">
+                    <div class="card-body">
+                      <h5>New Email <i class="fas fa-user"></i></h5>
+                        <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
+                          <input type="email" name="email" id="email" autofocus class="form-control">
+                          @error('email')
+                              <small><span> {{ $message }} </span></small>
+                          @enderror
+                        </div>
+                    </div>
                   </div>
-                </div>
-                {{-- Bio --}}
-                <div class="col-md-3">
-                  <div class="card-body">
-                  <h5 style="margin-left:25px">Bio</h5>
+                  {{-- Bio --}}
+                  <div class="col-md-3">
+                    <div class="card-body">
+                    <h5 style="margin-left:25px">Bio</h5>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="card-body">
-                    <h5>New Bio <i class="fas fa-user"></i></h5>
-                      <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
-                        <textarea name="bio" id="bio" class="form-control" rows="5" aria-label="With textarea"></textarea>
-                        @error('bio')
-                            <small><span> {{ $message }} </span></small>
-                        @enderror
-                      </div>
+                  <div class="col-md-9">
+                    <div class="card-body">
+                      <h5>New Bio <i class="fas fa-user"></i></h5>
+                        <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
+                          <textarea name="bio" id="bio" class="form-control" rows="5" aria-label="With textarea"></textarea>
+                          @error('bio')
+                              <small><span> {{ $message }} </span></small>
+                          @enderror
+                        </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-9 offset-md-3">
-                  <div class="card-body text-end" style="padding-right: 30%">
-                    <form action="#" method="POST" class="edit-form">
-                      @csrf
-                      <input type="submit" value="Register" class="btn solid btn-primary" >
-                    </form>
-                  </div>
-                </div>
-              </div> 
+                  <div class="col-md-9 offset-md-3">
+                    <div class="card-body text-end" style="padding-right: 30%">
+                        <input type="submit" value="Register" class="btn solid btn-primary" >
+                    </div>
+                  </div>   
+              </div>
+            </form>
             </div>
           </div>
 

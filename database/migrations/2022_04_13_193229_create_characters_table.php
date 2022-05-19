@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('role');
+            $table->string('name', 50);
+            $table->string('slug', 75)->unique();
+            $table->string('role', 75);
             $table->text('description');
             $table->string('picture')->default('default.jpg');
             $table->timestamps();

@@ -1,0 +1,19 @@
+
+.table {
+    border-collapse: separate;
+    
+}
+
+.table tbody {
+    border-top: 15px solid white;
+  }
+
+.table tbody .spacer{
+    padding-bottom: 5em;
+  }
+
+tr .action form button{
+    margin-bottom:10px;
+    width:44px;
+    height: 34px;
+}

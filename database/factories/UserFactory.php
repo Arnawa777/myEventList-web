@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'username' => $this->faker->unique()->userName(),
             'email' => $this->faker->unique()->safeEmail(),
             // Array Paragraph
-            'bio'=> collect($this->faker->paragraphs(mt_rand(5,10)))
+            'biography'=> collect($this->faker->paragraphs(mt_rand(5,10)))
             ->map(fn($p) => "<p> $p </p>")
             ->implode(''),
             'password' => Hash::make('123456'), // password

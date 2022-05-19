@@ -2,18 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Event;
-use App\Models\Comment;
+
+use App\Models\Actor;
 use App\Models\Category;
 use App\Models\Character;
+use App\Models\Comment;
+use App\Models\Event;
+use App\Models\Favorite;
 use App\Models\Person;
 use App\Models\Post;
-use App\Models\Role;
-use App\Models\SubRole;
+use App\Models\Review;
 use App\Models\Topic;
+use App\Models\User;
+use App\Models\Worker;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,12 +30,23 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
+        User::create([
+            'username' => 'admin12',
+            'email' => 'admin12@gmail.com',
+            'role' => 'admin',
+            'password' => Hash::make('123456'), // password
+        ]);
+
+        Actor::factory(10)->create();
         Character::factory(5)->create();
         Comment::factory(5)->create();
         Event::factory(10)->create();
+        Favorite::factory(10)->create();
         Person::factory(5)->create();
         Post::factory(20)->create();
+        Review::factory(5)->create();
         User::factory(5)->create();
+        Worker::factory(5)->create();
 
         Category::create([
             'name' => 'Wayang',
@@ -44,23 +59,6 @@ class DatabaseSeeder extends Seeder
         Category::create([
             'name' => 'Drama',
             'slug' => 'drama' ]);
-
-        Role::create([
-            'name' => 'Actor',
-        ]);
-        Role::create([
-            'name' => 'Staff',
-        ]);
-        
-        SubRole::create([
-            'role_id'=> '1',
-            'name' => 'Main',
-        ]);
-
-        SubRole::create([
-            'role_id'=> '2',
-            'name' => 'Director',
-        ]);
 
         Topic::create([
             'name' => 'Event Recommendation',
