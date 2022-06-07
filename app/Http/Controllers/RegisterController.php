@@ -19,11 +19,13 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'username' => 'required|min:3|max:16|unique:users',
+            'username' => 'required|min:3|max:20|unique:users',
             'email' => 'required|email:dns|max:255|unique:users',
             'password' => 'required|min:6|max:50'
-        ]);    
-        
+        ]);
+
+        $validateData['picture'] = 'default.jpg';
+        $validateData['role'] = 'user';
         $validateData['password'] = Hash::make($validateData['password']);
 
         User::create($validateData);

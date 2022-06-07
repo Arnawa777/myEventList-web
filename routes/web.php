@@ -11,6 +11,15 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\Dashboard\DashboardEventController;
+use App\Http\Controllers\Dashboard\DashboardCategoryController;
+use App\Http\Controllers\Dashboard\DashboardActorEventController;
+use App\Http\Controllers\Dashboard\DashboardWorkerController;
+use App\Http\Controllers\Dashboard\DashboardPostController;
+use App\Http\Controllers\Dashboard\DashboardTopicController;
+use App\Http\Controllers\Dashboard\DashboardPersonController;
+use App\Http\Controllers\Dashboard\DashboardActorController;
+use App\Http\Controllers\Dashboard\DashboardCharacterController;
+use App\Http\Controllers\Dashboard\DashboardLocationController;
  
 
 /*
@@ -61,6 +70,25 @@ Route::group(['middleware' => 'auth'], function () {
             ]);
     });
     Route::resource('/dashboard/events', DashboardEventController::class);
+    Route::resource('/dashboard/categories', DashboardCategoryController::class);
+    //Parameter untuk mengganti default parameter
+    Route::resource('/dashboard/staff', DashboardWorkerController::class)->parameters([
+        'staff' => 'staff' //Kiri Default Diganti ke kanann
+    ]);
+
+    
+    Route::get('/dashboard/actor-events/search', [DashboardActorEventController::class, 'search']);
+    Route::resource('/dashboard/actor-events', DashboardActorEventController::class);
+    
+    
+    Route::resource('/dashboard/posts', DashboardPostController::class);
+    Route::resource('/dashboard/topics', DashboardTopicController::class);
+
+    Route::resource('/dashboard/people', DashboardPersonController::class);
+    Route::resource('/dashboard/actors', DashboardActorController::class);
+
+    Route::resource('/dashboard/characters', DashboardCharacterController::class);
+    Route::resource('/dashboard/locations', DashboardLocationController::class);
     //add more Routes here
 });
 

@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected $guarded = [
         'id'
     ];
 
     protected $with = [
-        'category',
+        'category'
     ];
 
     public function category()
@@ -22,9 +23,46 @@ class Event extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function actor()
+    {
+        return $this->belongsToMany(Actor::class, 'actor_events');
+    }
+
+    public function actor_event()
+    {
+        return $this->hasMany(ActorEvent::class);
+    }
+
+    public function staff()
+    {
+        return $this->hasMany(Worker::class);
+    }
+
+
+
     //penggantian id menjadi slug {{-- Menit 36 eps 17 --}}
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    //Otomatis membuat slug
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
+    }
+
+    // this is a recommended way to declare event handlers
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function($event) { // before delete() method call this
+             $event->actor_event()->delete();
+             // do the rest of the cleanup...
+        });
     }
 }

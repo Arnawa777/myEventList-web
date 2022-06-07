@@ -3,59 +3,69 @@
 
 
 @section('container')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">List Event</h1>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
+	 style="padding: 30px 0px 20px 0px">
+    <h2>List Event</h2>
 </div>
 
 <div class="table-responsive col-lg-8">
-  <a href="/dashboard/events/create" class="btn btn-primary mb-3">Create New Event</a>
+	<a href="/dashboard/events/create" class="btn btn-primary mb-3">Create New Event</a>
+	
+	{{-- Message --}}
+	@if (session()->has('success'))
+		<div class="alert alert-success" role="alert">
+			{{ session('success') }}
+		</div>
+	@endif
   
-  @if (session()->has('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-  @endif
-  
-  <table class="table table-sm">
-    <thead>
-      <tr class="bg-dark text-light">
-        <th scope="col">#</th>
-        <th scope="col">Picture</th>
-        <th scope="col">Title</th>
-        <th scope="col">Category</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-        @foreach ($events as $event) 
-      <tr class="bg-secondary text-light">
-        <td>{{ $loop->iteration }}</td>
-        <td><img class="img-fluid"  src="/storage/event-picture/{{ $event->picture }}" style="width:auto; height:100px; object-fit: cover;"></td>
-        <td>{{ $event->name }}</td>
-        <td>{{ $event->category->name }}</td>
-        <td class="action col-sm-1 align-middle text-center">
-            {{-- Menit 36 eps 17 --}}
-            
-              
-              <form action="/dashboard/events/{{ $event->slug }}">
-                <button class="badge bg-info border-0"><i class="fa-solid fa-eye" style="font-size:25px;"></i></button>
-              </form>
+	@if ($events->count())
+		<table class="table table-sm text-nowrap">
+			<thead>
+				<tr>
+					<th scope="col" style="width: 3%;">#</th>
+					<th scope="col" style="width: 12%">Picture</th>
+					<th scope="col" style="width: 50%">Title</th>
+					<th scope="col" style="width: 12%">Category</th>
+					<th scope="col" style="width: 8%">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($events as $event) 
+				<tr>
+					<td>{{ $events->firstItem()+$loop->index }}</td>
+					<td>
+						<img class="index-img"  src="/storage/event-picture/{{ $event->picture }}">
+					</td>
+					<td>{{ $event->name }}</td>
+					<td>{{ $event->category->name }}</td>
+					<td class="action align-middle text-center">
+						{{-- Menit 36 eps 17 --}}
+						<form action="/dashboard/events/{{ $event->slug }}">
+							<button class="badge bg-info border-0"><i class="fa-solid fa-eye"></i></button>
+						</form>
 
-              <form action="/dashboard/events/{{ $event->slug }}/edit">
-                <button class="badge bg-warning border-0"><i class="fa-solid fa-pen-to-square" style="font-size:25px;"></i></button>
-              </form>
+						<form action="/dashboard/events/{{ $event->slug }}/edit">
+							<button class="badge bg-warning border-0"><i class="fa-solid fa-pen-to-square"></i></button>
+						</form>
 
-              <form action="/dashboard/events/{{ $event->slug }}" method="event" class="d-inline">
-              @method('delete')
-              @csrf
-              <button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash" style="font-size:25px;"></i></button>
-              </form> 
-        </td>
-      </tr>
-      <tr class="spacer"><td></td></tr>
-      @endforeach
-    </tbody>
-  </table>
+						<form action="/dashboard/events/{{ $event->slug }}" method="post" class="d-inline">
+						@method('delete')
+						@csrf
+						<button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+						</form> 
+					</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+	@else
+		<p class="text-center fs-4">404</p>
+		<p class="text-center fs-4">Data Not Found</p>
+	@endif
+	
+	<div class="d-flex justify-content-end">
+		{{ $events->links('vendor.pagination.custom') }}
+	</div>
 </div>
 
 

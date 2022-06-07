@@ -102,12 +102,16 @@ ul li a {
 }
 
 .side-nav ul li:hover p,
-.side-nav ul .first-item.active p{
+.side-nav ul .first-item.active p,
+.side-nav ul .second-item.active p
+{
     color: #0d74f5;
 } 
 
 .side-nav ul li:hover .icon,
-.side-nav ul .first-item.active .icon{
+.side-nav ul .first-item.active .icon,
+.side-nav ul .second-item.active .icon
+{
     filter: invert(13%) sepia(73%) saturate(7050%) hue-rotate(337deg) brightness(96%) contrast(101%);
 }
 
