@@ -15,10 +15,9 @@ return new class extends Migration
     {
         Schema::create('actors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id');
-            $table->foreignId('person_id');
-            $table->foreignId('character_id');
-            $table->string('description', 50);
+            $table->foreignId('person_id')->constrained('people')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('character_id')->constrained('characters')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unique(['person_id', 'character_id']);
             $table->timestamps();
         });
     }

@@ -1,5 +1,7 @@
 <!-- Make A Port -->
 php artisan serve --port=8080
+<!-- Route List -->
+php artisan route:list
 
 Change Log
 
@@ -27,3 +29,9 @@ MEL-04
 <br>~Add Dashboard Page
 <br>~Reworked V2 database migration + Seeder
 <br>~Setting Profile V1
+
+MEL-05
+<br>~All Dashboard Finish except favorite, review, comment
+<br>~Reworked V3 database migration + Seeder (add unique 2 column)
+<br>~Set youtube link upload & stream 
+<br>~Set upload image

@@ -25,6 +25,7 @@ class EventFactory extends Factory
             'synopsis' => collect($this->faker->paragraphs(mt_rand(5,10)))
                       ->map(fn($p) => "<p> $p </p>")
                       ->implode(''),
+            'phone' => $this->faker->phoneNumber(),
             'date' => $this->faker->dateTimeBetween('now', '+1 years'),
             'picture' => 'default.jpg',
             'video' => "https://youtu.be/aKtb7Y3qOck",

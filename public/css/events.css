@@ -1,0 +1,177 @@
+#land-event{
+  border: 0.5px; 
+  border-style: solid; 
+  border-color:#E1E7F5;
+}
+#title{
+  margin-bottom: 10px;
+  background-color: #E1E7F5;
+  color: black;
+}
+
+#title h3{
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-weight:bolder;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 50px;  
+}
+
+#main-row {
+  padding: 5px 0px;
+}
+
+.cover-event{
+  display: block; 
+  min-width: 270px;
+  max-width:100%; 
+  height:360px; 
+  object-fit: cover;
+}
+
+.image-icon{
+  object-fit: cover;
+}
+
+#coverVideo {
+    display: inline-block;
+    position: relative;
+}
+
+.post-img{
+  display:block; 
+  width:100%; 
+  height:auto; 
+  max-height:400px; 
+  object-fit:cover
+}
+
+.cover-video {
+    height:200px;
+    width:auto;  
+    max-width:480px; 
+    object-fit: cover;
+    float: right;
+    display: block;
+    margin-left: auto; 
+    margin-right: 0;
+  }
+  
+.thumb {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 64px;
+    height: 64px;
+  }
+
+.modal
+  {
+    margin: auto;
+    display: grid;
+    place-items: center;
+    /* display: flex;
+    position: fixed; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+  }
+  
+  .modal.active
+  {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s;
+    transform: translate(-50%,-50%) scale(1);
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+  }
+
+
+.modal iframe
+{   
+    width: 900px;
+    height: 540px;
+    max-width: 900px;
+    outline: none;
+    border: 10px solid #fff;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+.modal .close
+{    
+    cursor: pointer;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    z-index: 2;
+    width: 50px;
+    height: 50px;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);
+}
+
+.left-column,
+.right-column
+{
+  width: 420px;
+}
+
+/* Chara & Person */
+.mid-column
+{
+  width: 100%;
+}
+
+.left-column .first-table,
+.right-column .first-table
+{
+  width: 100%;
+  border: 0;
+  padding: 0;
+  border-spacing: 0;
+}
+
+.left-column .first-table p,
+.right-column .first-table p
+{
+  font-size: 11px;
+}
+
+
+.first-table tr{
+  margin-top: 100px;
+}
+
+.first-table img{
+  width:52px;
+  height:62px;
+  border: 1px solid #ddd;
+  padding: 2px;
+  /* border-color: black; */
+}
+
+.name-table{
+  /* font-size: 11px; */
+  vertical-align: top; padding: 0px 5px
+}
+
+a{
+  text-decoration: none;
+}
+
+
+@media (max-width: 991px)
+{
+  .modal video
+  {
+    max-width: 90%;
+  }
+}

@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->nullable();
-            $table->foreignId('user_id');
-            $table->foreignId('topic_id');
-            $table->string('title', 100);
-            $table->string('slug', 125)->unique();
-            $table->text('body');
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('event_id')->constrained('events')->restrictOnDelete()->cascadeOnUpdate();
+            $table->unique(['user_id','event_id']);
+            $table->string('rating');
+            $table->text('body')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('reviews');
     }
 };

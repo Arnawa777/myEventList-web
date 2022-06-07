@@ -19,7 +19,7 @@ class WorkerFactory extends Factory
         return [
             'event_id' => $this->faker->numberBetween(1,3),
             'person_id' => $this->faker->numberBetween(1,3),
-            'description' => 'Director',
+            'role' => 'Director',
         ];
     }
 }

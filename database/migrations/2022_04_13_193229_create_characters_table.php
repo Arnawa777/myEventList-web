@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('slug', 75)->unique();
             $table->string('role', 75);
-            $table->text('description');
-            $table->string('picture')->default('default.jpg');
+            $table->text('description')->nullable();
+            $table->string('picture')->nullable()->default('default.jpg');
             $table->timestamps();
         });
     }

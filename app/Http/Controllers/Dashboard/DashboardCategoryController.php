@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
+
 
 class DashboardCategoryController extends Controller
 {
@@ -14,7 +17,10 @@ class DashboardCategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.categories.index', [
+            'title' => "Dashboard - List Category",
+            'categories' => Category::latest()->paginate(5),
+        ]);
     }
 
     /**
@@ -24,7 +30,9 @@ class DashboardCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.categories.create', [
+            'title' => "Dashboard - Create Category",
+        ]);
     }
 
     /**
@@ -35,7 +43,13 @@ class DashboardCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:25|unique:categories,name',
+        ]);
+        $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
+
+        Category::create($validatedData);
+        return redirect('dashboard/categories')->with('success', 'New Category has been added!!!');
     }
 
     /**
@@ -55,9 +69,12 @@ class DashboardCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('dashboard.categories.edit', [
+            'title' => "Dashboard - Edit Category",
+            'category' => $category
+        ]);
     }
 
     /**
@@ -67,9 +84,18 @@ class DashboardCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:25|unique:categories,name,'.$category->id,
+        ]);
+
+        $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
+
+        Category::where('id', $category->id)
+                ->update($validatedData);
+
+        return redirect('dashboard/categories')->with('success', 'Category has been update!!!');
     }
 
     /**
@@ -78,8 +104,23 @@ class DashboardCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        // if ($category->events()->exists()
+        // || $category->employee()->exists())
+        try {
+            Category::destroy($category->id); 
+            return redirect('dashboard/categories')->with('success', 'Category has been delete!!!');
+           } 
+        catch (\Illuminate\Database\QueryException $e) {
+       
+               if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return redirect('dashboard/categories')->with('fail', 'Category in use!!!');
+                   // return error to user here
+               }
+           }
+
+        
+        
     }
 }

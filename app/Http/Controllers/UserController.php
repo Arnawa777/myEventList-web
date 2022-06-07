@@ -47,7 +47,7 @@ class UserController extends Controller
     public function update_avatar(Request $request)
     {
         $request->validate([
-            'image' => 'mimes:bmp,jpg,jpeg,png,webp|max:2048',
+            'image' => 'image|file|max:2048',
            ]);
 
         if($request->hasFile('image')){
