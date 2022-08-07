@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-info">
-    <div class="container">
-      
+    <div class="container">    
       <a class="navbar-brand" href="/"><b>MyEventList</b></a>
       {{-- Hamburger for Phone --}}
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,18 +10,39 @@
         
         <ul class="navbar-nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-start mb-md-0">
           <li class="nav-item">
-            <a class="nav-link {{ request()->segment(1) == '' ? 'active' : '' }}" href="/event">Event</a>
+            <a class="nav-link {{ request()->segment(1) == '' ? 'active' : '' }}" href="/events">Event</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->segment(1) == 'posts' ? 'active' : '' }}" href="/posts">Forums</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->segment(1) == 'about' ? 'active' : '' }}" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ request()->segment(1) == 'users' ? 'active' : '' }}" href="/users">Users</a>
-          </li>
-        </ul
+          {{-- Community --}}
+          <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Community
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/forum">Forums</a></li>
+                  <li><a class="dropdown-item" href="/posts">Posts</a></li>
+                  <li><a class="dropdown-item" href="/users">Users</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          {{-- Other --}}
+          <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Other
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/people">People</a></li>
+                  <li><a class="dropdown-item" href="/characters">Characters</a></li>
+                  <li><a class="dropdown-item" href="/about">About</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          </ul
         
       </div>
 
@@ -45,7 +65,7 @@
             role="button" aria-expanded="false"> {{ auth()->user()->username }}</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/profile/{{ auth()->user()->username }}">Profile</a></li>
-              <li><a class="dropdown-item" href="/setting">Setting</a></li>
+              <li><a class="dropdown-item" href="/setting/profile">Setting</a></li>
               <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
               <li><hr class="dropdown-divider"></li>
               <li>
@@ -79,8 +99,7 @@
             role="button" aria-expanded="false"> {{ auth()->user()->username }}</a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/profile/{{ auth()->user()->username }}">Profile</a></li>
-              <li><a class="dropdown-item" href="/setting">Setting</a></li>
-              <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+              <li><a class="dropdown-item" href="/setting/profile">Setting</a></li>
               <li><hr class="dropdown-divider"></li>
               <li>
                 <form action="/logout" method="POST">

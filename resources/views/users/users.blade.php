@@ -7,28 +7,24 @@
 <div class="container">
     <div class="row">
         @foreach ($users as $user)
-            <div class="col-sm-4 mb-3">
-                <div class="card">
+        <div class="col-lg-4" style="padding: 20px 10px">
+                <div class="card" >
                     <img src="/storage/user-picture/{{ $user->picture }}" class="card-img-top" style="height:20rem; object-fit: cover;" alt="{{ $user->username }}">
                     <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="/profile/{{ $user->username }}" class="text-decoration-none text-dark">{{ $user->username }}</a>
-                    </h5>
-                    <p class="card-text">
-                        @if (is_null($user->bio))
-                           <p> This user doesn't have biography yet... </p>
-                        @else
-                            {!!  Str::limit($user->bio, 50, $end='...')  !!}
-                        @endif
-                    </p>
+                        <h5>
+                            <a href="/profile/{{ $user->username }}" class="text-decoration-none text-dark">{{ $user->username }}</a>
+                        </h5>
                     </div>
                     <div class="card-footer text-muted">
                         2 days ago
                     </div>
                 </div>
-            </div>
+        </div>
         @endforeach
     </div>
+    <div class="d-flex justify-content-end">
+		{{ $users->links('vendor.pagination.custom') }}
+	</div>
 </div>
 
 @endsection

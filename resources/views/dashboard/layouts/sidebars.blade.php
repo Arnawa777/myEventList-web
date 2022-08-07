@@ -9,7 +9,7 @@
           <img src="{{ URL::to('/') }}/icon/home.svg" class="icon" alt="icon-home">
           <p>Dashboard</p></a>
       </li>
-      <li class="first-item {{ Request::is('dashboard/events*') ? 'active' : '' }} {{ Request::is('dashboard/actor-events*') ? 'active' : '' }}"><a href="/dashboard/events">
+      <li class="first-item {{ Request::is('dashboard/events*') ? 'active' : '' }} {{ Request::is('dashboard/categories*') ? 'active' : '' }} {{ Request::is('dashboard/actor-events*') ? 'active' : '' }} {{ Request::is('dashboard/staff*') ? 'active' : '' }}"><a href="/dashboard/events">
           <img src="{{ URL::to('/') }}/icon/event.svg" class="icon" alt="icon-event">
           <p>Events</p></a>
       </li>
@@ -25,7 +25,7 @@
         <img src="{{ URL::to('/') }}/icon/corner-down-right.svg" class="icon" alt="icon-corner-right">
         <p>Assign Staff</p></a>
     </li>
-      <li class="first-item {{ Request::is('dashboard/posts*') ? 'active' : '' }}"><a href="/dashboard/posts">
+      <li class="first-item {{ Request::is('dashboard/posts*') ? 'active' : '' }} {{ Request::is('dashboard/topics*') ? 'active' : '' }}"><a href="/dashboard/posts">
           <img src="{{ URL::to('/') }}/icon/discuss.svg" class="icon" alt="icon-post">
           <p>Posts</p></a>
       </li>
@@ -33,7 +33,7 @@
           <img src="{{ URL::to('/') }}/icon/corner-down-right.svg" class="icon" alt="icon-corner-right">
           <p>Topics</p></a>
       </li>
-      <li class="first-item {{ Request::is('dashboard/people*') ? 'active' : '' }}"><a href="/dashboard/people">
+      <li class="first-item {{ Request::is('dashboard/people*') ? 'active' : '' }} {{ Request::is('dashboard/actors*') ? 'active' : '' }}"><a href="/dashboard/people">
           <img src="{{ URL::to('/') }}/icon/girl.svg" class="icon" alt="icon-person">
           <p>People</p></a>
       </li>

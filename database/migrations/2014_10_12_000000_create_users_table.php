@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('role', 20)->default('user');
             $table->date('birthday')->nullable();
-            $table->string('picture')->nullable();
+            $table->string('picture')->nullable()->default('default.jpg');
             $table->text('biography')->nullable();
             $table->string('password');
             $table->rememberToken();

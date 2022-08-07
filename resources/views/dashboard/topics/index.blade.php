@@ -31,24 +31,26 @@
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
 					<th scope="col">Topic</th>
+					<th scope="col">Sub Topic</th>
 					<th scope="col" style="width:  10%">Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach ($topics as $category) 
+				@foreach ($topics as $topic) 
 				<tr>
 				{{-- Loop number with pagination --}}
 				<td>{{ $topics->firstItem()+$loop->index }}</td>
-				<td>{{ $category->name }}</td>
+				<td>{{ $topic->topic }}</td>
+				<td>{{ $topic->sub_topic }}</td>
 				<td style="flex">
 					{{-- Menit 36 eps 17 --}}
 					<a style="pointer-events: none;" href="#" 
 					class="badge bg-secondary"><i class="fa-solid fa-eye-slash"></i></a>
 
-					<a href="/dashboard/topics/{{ $category->slug }}/edit"
+					<a href="/dashboard/topics/{{ $topic->slug }}/edit"
 						class="badge bg-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
-						<form action="/dashboard/topics/{{ $category->slug }}" method="post" class="d-inline">
+						<form action="/dashboard/topics/{{ $topic->slug }}" method="post" class="d-inline">
 						@method('delete')
 						@csrf
 						<button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
@@ -63,8 +65,8 @@
 		<p class="text-center fs-4">404</p>
 		<p class="text-center fs-4">Data Not Found</p>
 	@endif
-	<div class="d-flex justify-content-center">
-		{{ $topics->links() }}
+	<div class="d-flex justify-content-end">
+		{{ $topics->links('vendor.pagination.custom') }}
 	</div>
 </div>
 

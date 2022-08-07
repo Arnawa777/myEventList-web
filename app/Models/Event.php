@@ -38,6 +38,20 @@ class Event extends Model
         return $this->hasMany(Worker::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 
 
     //penggantian id menjadi slug {{-- Menit 36 eps 17 --}}

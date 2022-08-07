@@ -35,34 +35,24 @@ style="padding: 30px 0px 20px 0px">
                 @enderror
         </div>
 
-        {{-- Actor --}}
+        {{-- Character --}}
         <div class="mb-3">
-            <label for="character_id">Actor</label>
+            <label for="character_id">Character</label>
             <select class="form-select" name="character_id" value="{{ old('character_id') }}">
                 @foreach ($characters as $chara)
                     @if (old('character_id') == $chara->id)
                         <option value="{{ $chara->id }}" selected>
-                            {{ Str::words($chara->name, 2, '') }}
+                            {{ $chara->name }}
                         </option>
                     @else
                         <option value="{{ $chara->id }}">
-                            {{ Str::words($chara->name, 2, '') }}
+                            {{ $chara->name }}
                         </option>
                     @endif
                 @endforeach
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Staff Role</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" 
-             id="name" name="name" value="{{ old('name') }}" autofocus>
-             @error('name')
-                 <div class="invalid-feedback">
-                     {{ $message }}
-                 </div>
-             @enderror
-        </div>
         <div class="mb-3">
             @error('character_id')
                 <div class="alert-danger">

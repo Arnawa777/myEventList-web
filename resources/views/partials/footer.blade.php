@@ -1,5 +1,9 @@
-<footer  class="fixed-bottom py-3 bg-dark">
+<footer class="footer">
   <div class="container">
-      <span class="text-muted">Place sticky footer content here.</span>
+    <div class="row">
+      <div class="col-md-6 align-items-center d-flex">
+        <span class="text-muted">Place sticky footer content here.</span>
+      </div>
+    </div>
   </div>
 </footer>

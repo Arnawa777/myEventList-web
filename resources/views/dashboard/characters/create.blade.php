@@ -53,7 +53,7 @@
           {{-- TRIX Description --}}
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input id="description" type="hidden" name="description">
+            <input id="description" type="hidden" name="description" value="{{ old('description') }}>
                 <trix-editor input="description"></trix-editor>
              @error('description')
                  <div class="invalid-feedback">

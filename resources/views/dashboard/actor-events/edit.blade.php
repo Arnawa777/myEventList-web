@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 style="padding: 30px 0px 20px 0px">
-    <h2>Update Actor</h2>
+    <h2>Edit Assigned Actor</h2>
 </div>
 
 <div class="col-lg-8">

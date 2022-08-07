@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('event_id')->constrained('events')->restrictOnDelete()->cascadeOnUpdate();
             $table->unique(['user_id','event_id']);
-            $table->string('rating');
+            $table->integer('rating');
             $table->text('body')->nullable();
             $table->timestamps();
         });

@@ -10,6 +10,7 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Dashboard\DashboardEventController;
 use App\Http\Controllers\Dashboard\DashboardCategoryController;
 use App\Http\Controllers\Dashboard\DashboardActorEventController;
@@ -20,7 +21,10 @@ use App\Http\Controllers\Dashboard\DashboardPersonController;
 use App\Http\Controllers\Dashboard\DashboardActorController;
 use App\Http\Controllers\Dashboard\DashboardCharacterController;
 use App\Http\Controllers\Dashboard\DashboardLocationController;
- 
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +37,7 @@ use App\Http\Controllers\Dashboard\DashboardLocationController;
 |
 */
 
-Route::get('/', function () {
-    return view('home', [
-        "title" => "Home"
-    ]);
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/about', function () {
     return view('about', [
@@ -60,14 +60,24 @@ Route::group(['middleware' => 'guest'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [LoginController::class, 'logout']);
-    Route::get('/setting', [UserController::class, 'user_setting']);
-    Route::post('/setting', [UserController::class, 'update_avatar']);
-    
+    Route::get('/setting/picture', [UserController::class, 'avatar_setting']);
+    Route::put('/setting/picture', [UserController::class, 'avatar_update']);
+    Route::delete('/setting/picture', [UserController::class, 'avatar_reset']);
+    Route::get('/setting/profile', [UserController::class, 'profile_setting']);
+    Route::put('/setting/profile', [UserController::class, 'profile_update']);
+
+    //Manage Review
+    Route::post('/review-store', [ReviewController::class, 'store'])->name('review.store');
+    Route::resource('/events/{event:slug}/review', ReviewController::class);
+
+    //Comments
+    Route::resource('/forum/{topic:sub_topic}/{post:slug}/comment', CommentController::class);
+
     //Dashboard
-    Route::get('/dashboard', function(){
+    Route::get('/dashboard', function () {
         return view('dashboard.home', [
             "title" => "Dashboard"
-            ]);
+        ]);
     });
     Route::resource('/dashboard/events', DashboardEventController::class);
     Route::resource('/dashboard/categories', DashboardCategoryController::class);
@@ -76,11 +86,11 @@ Route::group(['middleware' => 'auth'], function () {
         'staff' => 'staff' //Kiri Default Diganti ke kanann
     ]);
 
-    
+
     Route::get('/dashboard/actor-events/search', [DashboardActorEventController::class, 'search']);
     Route::resource('/dashboard/actor-events', DashboardActorEventController::class);
-    
-    
+
+
     Route::resource('/dashboard/posts', DashboardPostController::class);
     Route::resource('/dashboard/topics', DashboardTopicController::class);
 
@@ -90,17 +100,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/dashboard/characters', DashboardCharacterController::class);
     Route::resource('/dashboard/locations', DashboardLocationController::class);
     //add more Routes here
+
+
+
 });
 
 Route::get('/users', [PostController::class, 'index']);
+
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
+Route::get('/profile/{user:username}/favorites', [FavoriteController::class, 'show']);
+// Route::delete('/profile/favorites/{id}', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
+Route::resource('favorites', FavoriteController::class);
 
 Route::group(['middleware' => 'role:admin'], function () {
-
 });
 
 Route::group(['middleware' => 'role:user'], function () {
-    
 });
 
 
@@ -108,6 +123,9 @@ Route::group(['middleware' => 'role:user'], function () {
 
 
 Route::get('/posts', [PostController::class, 'index']);
+Route::get('/forum', [ForumController::class, 'index']);
+Route::get('/forum/{topic:sub_topic}', [ForumController::class, 'topic']);
+Route::get('/forum/{topic:sub_topic}/{post:slug}', [ForumController::class, 'post']);
 //Halaman Single Post
 //Use route model binding
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
@@ -115,8 +133,7 @@ Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 
 
-
-
+Route::resource('/events', EventController::class);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user:username}', [UserController::class, 'show']);
@@ -124,12 +141,9 @@ Route::get('/users/{user:username}', [UserController::class, 'show']);
 Route::get('/topics', [TopicController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 
-Route::get('/events', [EventController::class, 'index']);
-Route::get('/events/{event:slug}', [EventController::class, 'show']);
 
 Route::get('/people', [PersonController::class, 'index']);
 Route::get('/person/{person:slug}', [PersonController::class, 'show']);
 
 Route::get('/characters', [CharacterController::class, 'index']);
 Route::get('/character/{character:slug}', [CharacterController::class, 'show']);
-

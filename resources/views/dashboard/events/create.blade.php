@@ -72,8 +72,8 @@
 
         {{-- Date --}}
         <div class="mb-3">
-          <label for="date" class="form-label">Event Date</label>
-          <input type="datetime-local" class="form-control @error('date') is-invalid @enderror" 
+          <label for="date" class="form-label">Event Established</label>
+          <input type="date" class="form-control @error('date') is-invalid @enderror" 
            id="date" name="date" value="{{ old('date') }}">
            @error('date')
                <div class="invalid-feedback">
