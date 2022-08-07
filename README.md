@@ -35,3 +35,15 @@ MEL-05
 <br>~Reworked V3 database migration + Seeder (add unique 2 column)
 <br>~Set youtube link upload & stream 
 <br>~Set upload image
+
+MEL-06
+<br>~Community -> Forums Progress 90%
+<br>~Events
+<br>~Home Progress 90%
+
+Mel-07 - To Do
+<br>Update Review & Comment
+<br>Page People & Characters
+<br>Searching
+<br>Finishing Some Page MEL-06
+

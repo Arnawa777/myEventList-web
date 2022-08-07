@@ -1,0 +1,80 @@
+.breadcrumb {
+    padding-left: 12px;
+    padding-top: 20px;
+}
+
+.breadcrumb .active {
+    font-weight: bold;
+    /* color: blue; */
+}
+
+.forum #category tr {
+    background-color: #E7E9EB;
+}
+
+.forum #category #title {
+    background-color: aqua;
+    margin: 0;
+    padding: 10px;
+}
+
+.forum #category #topic {
+    padding-left: 10px;
+}
+
+.empty {
+    text-align: center;
+}
+
+.forum #category tr td {
+    align-items: center;
+    vertical-align: middle;
+}
+
+.forum #category .count {
+    display: inline-flex;
+    width: 100%;
+
+    text-align: center;
+    padding: 10px 0;
+}
+
+.forum #category .count .first {
+    width: 50%;
+    margin: 0;
+    padding: 0 5px;
+    border-right: 1px solid rgb(0, 0, 0);
+}
+
+.forum #category .count .last {
+    width: 50%;
+    margin: 0 5px;
+    padding: 0 5px;
+}
+
+/* Posts */
+.postData {
+    margin: 12px;
+    padding: 0px;
+    min-height: 259px;
+    background: #9d9ea0;
+}
+
+.left-column,
+.right-column {
+    margin-top: 10px;
+}
+
+.userPicture {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.replyBox {
+    margin: 20px 0px;
+}

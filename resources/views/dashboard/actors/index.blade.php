@@ -27,7 +27,7 @@
 					<th scope="col" style="width: 3%;">#</th>
 					<th scope="col">Person Name</th>
 					<th scope="col">Character Name</th>
-					<th scope="col">Description</th>
+					<th scope="col">Role</th>
 					<th scope="col" style="width:  10%">Action</th>
 				</tr>
 			</thead>
@@ -38,7 +38,7 @@
 					<td>{{ $actors->firstItem()+$loop->index }}</td>
 					<td>{{ $actor->person->name }}</td>
 					<td>{{ $actor->character->name }}</td>
-					<td>{{ $actor->name }}</td>
+					<td>{{ $actor->character->role }}</td>
 					<td>
 						{{-- Menit 36 eps 17 --}}
 						<a style="pointer-events: none;" href="#"
@@ -61,9 +61,9 @@
 		<p class="text-center fs-4">404</p>
 		<p class="text-center fs-4">Data Not Found</p>
 	@endif
-  <div class="d-flex justify-content-center">
-    {{ $actors->links() }}
-  </div>
+	<div class="d-flex justify-content-end">
+		{{ $actors->links('vendor.pagination.custom') }}
+	</div>
 </div>
 
 

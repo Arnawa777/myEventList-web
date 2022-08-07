@@ -19,12 +19,18 @@ class Topic extends Model
         return $this->hasMany(Post::class);
     }
 
+    //Get one Last Post
+    public function latestPost()
+    {
+        return $this->hasOne(Post::class)->latest('created_at');
+    }
+
     //penggantian id menjadi slug {{-- Menit 36 eps 17 --}}
     public function getRouteKeyName()
     {
         return 'slug';
     }
-    
+
     //Otomatis membuat slug
     public function sluggable(): array
     {

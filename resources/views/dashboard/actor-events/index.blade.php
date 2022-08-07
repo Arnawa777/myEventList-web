@@ -7,7 +7,7 @@
 	 style="padding: 30px 0px 20px 0px">
 	<h2>List Actor in Event</h2>
     <div class="search">
-    	<select class="livesearch form-control" name="livesearch"></select>
+    	{{-- <select class="livesearch form-control" name="livesearch"></select> --}}
     </div>
 </div>
 
@@ -66,8 +66,8 @@
 		<p class="text-center fs-4">404</p>
 		<p class="text-center fs-4">Data Not Found</p>
 	@endif
-	<div class="d-flex justify-content-center">
-		{{ $actor_events->links() }}
+	<div class="d-flex justify-content-end">
+		{{ $actor_events->links('vendor.pagination.custom') }}
 	</div>
 </div>
 

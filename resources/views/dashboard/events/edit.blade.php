@@ -73,11 +73,12 @@
 
         {{-- Date --}}
         <div class="mb-3">
-          <label for="date" class="form-label">Event Date</label>
-          <input type="datetime-local" class="form-control @error('date') is-invalid @enderror" 
+          <label for="date" class="form-label">Event Established</label>
+          <input type="date" class="form-control @error('date') is-invalid @enderror" 
            id="date" name="date" 
            {{-- value="{{ old('date', Carbon\Carbon::parse($event->date)->isoFormat('Y-m-d\TH:i')) }}" --}}
-           value="{{ old('date',date('Y-m-d\TH:i', strtotime($event->date))) }}"
+           {{-- value="{{ old('date',date('Y-m-d\TH:i', strtotime($event->date))) }}" --}}
+           value="{{ old('date',$event->date) }}"
            @error('date')
                <div class="invalid-feedback">
                    {{ $message }}

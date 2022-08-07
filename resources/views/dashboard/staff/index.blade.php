@@ -63,8 +63,8 @@
 		<p class="text-center fs-4">404</p>
 		<p class="text-center fs-4">Data Not Found</p>
 	@endif
-	<div class="d-flex justify-content-center">
-		{{ $workers->links() }}
+	<div class="d-flex justify-content-end">
+		{{ $workers->links('vendor.pagination.custom') }}
 	</div>
 </div>
 

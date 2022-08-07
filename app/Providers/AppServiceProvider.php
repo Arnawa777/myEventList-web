@@ -26,14 +26,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
-        Blade::if('admin', function () {            
+
+        Blade::if('admin', function () {
             if (auth()->user() && auth()->user()->role == 'admin') {
                 return 1;
             }
             return 0;
         });
-        Blade::if('user', function () {            
+        Blade::if('user', function () {
             if (auth()->user() && auth()->user()->role == 'user') {
                 return 1;
             }
@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         //force HTTPS for good reason (?)
-        if(env('APP_ENV') !== 'local') {
+        if (env('APP_ENV') !== 'local') {
             URL::forceScheme('https');
         }
 

@@ -124,6 +124,9 @@
                                             <h5>
                                                 {{ $actor->character->name }}
                                             </h5>
+                                            <p>
+                                                {{ $actor->character->role }}
+                                            </p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -159,7 +162,7 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5 style="float: left;">Actor Roles</h5>
+                        <h5 style="float: left;">Staff Roles</h5>
                         @if($staff->count() > 10)
                         <a style="text-decoration: none; float: right; " href="">View More</a>
                         @endif
@@ -181,7 +184,7 @@
                                         <h5>
                                             {{ $stf->event->name }}
                                         </h5>
-                                        <p>{{ $stf->name }} </p>
+                                        <p>{{ $stf->role }} </p>
                                     </td>
                                 </tr>
                             </tbody>

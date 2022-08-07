@@ -32,7 +32,7 @@
     @else
         <p class="text-center fs-4">404 No Post Found.</p>  
     @endif
-</div>
+    </div>
     
     <div class="container">
         <div class="row">

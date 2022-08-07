@@ -40,7 +40,8 @@
                 </div>
                 <div>
                     <p> Category:  {{ $event->category->name }} </p>
-                    <p> Location: {{ $event->location_id }}</p>
+                    <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
+                    <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
                 </div>
             </div>
         </div> <!--// close of Left Side div //-->

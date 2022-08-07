@@ -4,7 +4,18 @@
 {{-- isi dari layouts/main --}}
 @section('container')
 
-<link rel="stylesheet" href="{{asset('../css/setting.css')}}">
+{{-- Trix Text Editor --}}
+<link rel="stylesheet" type="text/css" href="{{ URL::to('/') }}/css/trix.css">
+<script type="text/javascript" src="{{ URL::to('/') }}/js/trix.js"></script>
+{{-- Trix Hide Upload --}}
+<style> 
+trix-toolbar [data-trix-button-group="file-tools"]{
+  display:none;
+}
+</style>
+<link rel="stylesheet" href="{{ URL::to('/') }}/css/setting.css">
+<script src="{{ URL::to('/') }}/js/dashboard.js"></script>
+<script src=""></script>
   <div class="container">
     <!-- Tabs with Background on Card -->
         <!-- Nav tabs -->
@@ -22,39 +33,50 @@
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
               <div class="row">
                 <div class="col-md-4">
-                  <div class="card-body text-center">
-                    <img class="img-fluid" src="/storage/user-picture/{{ $user->picture }}" style="width:250px; height:250px; object-fit: cover;  border-radius:50%;">
-                  </div>
+
+
+					<div class="card-body text-center">
+						@if ($user->picture)
+							<img class="profile-preview" src="/storage/user-picture/{{ $user->picture }}">
+						@else
+							<img class="profile-preview">
+						@endif
+					</div>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                      <h4>Upload Image</h4>
-                      <p>Must be jpg, jpeg or png format. No NSFM allowed. No copyrighted images.
-                        Maximum of 225 x 350 pixels (resized automatically).</p>
-                      @error('image')
-                        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                        <br>
-                      @enderror
-                      
-                      <form action="/setting" method="POST" enctype="multipart/form-data">
-                          @csrf
-                          <input type="file" name="image" id="image">
-                          <input type="submit" value="Upload">
-                      </form>
+						<h4>Upload Image</h4>
+						<p>Must be jpg, jpeg or png format. No NSFM allowed. No copyrighted images.
+						Maximum of 225 x 350 pixels (resized automatically).</p>
+						@error('picture')
+							<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+							<br>
+						@enderror
+						<form action="/setting" method="post" enctype="multipart/form-data">
+							@method('put')
+							@csrf
+							<input type="hidden" name="oldPicture" value="{{ $user->picture }}">
+							<input type="file" name="picture" id="picture" onchange="previewImage()">
+							<button type="submit" class="btn-sub btn btn-primary">Upload</button>
+						</form>
                     </div>
                   <div class="card-body">
                     <h4>Remove Image</h4>
                       <p>You can remove this picture by clicking the button below. Don't forget to upload another though, or else you will have an default image in its place..</p>
-                      <form action="/setting" method="POST" enctype="multipart/form-data">
-                          @csrf
-                          <button class="btn btn-danger">Blom Jalan</button>
+                      
+					  <form action="/setting" method="post" class="d-inline">
+						@method('delete')
+						@csrf
+						<button class="btn btn-danger" onclick="return confirm('Are you sure?')">Remove</button>
+						
                       </form>
                   </div>
                 </div>
               </div> 
             </div>
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-              <form action="#" method="POST" class="edit-form">
+              <form action="/setting/profile" method="post" class="edit-form">
+				@method('put')
                 @csrf
               <div class="row">  
                   {{-- Name --}}
@@ -67,8 +89,9 @@
                     <div class="card-body">
                       <h5>New Name <i class="fas fa-user"></i></h5>
                         <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
-                          <input type="text" name="username" id="username" autofocus class="form-control">
-                          @error('username')
+                          <input type="text" name="name" id="name"class="form-control"
+						  value="{{ old('name', $user->name) }}" autofocus>
+                          @error('name')
                               <small><span> {{ $message }} </span></small>
                           @enderror
                         </div>
@@ -84,7 +107,8 @@
                     <div class="card-body">
                       <h5>New Email <i class="fas fa-user"></i></h5>
                         <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
-                          <input type="email" name="email" id="email" autofocus class="form-control">
+                          <input type="email" name="email" id="email" class="form-control"
+						  value="{{ old('name', $user->email) }}">
                           @error('email')
                               <small><span> {{ $message }} </span></small>
                           @enderror
@@ -100,9 +124,11 @@
                   <div class="col-md-9">
                     <div class="card-body">
                       <h5>New Bio <i class="fas fa-user"></i></h5>
-                        <div class="input-group flex-nowrap input-group-lg" style="padding-right: 30%">
-                          <textarea name="bio" id="bio" class="form-control" rows="5" aria-label="With textarea"></textarea>
-                          @error('bio')
+                        <div class="" style="padding-right: 30%">
+						  <input id="biography" type="hidden" name="biography" value="{{ old('biography', $user->biography) }}">
+                          
+						  <trix-editor input="biography"></trix-editor>
+                          @error('biography')
                               <small><span> {{ $message }} </span></small>
                           @enderror
                         </div>
@@ -110,7 +136,7 @@
                   </div>
                   <div class="col-md-9 offset-md-3">
                     <div class="card-body text-end" style="padding-right: 30%">
-                        <input type="submit" value="Register" class="btn solid btn-primary" >
+                        <input type="submit" value="Update" class="btn solid btn-primary" >
                     </div>
                   </div>   
               </div>

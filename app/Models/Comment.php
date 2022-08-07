@@ -12,4 +12,19 @@ class Comment extends Model
     protected $guarded = [
         'id'
     ];
+
+    protected $with = [
+        'post', 'author'
+    ];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    //user diganti menjadi author
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

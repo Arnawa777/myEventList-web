@@ -20,7 +20,7 @@ class DashboardActorController extends Controller
         return view('dashboard.actors.index', [
             "title" => "Dashboard Actors",
             'actors' => Actor::latest()->paginate(5),
-            ]);
+        ]);
     }
 
     /**
@@ -45,14 +45,15 @@ class DashboardActorController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'character_id' => 'required|unique:actors,character_id,NULL,id,person_id,'. $request->person_id,
-            'person_id' => 'required',
-            'name' => 'required|min:3|max:100', //Description
-        ],
-        [
-            'character_id.unique' => 'Actor already exist!!!',
-        ]);
+        $validatedData = $request->validate(
+            [
+                'character_id' => 'required|unique:actors,character_id,NULL,id,person_id,' . $request->person_id,
+                'person_id' => 'required',
+            ],
+            [
+                'character_id.unique' => 'Actor already exist!!!',
+            ]
+        );
 
         Actor::create($validatedData);
 
@@ -95,17 +96,18 @@ class DashboardActorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'character_id' => 'required|unique:actors,character_id,'. $id . ',id,person_id,'. $request->person_id,
-            'person_id' => 'required',
-            'name' => 'required|min:3|max:100', //Description
-        ],
-        [
-            'character_id.unique' => 'Actor already exist!!!',
-        ]);
+        $validatedData = $request->validate(
+            [
+                'character_id' => 'required|unique:actors,character_id,' . $id . ',id,person_id,' . $request->person_id,
+                'person_id' => 'required',
+            ],
+            [
+                'character_id.unique' => 'Actor already exist!!!',
+            ]
+        );
 
         Actor::where('id', $id)
-                ->update($validatedData);
+            ->update($validatedData);
 
         return redirect('/dashboard/actors')->with('success', 'Actor has been update!!!');
     }

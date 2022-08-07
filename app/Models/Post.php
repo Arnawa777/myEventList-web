@@ -34,7 +34,18 @@ class Post extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    //Get one Last Post
+    public function latestComment()
+    {
+        return $this->hasOne(Comment::class)->latest('created_at');
+    }
+
+
     //penggantian id menjadi slug {{-- Menit 36 eps 17 --}}
     public function getRouteKeyName()
     {
