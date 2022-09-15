@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete()->cascadeOnUpdate();
             $table->foreignId('topic_id')->constrained('topics')->restrictOnDelete()->cascadeOnUpdate();
             $table->string('title', 100);
-            $table->string('picture')->nullable()->default('default.jpg');
+            $table->string('picture')->nullable();
             $table->string('slug', 125)->unique();
             $table->text('body');
             $table->timestamps();

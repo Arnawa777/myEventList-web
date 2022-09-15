@@ -22,6 +22,7 @@
                     </div>
                     <div>
                         <p> Category:  {{ $event->category->name }} </p>
+                        <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
                         <p> Location: {{ $event->location->regency }}</p>
                     </div>
                     <div>
@@ -116,7 +117,7 @@
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
                             <h5 style="float: left;">Character & Actor</h5>
-                            @if($actors->count() > 10)
+                            @if($actors->count())
                             <a style="text-decoration: none; float: right; " href="">View More</a>
                             @endif
                             <div style="clear: both;"></div>
@@ -162,8 +163,8 @@
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
                             <h5 style="float: left;">Staff</h5>
-                            @if($staff->count() > 10)
-                            <a style="text-decoration: none; float: right;" href="">View More</a>
+                            @if($staff->count())
+                            <a style="text-decoration: none; float: right;" href="#">View More</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -199,22 +200,33 @@
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
                             <h5 style="float: left;">Review</h5>
-                            @if($allReviews->count() > 3)
-                            <a style="text-decoration: none; float: right;" href="">View More</a>
+                            @if($allReviews->count())
+                            <a style="text-decoration: none; float: right;" href="#">View More</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
                     </div>
                     <div class="col-12"> 
                         @forelse ($allReviews as $rev)
-                            <div class="card" style="min-height: 200px; width:100%; margin:10px 0px">
-                                <div class="card-body">
-                                <h3 class="card-title">{{ $rev->user->username }}</h3>
-                                {!! $rev->body !!}
-                                {{-- <p>{{ $rev->body }}</p> --}}
-                                {{-- <p class="card-text" style="padding-left:20px">{!! $rev->body !!}</p> --}}
+                        <div class="card" style="min-height: 200px; width:100%; margin:10px 0px;">
+                            <div class="row no-gutters">
+                                <div class="col-1" style="padding-right: 0px; margin-right:0px;">
+                                    <img style="
+                                    max-width: 100%;
+                                    height: 84px;
+                                    object-fit: cover;" src="/storage/user-picture/{{ $rev->user->picture }}" class="img-fluid" alt="user-picture">
+                                </div>
+                                <div class="col-11">
+                                    <div class="card-block" style="min-height: 200px">
+                                        <h4 class="card-title">{{ $rev->user->username }}</h4>
+                                        <p class="card-text">{!! $rev->body !!}</p>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        {{-- View Comment --}}
+                        
+                        
                         @empty
                             <p>No reviews have been submitted for this event. Be the first to make a review</p>
                         @endforelse
@@ -225,20 +237,21 @@
                 {{-- {{ dd($review->user_id) }} --}}
                 @auth
                     @if ($myReview)
+                    <div class="row" id="main-row">
                         <div class="col-12"> 
                             <div class="border-bottom" style="margin-bottom:10px;">
                                 <h5 style="float: left;">Your Review</h5>
                                 <div style="clear: both;"></div>
                             </div>
                         </div>
-                        <div class="col-12"> 
-                            <div class="card" style="position: relative; min-height: 200px; width:100%; margin:10px 0px">
+                        <div class="col-12" id="showreview-{{ $myReview->id }}"> 
+                            <div class="card" style="position: relative; min-height: 200px; width:100%; margin:10px 0px; padding-bottom:20px">
                                 <div class="card-body">
                                 <h3 class="card-title">{{ $myReview->user->username }}</h3>
                                 
                                 <p>{!! $myReview->body !!}</p>
                                 <div class="footer-review" style="bottom: 0px; padding-bottom:10px; position:absolute; width:100%">
-                                    <button><a href="/"><i class="fa-solid fa-pen-to-square"></i>Edit</a></button>
+                                    <button type="button" class="showedit" data-id="{{ $myReview->id }}"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
                                    
                                     <form method="post" action="/events/{{ $event->slug }}/review/{{ $myReview->id }}" enctype="multipart/form-data" class="d-inline">
                                     @method('delete')
@@ -252,7 +265,63 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Hide Edit --}}
+                        <div class="col-12" style="display:none;" id="editreview-{{ $myReview->id }}">
+                            <form method="post" action="/events/{{ $event->slug }}/review/{{ $myReview->id }}" enctype="multipart/form-data">
+                            @method('put')
+                            @csrf
+                            {{-- Rating --}}
+                            <div class="mb-3">
+                                <select class="form-select" name="rating" value="{{ old('rating', $myReview->rating )}}">
+                                    @if (old('rating', $myReview->rating))
+                                        <option {{ old('rating', $myReview->rating) == 10 ? 'selected' : '' }}  value="10">(10) Masterpiece</option>
+                                        <option {{ old('rating', $myReview->rating) == 9 ? 'selected' : '' }}  value="9">(09) Great</option>
+                                        <option {{ old('rating', $myReview->rating) == 8 ? 'selected' : '' }}  value="8">(08) Very Good</option>
+                                        <option {{ old('rating', $myReview->rating) == 7 ? 'selected' : '' }} value="7">(07) Good</option>
+                                        <option {{ old('rating', $myReview->rating) == 6 ? 'selected' : '' }}  value="6">(06) Fine</option>
+                                        <option {{ old('rating', $myReview->rating) == 5 ? 'selected' : '' }}  value="5">(05) Average</option>
+                                        <option {{ old('rating', $myReview->rating) == 4 ? 'selected' : '' }}  value="4">(04) Bad</option>
+                                        <option {{ old('rating', $myReview->rating) == 3 ? 'selected' : '' }}  value="3">(03) Very Bad</option>
+                                        <option {{ old('rating', $myReview->rating) == 2 ? 'selected' : '' }}  value="2">(02) Horrible</option>
+                                        <option {{ old('rating', $myReview->rating) == 1 ? 'selected' : '' }}  value="1">(01) Appalling</option>
+                                    @else
+                                        <option value="10">(10) Masterpiece</option>
+                                        <option value="9">(09) Great</option>
+                                        <option value="8">(08) Very Good</option>
+                                        <option value="7">(07) Good</option>
+                                        <option value="6">(06) Fine</option>
+                                        <option value="5">(05) Average</option>
+                                        <option value="4">(04) Bad</option>
+                                        <option value="3">(03) Very Bad</option>
+                                        <option value="2">(02) Horrible</option>
+                                        <option value="1">(01) Appalling</option>
+                                    @endif
+                                </select>
+                            </div>
+
+                            {{-- TRIX body --}}
+                            <div class="replyBox">
+                                <input id="body" type="hidden" name="body" value="{{ old('body', $myReview->body) }}">
+                                <trix-editor input="body"></trix-editor>
+                                @error('body')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            {{-- Pass Event Id --}}
+                            <div>
+                                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                                <input type="hidden" name="review_id" value="{{ $myReview->id }}">
+                            </div>
+                                <button type="submit">Edit</button>
+                                <button type="button" class="canceledit" class="canceledit" data-id="{{ $myReview->id }}">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
                     @else
+
                         <div class="row" id="main-row">
                             <div class="col-12"> 
                                 <div class="border-bottom" style="margin-bottom:10px;">
@@ -318,22 +387,33 @@
         </div>
 </div>
 
-{{-- <script>
-    // $('select').on('change', function() {
-    //     var user = {!! json_encode((array)auth()->user()->id) !!};
-    //     var event = $("#event_id").data("field-id");
-    //     console.log(event);
-    //     console.log(user);
-    //     alert( this.value );
-    //     $.post("/review-store", { 
-    //         user_id: user,
-    //         event_id: event,
-    //         rating: this.value,
-    //       }).done(function(data) {
-    //           console.log(data)
-    //       });
-    // });
-</script> --}}
+<script>
+    $(document).ready(function(){
+        // change the selector to use a class
+        $(".showedit").click(function(){
+            // this will query for the clicked toggle
+            var $toggle = $(this); 
+
+            // build the target form id
+            var showid = "#showreview-" + $toggle.data('id'); 
+            var editid = "#editreview-" + $toggle.data('id'); 
+
+            $( showid ).hide();
+            $( editid ).show();
+        });
+        $(".canceledit").click(function(){
+            // this will query for the clicked toggle
+            var $toggle = $(this); 
+
+            // build the target form id
+            var showid = "#showreview-" + $toggle.data('id'); 
+            var editid = "#editreview-" + $toggle.data('id'); 
+
+            $( showid ).show();
+            $( editid ).hide();
+        });
+    });
+</script>
 
 <script type="text/javascript">
     // Get the clip

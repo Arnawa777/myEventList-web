@@ -133,7 +133,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p class="text-center fs-4">This Characters Doesn't Have person</p>
+                        <p class="text-center fs-4">This Characters Doesn't Have Actor</p>
                     </div>
                     @endif
                 </div> <!--// close of Data Chara div //-->

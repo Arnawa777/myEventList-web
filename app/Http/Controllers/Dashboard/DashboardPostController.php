@@ -34,8 +34,8 @@ class DashboardPostController extends Controller
     {
         return view('dashboard.posts.create', [
             "title" => "Dashboard - Create Post",
-            'topics'=> Topic::all(),
-            'events'=> Event::all(),
+            'topics' => Topic::all(),
+            'events' => Event::all(),
         ]);
     }
 
@@ -52,18 +52,17 @@ class DashboardPostController extends Controller
             'topic_id' => 'required',
             'event_id' => '',
             'picture' => 'image|file|max:1024',
-            'body' => 'required',
+            'body' => 'required|min:3',
         ];
 
         $validatedData = $request->validate($rules);
 
-        if (empty($request->file('picture')))
-        {
+        if (empty($request->file('picture'))) {
             $validatedData['picture'] = 'default.jpg';
-        }else{
+        } else {
             // memberikan nama pada file yang diupload
-            $filename = time() .'-'.$request->picture->getClientOriginalName().'.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('post-picture',$filename,'public');
+            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+            $request->picture->storeAs('post-picture', $filename, 'public');
 
             $validatedData['picture'] = $filename;
         }
@@ -71,7 +70,7 @@ class DashboardPostController extends Controller
 
         $validatedData['slug'] = SlugService::createSlug(Post::class, 'slug', $request->title);
         $validatedData['user_id'] = auth()->user()->id;
-        
+
 
         Post::create($validatedData);
 
@@ -103,8 +102,8 @@ class DashboardPostController extends Controller
         return view('dashboard.posts.edit', [
             "title" => "Dashboard - Edit Post",
             'post' => $post,
-            'topics'=> Topic::all(),
-            'events'=> Event::all(),
+            'topics' => Topic::all(),
+            'events' => Event::all(),
         ]);
     }
 
@@ -127,13 +126,11 @@ class DashboardPostController extends Controller
 
         $validatedData = $request->validate($rules);
 
-        if (empty($request->file('picture')))
-        {
+        if (empty($request->file('picture'))) {
             $validatedData['picture'] = 'default.jpg';
-        }else{
-            if(!empty($request->oldPicture))
-            {
-                if($request->oldPicture !== 'default.jpg'){
+        } else {
+            if (!empty($request->oldPicture)) {
+                if ($request->oldPicture !== 'default.jpg') {
                     $file = public_path('/storage/post-picture/' . $request->oldPicture);
                     if (file_exists($file)) {
                         unlink($file);
@@ -141,8 +138,8 @@ class DashboardPostController extends Controller
                 }
             }
             // memberikan nama pada file yang diupload
-            $filename = time() .'-'.$request->picture->getClientOriginalName().'.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('post-picture',$filename,'public');
+            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+            $request->picture->storeAs('post-picture', $filename, 'public');
 
             $validatedData['picture'] = $filename;
         }
@@ -150,10 +147,10 @@ class DashboardPostController extends Controller
 
         $validatedData['slug'] = SlugService::createSlug(Post::class, 'slug', $request->title);
         $validatedData['user_id'] = auth()->user()->id;
-        
+
 
         Post::where('id', $post->id)
-             ->update($validatedData);
+            ->update($validatedData);
 
         return redirect('dashboard/posts')->with('success', 'Post has been update!!!');
     }
@@ -166,11 +163,10 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if(!empty($post->picture))
-        {
-            if($post->picture !== 'default.jpg'){
+        if (!empty($post->picture)) {
+            if ($post->picture !== 'default.jpg') {
                 $file = public_path('/storage/post-picture/' . $post->picture);
-            
+
                 if (file_exists($file)) {
                     unlink($file);
                 }

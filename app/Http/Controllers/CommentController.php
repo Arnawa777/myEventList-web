@@ -28,9 +28,30 @@ class CommentController extends Controller
 
     public function destroy(Request $request)
     {
+
         // dd($request->comment_id);
         Comment::destroy($request->comment_id);
         // Comment::destroy($comment->id);
         return redirect()->back()->with('success', 'Comment has been delete!!!');
+    }
+
+    public function update(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'body' => 'required',
+        ]);
+
+        // dd($validatedData);
+        // $validatedData['user_id'] = auth()->user()->id;
+        // $validatedData['comment_id'] = $request->comment_id;
+
+        // dd($request->comment_id);
+
+        Comment::where('id', $request->comment_id)
+            ->where('user_id', auth()->user()->id)
+            ->update($validatedData);
+
+        return redirect()->back()->with('success', 'Comment has been update!!!');
     }
 }

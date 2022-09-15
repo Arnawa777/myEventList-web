@@ -67,8 +67,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/setting/profile', [UserController::class, 'profile_update']);
 
     //Manage Review
-    Route::post('/review-store', [ReviewController::class, 'store'])->name('review.store');
     Route::resource('/events/{event:slug}/review', ReviewController::class);
+
+    //Create post forum
+    Route::get('/forum/{topic:slug}/create-post', [ForumController::class, 'create']);
+    Route::post('/forum/{topic:slug}', [ForumController::class, 'store']);
+
 
     //Comments
     Route::resource('/forum/{topic:sub_topic}/{post:slug}/comment', CommentController::class);
@@ -122,10 +126,10 @@ Route::group(['middleware' => 'role:user'], function () {
 
 
 
-Route::get('/posts', [PostController::class, 'index']);
+
 Route::get('/forum', [ForumController::class, 'index']);
-Route::get('/forum/{topic:sub_topic}', [ForumController::class, 'topic']);
-Route::get('/forum/{topic:sub_topic}/{post:slug}', [ForumController::class, 'post']);
+Route::get('/forum/{topic:slug}', [ForumController::class, 'topic']);
+Route::get('/forum/{topic:slug}/{post:slug}', [ForumController::class, 'post'])->name('forum.post');
 //Halaman Single Post
 //Use route model binding
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
@@ -143,7 +147,9 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 
 Route::get('/people', [PersonController::class, 'index']);
-Route::get('/person/{person:slug}', [PersonController::class, 'show']);
+Route::get('/people/{person:slug}', [PersonController::class, 'show']);
 
 Route::get('/characters', [CharacterController::class, 'index']);
-Route::get('/character/{character:slug}', [CharacterController::class, 'show']);
+Route::get('/characters/{character:slug}', [CharacterController::class, 'show']);
+
+Route::post('delete-comment', [CommentController::class, 'destroy']);

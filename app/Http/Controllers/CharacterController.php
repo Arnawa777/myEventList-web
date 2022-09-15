@@ -10,18 +10,20 @@ class CharacterController extends Controller
 {
     public function index()
     {
-        return view('events.characters', [
-        "title" => "All Character",
-        //eager loadng query dipindah ke model
-        "characters" => Character::latest()->get()
-    ]);
-
+        return view('characters.index', [
+            "title" => "Characters",
+            //eager loadng query dipindah ke model
+            "characters" => Character::latest()->get()
+        ]);
     }
 
-    public function show(Character $chara)
+    public function show(Character $character)
     {
-        return view ('events.character', [
-        "chara" => $chara
+        return view('characters.show', [
+            "title" => "Dashboard - Show $character->name",
+            'chara' => $character,
+            'actors' => $character->actor,
+            'eventList' => $character->actor_event,
         ]);
     }
 }

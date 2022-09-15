@@ -50,9 +50,28 @@
         <div class="col-sm-9">
             {{-- Rating & Video --}}
             <div class="row" id="main-row">
-                <div class="col-6 col-sm-6">
-                    <p>Rating</p>
-                    <p><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></p>
+                <div class="col-3 col-sm-3">
+                    <div class="card" style="height: 200px; width:100%">
+                        <div class="card-body">
+                          <h2 class="card-title">Score</h2>
+                          <h2 class="card-text">
+                            {{ substr($totalRating, 0, 4) }}
+                            
+                            {{-- {{$event->reviews->sum('rating')}} --}}
+                          </h2>
+                          <p>From {{ $userReview }} User</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 col-sm-3">
+                    <div class="card" style="height: 200px; width:100%">
+                        <div class="card-body">
+                          <h2 class="card-title">Favorited</h2>
+                          <h2 class="card-text">
+                            {{ $event->favorites->count() }}
+                          </h2>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6 col-sm-6 float-end text-end">
                     @if (is_null($event->video))
@@ -222,18 +241,29 @@
             {{-- Review --}}
             <div class="row" id="main-row">
                 <div class="col-12"> 
-                  <div class="border-bottom" style="margin-bottom:10px;">
-                      <h5>Review</h5>
-                  </div>
-                  {{-- @if (is_null($event->synopsis))
-                      <p> This Event doesn't have synopsis yet... </p>
-                  @else
-                      <article>
-                          {!! $event->synopsis !!}
-                      </article>
-                  @endif --}}
+                    <div class="border-bottom" style="margin-bottom:10px;">
+                        <h5 style="float: left;">Review</h5>
+                        @if($allReviews->count() > 3)
+                        <a style="text-decoration: none; float: right;" href="">View More</a>
+                        @endif
+                        <div style="clear: both;"></div>
+                    </div>
                 </div>
-              </div> 
+                <div class="col-12"> 
+                    @forelse ($allReviews as $rev)
+                        <div class="card" style="min-height: 200px; width:100%; margin:10px 0px">
+                            <div class="card-body">
+                            <h3 class="card-title">{{ $rev->user->username }}</h3>
+                            {!! $rev->body !!}
+                            {{-- <p>{{ $rev->body }}</p> --}}
+                            {{-- <p class="card-text" style="padding-left:20px">{!! $rev->body !!}</p> --}}
+                            </div>
+                        </div>
+                    @empty
+                        <p>No reviews have been submitted for this event.</p>
+                    @endforelse
+                </div>
+            </div> 
            
         </div> <!--// close of Main Side div //-->
     </div>

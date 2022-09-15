@@ -37,52 +37,38 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        $rules = [
-            'rating' => 'required',
-            'body' => 'nullable|min:200',
-        ];
 
-        $validatedData = $request->validate($rules);
+        $validatedData['rating']  = $request->rating;
+        $validatedData['body']  = $request->body;
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['event_id'] = $request->input('event_id');
-
         // dd($validatedData);
+
         Review::create($validatedData);
 
         return redirect()->back()->with('success', 'Your review has been added!!!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(Request $request)
     {
-        //
-    }
+        // dd($request);
+        $validatedData = $request->validate([
+            'body' => 'required',
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        // dd($validatedData);
+        // $validatedData['user_id'] = auth()->user()->id;
+        // $validatedData['review_id'] = $request->review_id;
+        // $validatedData['event_id'] = $request->event_id;
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
+        // dd($request->comment_id);
+
+        Review::where('id', $request->review_id)
+            ->where('user_id', auth()->user()->id)
+            ->where('event_id', $request->event_id)
+            ->update($validatedData);
+
+        return redirect()->back()->with('success', 'Review has been update!!!');
     }
 
     /**
@@ -93,8 +79,11 @@ class ReviewController extends Controller
      */
     public function destroy(Request $request)
     {
+        // $route = Route::current();
+        // dd($route);
+        // dd($request);
         Review::destroy($request->my_review_id);
-        // Comment::destroy($comment->id);
+        // Review::destroy($review->id);
         return redirect()->back()->with('success', 'Your Review has been delete!!!');
     }
 }

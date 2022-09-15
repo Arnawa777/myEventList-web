@@ -19,7 +19,7 @@ class DashboardPersonController extends Controller
         return view('dashboard.people.index', [
             "title" => "Dashboard People",
             'people' => Person::latest()->paginate(5),
-            ]);
+        ]);
     }
 
     /**
@@ -51,13 +51,12 @@ class DashboardPersonController extends Controller
 
         $validatedData = $request->validate($rules);
 
-        if (empty($request->file('picture')))
-        {
+        if (empty($request->file('picture'))) {
             $validatedData['picture'] = 'default.jpg';
-        }else{
+        } else {
             // memberikan nama pada file yang diupload
-            $filename = time() .'-'.$request->picture->getClientOriginalName().'.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('person-picture',$filename,'public');
+            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+            $request->picture->storeAs('person-picture', $filename, 'public');
 
             $validatedData['picture'] = $filename;
         }
@@ -78,7 +77,7 @@ class DashboardPersonController extends Controller
     public function show(Person $person)
     {
         return view('dashboard.people.show', [
-            "title" => "Dashboard - Show $person->name",
+            'title' => "Dashboard - Show $person->name",
             'person' => $person,
             'actors' => $person->actor,
             'staff' => $person->staff,
@@ -100,17 +99,10 @@ class DashboardPersonController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Person $person)
     {
         $rules = [
-            'name' => 'required|min:3|max:50|unique:people,name,'.$person->id,
+            'name' => 'required|min:3|max:50|unique:people,name,' . $person->id,
             'birthday' => '',
             'biography' => '',
             'picture' => 'image|file|max:1024',
@@ -118,23 +110,21 @@ class DashboardPersonController extends Controller
 
         $validatedData = $request->validate($rules);
 
-        if (empty($request->file('picture')))
-        {
+        if (empty($request->file('picture'))) {
             $validatedData['picture'] = 'default.jpg';
-        }else{
-            if(!empty($request->oldPicture))
-            {
-                if($request->oldPicture !== 'default.jpg'){
+        } else {
+            if (!empty($request->oldPicture)) {
+                if ($request->oldPicture !== 'default.jpg') {
                     $file = public_path('/storage/person-picture/' . $request->oldPicture);
-                
+
                     if (file_exists($file)) {
                         unlink($file);
                     }
                 }
             }
             // memberikan nama pada file yang diupload
-            $filename = time() .'-'.$request->picture->getClientOriginalName().'.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('person-picture',$filename,'public');
+            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+            $request->picture->storeAs('person-picture', $filename, 'public');
 
             $validatedData['picture'] = $filename;
         }
@@ -142,24 +132,17 @@ class DashboardPersonController extends Controller
         $validatedData['slug'] = SlugService::createSlug(Person::class, 'slug', $request->name);
 
         Person::where('id', $person->id)
-        ->update($validatedData);
+            ->update($validatedData);
 
         return redirect('/dashboard/people')->with('success', 'Person has been update!!!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Person $person)
     {
-        if(!empty($person->picture))
-        {
-            if($person->picture !== 'default.jpg'){
+        if (!empty($person->picture)) {
+            if ($person->picture !== 'default.jpg') {
                 $file = public_path('/storage/person-picture/' . $person->picture);
-            
+
                 if (file_exists($file)) {
                     unlink($file);
                 }
