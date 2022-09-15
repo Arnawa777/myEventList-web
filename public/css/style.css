@@ -9,13 +9,25 @@ body {
 
 .navbar {
   min-height: 50px;
-  background: lightcyan;
+  background: #74c0ff;
 }
 
 footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
   min-height: 50px;
-  background: darkblue;
+  background: #74c0ff;
+}
+
+.footer-first {
+  text-align: left;
+}
+
+.footer-last {
+
+  text-align: right;
 }
 
 /* Link */

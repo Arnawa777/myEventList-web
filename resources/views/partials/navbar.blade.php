@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-info">
+<nav class="navbar navbar-expand-lg">
     <div class="container">    
       <a class="navbar-brand" href="/"><b>MyEventList</b></a>
       {{-- Hamburger for Phone --}}
@@ -21,7 +21,6 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                   <li><a class="dropdown-item" href="/forum">Forums</a></li>
-                  <li><a class="dropdown-item" href="/posts">Posts</a></li>
                   <li><a class="dropdown-item" href="/users">Users</a></li>
                 </ul>
               </li>

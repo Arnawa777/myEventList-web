@@ -41,9 +41,14 @@ MEL-06
 <br>~Events
 <br>~Home Progress 90%
 
-Mel-07 - To Do
-<br>Update Review & Comment
-<br>Page People & Characters
+Mel-07 
+<br>~Edit Review & Comment backend DONE
+<br>~Page People & Characters
+<br>~Create post and redirect
+
+- To Do
+<br>Create post without event (hide event)
+<br>Update Review & Comment CSS Finale
 <br>Searching
 <br>Finishing Some Page MEL-06
 

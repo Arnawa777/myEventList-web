@@ -9,6 +9,9 @@
 </head>
 <body>
     <div class="container" id="container-register">
+        <a href="/">
+            <i class="close-left fa-solid fa-xmark"></i>
+        </a>
         <div class="forms-container">
             <div class="register">
                 <form action="{{ route('user.store') }}" method="POST" class="register-form">
@@ -39,7 +42,7 @@
                     </div>
                     <input type="submit" value="Register" class="btn solid">
                     
-                    <p class="social-text">Or Register with Social Platform</p>
+                    {{-- <p class="social-text">Or Register with Social Platform</p>
                     <div class="social-media">
                         <a href="#" class="social-icon">
                             <i class="fa-brands fa-google"></i>
@@ -47,7 +50,7 @@
                         <a href="#" class="social-icon">
                             <i class="fab fa-facebook"></i>
                         </a>
-                    </div>
+                    </div> --}}
                 </form>
 
                 <div class="panel right-panel">

@@ -13,6 +13,7 @@
         <nav class="breadcrumb">
             <a href="/forum" class="active">Forum</a>
         </nav>
+        {{-- Left Side --}}
         <div class="col-lg-8">
             <div class="row">
             @if ($threads->count())
@@ -34,7 +35,7 @@
                             <tr>
                                 <td id="topic">
                                     <h5>
-                                    <a href="/forum/{{ $thread->sub_topic }}">{{ $thread->sub_topic }}</a>
+                                    <a href="/forum/{{ $thread->slug }}">{{ $thread->sub_topic }}</a>
                                     </h5>
                                     {{-- Check Description not null --}}
                                     @if ($thread->description)
@@ -50,7 +51,7 @@
                                 <td>
                                     @if ($thread->latestPost)
                                     <h6 class="font-weight-bold mb-0">
-                                        <a href="#">{{ $thread->latestPost->title }}</a>
+                                        <a href="forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">{{ $thread->latestPost->title }}</a>
                                     </h6>
                                     <div>{{ date('d-m-Y', strtotime($thread->latestPost->created_at)) }}
                                         <a href="/profile/{{ $thread->latestPost->author->username }}">{{ $thread->latestPost->author->username }}</a></div>
@@ -87,7 +88,7 @@
                                 <tr>
                                     <td id="topic">
                                         <h5>
-                                        <a href="#">{{ $thread->sub_topic }}</a>
+                                        <a href="/forum/{{ $thread->slug }}">{{ $thread->sub_topic }}</a>
                                         </h5>
                                         {{-- Check Description not null --}}
                                         @if ($thread->description)
@@ -103,7 +104,7 @@
                                     <td>
                                         @if ($thread->latestPost)
                                         <h6 class="font-weight-bold mb-0">
-                                            <a href="#">{{ $thread->latestPost->title }}</a>
+                                            <a href="/forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">{{ $thread->latestPost->title }}</a>
                                         </h6>
                                         <div>{{ date('d-m-Y', strtotime($thread->latestPost->created_at)) }}
                                             <a href="/profile/{{ $thread->latestPost->author->username }}">{{ $thread->latestPost->author->username }}</a></div>
@@ -140,7 +141,7 @@
                                 <tr>
                                     <td id="topic">
                                         <h5>
-                                        <a href="#">{{ $thread->sub_topic }}</a>
+                                        <a href="/forum/{{ $thread->slug }}">{{ $thread->sub_topic }}</a>
                                         </h5>
                                         {{-- Check Description not null --}}
                                         @if ($thread->description)
@@ -156,7 +157,7 @@
                                     <td>
                                         @if ($thread->latestPost)
                                         <h6 class="font-weight-bold mb-0">
-                                            <a href="#">{{ $thread->latestPost->title }}</a>
+                                            <a href="/forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">{{ $thread->latestPost->title }}</a>
                                         </h6>
                                         <div>{{ date('d-m-Y', strtotime($thread->latestPost->created_at)) }}
                                             <a href="/profile/{{ $thread->latestPost->author->username }}">{{ $thread->latestPost->author->username }}</a></div>
@@ -175,59 +176,47 @@
                     </table>
                 </div>
             @else
-                <p class="text-center fs-4">404</p>
                 <p class="text-center fs-4">Data Not Found</p>
             @endif
             </div>
         </div>
-      {{-- Right Side --}}
+
+        {{-- Right Side --}}
         <div class="col-lg-4">
             <aside>
             <div class="card">
                 <div class="card-body">
-                <h4 class="card-title">Members Online</h4>
-                <ul class="list-unstyled mb-0">
-                    <li><a href="#">Member name</a></li>
-                    <li><a href="#">Member name</a></li>
-                    <li><a href="#">Member name</a></li>
-                    <li><a href="#">Member name</a></li>
-                    <li><a href="#">Member name</a></li>
-                </ul>
-                </div>
-                <div class="card-footer">
-                <dl class="row">
-                    <dt class="col-8 mb-0">Total:</dt>
-                    <dd class="col-4 mb-0">10</dd>
-                </dl>
-                <dl class="row">
-                    <dt class="col-8 mb-0">Members:</dt>
-                    <dd class="col-4 mb-0">10</dd>
-                </dl>
-                <dl class="row">
-                    <dt class="col-8 mb-0">Guests:</dt>
-                    <dd class="col-4 mb-0">3</dd>
-                </dl>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                <h4 class="card-title">Members Statistics</h4>
-                <dl class="row">
-                    <dt class="col-8 mb-0">Total Forums:</dt>
-                    <dd class="col-4 mb-0">15</dd>
-                </dl>
-                <dl class="row">
-                    <dt class="col-8 mb-0">Total Topics:</dt>
-                    <dd class="col-4 mb-0">500</dd>
-                </dl>
-                <dl class="row">
-                    <dt class="col-8 mb-0">Total members:</dt>
-                    <dd class="col-4 mb-0">200</dd>
-                </dl>
-                </div>
-                <div class="card-footer">
-                <div>Newest Member</div>
-                <div><a href="#">Member Name</a></div>
+                <h4 class="card-title" style="color: #2A99F2">Recent Post</h4>
+                    <table width="100%">
+                        <thead>
+                            <tr>
+                            <th></th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                    @if ($posts->count())
+                        @foreach($posts as $post)
+                            @if ($post)
+                                <tr>
+                                    <td>
+                                        <h5>
+                                        <a href="/forum/{{ $post->topic->slug }}/{{ $post->slug }}">{{ $post->title }}</a>
+                                        </h5>
+                                        <label>
+                                            <a href="/forum/{{ $post->topic->slug }}">{{ $post->topic->sub_topic }}</a>
+                                            - {{ date('d M Y', strtotime($post->created_at)) }}
+                                        </label>
+                                    </td>
+                                </tr>
+                            @else
+                                <h1 class="empty">No Data</h1>
+                            @endif
+                        @endforeach
+                    @else
+                        <p>There are no posts yet</p>
+                    @endif
+                    </tbody>
+                    </table>
                 </div>
             </div>
             </aside>

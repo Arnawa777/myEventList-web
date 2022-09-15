@@ -10,7 +10,10 @@
 <body>
     
     <div class="container" id="container-login">
-        <a href="/"><button class="close-button"> INI Button Bang</button></a>
+        {{-- {{ url()->previous() }} --}}
+        <a href="/">
+            <i class="close-right fa-solid fa-xmark"></i>
+        </a>
         @if (session()->has('success'))
             <h2>
                 {{ session('success') }}
@@ -46,7 +49,7 @@
                     </div>
                     <input type="submit" value="Login" class="btn solid">
                     
-                    <p class="social-text">Or Login with Social Platform</p>
+                    {{-- <p class="social-text">Or Login with Social Platform</p>
                     <div class="social-media">
                         <a href="#" class="social-icon">
                             <i class="fa-brands fa-google"></i>
@@ -54,7 +57,7 @@
                         <a href="#" class="social-icon">
                             <i class="fab fa-facebook"></i>
                         </a>
-                    </div>
+                    </div> --}}
                 </form>
 
                 <div class="panel left-panel">

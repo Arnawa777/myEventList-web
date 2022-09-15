@@ -9,23 +9,22 @@
     <div class="row">
         <div class="col-lg-12">
             <ul class="cards">
-                @foreach ($events as $event)
+                @foreach ($people as $person)
                 <li>
-                <a href="/events/{{ $event->slug }}" class="card">
-                    <img src="/storage/event-picture/{{ $event->picture }}" class="card__image" alt="" />
+                <a href="/people/{{ $person->slug }}" class="card">
+                    <img src="/storage/person-picture/{{ $person->picture }}" class="card__image" alt="" />
                     <div class="card__overlay">
                     <div class="card__header">
                         <div class="card__header-text">
-                        <h3 class="card__title">{{ $event->name }}</h3>            
-                        <span class="card__status">{{ $event->category->name }}</span>
+                        <h3 class="card__title">{{ $person->name }}</h3>
                         </div>
                     </div>
-                    <p class="card__description">
-                        @if (is_null($event->synopsis))
-                            This Event doesn't have synopsis yet...
+                        <p class="card__description">
+                        @if (is_null($person->biography))
+                            This person doesn't have biography yet...
                         @else
-                            {{-- {!!  Str::limit($event->synopsis, 50, $end='...')  !!} --}}
-                            {!!  substr(strip_tags($event->synopsis), 0, 50) !!}...
+                            {{-- {!!  Str::limit($person->synopsis, 50, $end='...')  !!} --}}
+                            {!!  substr(strip_tags($person->biography), 0, 50) !!}...
                             
                         @endif
                         </p>
