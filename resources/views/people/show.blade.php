@@ -78,9 +78,6 @@
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Actor Roles</h5>
-                        @if($actors->count() > 10)
-                        <a style="text-decoration: none; float: right; " href="">View More</a>
-                        @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -139,9 +136,6 @@
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Staff Roles</h5>
-                        @if($staff->count() > 10)
-                        <a style="text-decoration: none; float: right; " href="">View More</a>
-                        @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>

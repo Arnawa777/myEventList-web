@@ -1,6 +1,3 @@
-{{-- buat cek keluaran --}}
-{{-- @dd($posts) --}}
-
 {{-- ambil dari halaman layouts/main --}}
 @extends('layouts.main')
 
@@ -8,25 +5,12 @@
 @section('container')
 <div class="container">
     <div class="row forum">
-        <nav class="breadcrumb">
-            <a href="/forum">Forum </a>
-            &nbsp
-            >
-            &nbsp
-            <a href="/forum/{{ $topic->slug }}" class="active">{{ $topic->sub_topic }}</a>
-        </nav>
         <div class="col-lg-12">
             <div class="row">
                 <!-- Category one -->
                 <div class="col-lg-12" id="category">
-                    {{-- Jika slug tidak sama tampilkan button --}}
-                    @if ($topic->slug !== 'announcements')
-                        <button type="button" onclick="location.href='/forum/{{ $topic->slug }}/create-post'">Create New Post</button>
-                        <h4><a href=""></a></h4>
-                    @endif
-                    
                     <!-- second section  -->
-                    <h4 id="title">{{ $topic->sub_topic }}</h4>
+                    <h4 id="title">{{ $user->username }}'s Posts</h4>
                     <table width="100%">
                         <thead>
                             <tr>
@@ -42,7 +26,7 @@
                             <tr>
                                 <td id="topic">
                                     <h4>
-                                        <a href="/forum/{{ $topic->slug }}/{{ $post->slug }}">{{ $post->title }}</a>
+                                        <a href="/forum/{{ $post->topic->slug }}/{{ $post->slug }}">{{ $post->title }}</a>
                                         </h4>
                                     <div><a href="/profile/{{ $post->author->username }}">{{ $post->author->username }}</a> - 
                                         {{ date('d-m-Y', strtotime($post->created_at)) }}</div>
@@ -74,7 +58,7 @@
                             @endforeach
                         @else
                         <tr>
-                            <p class="text-center fs-4">There are no posts on this topic yet</p> 
+                            <p class="text-center fs-4">There are no posts from this user</p> 
                         </tr>
                         @endif
                         </tbody>
@@ -84,8 +68,10 @@
                         {{ $posts->links('vendor.pagination.custom') }}
                     </div>
                 </div> <!-- Close Category one -->
+
             </div>
         </div>
     </div>
 </div>
+
 @endsection

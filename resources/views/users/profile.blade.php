@@ -30,7 +30,10 @@
 				</ul>
 				<div class="card-body">
 					<a href="/profile/{{ $user->username }}/favorites">
-					<button>Event List</button>
+						<button>Event List</button>
+					</a>
+					<a href="/profile/{{ $user->username }}/posts">
+						<button>Posts List</button>
 					</a>
 				</div>
 			</div>

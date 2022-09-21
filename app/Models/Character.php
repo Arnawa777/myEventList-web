@@ -39,4 +39,23 @@ class Character extends Model
             ]
         ];
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+
+        //Null Coalescing operator
+        /* 
+        Penyederhanaan Ternary 
+
+        ?? = jika ada kembalikan $filters... jika tidak false
+        $filters['search'] ?? false
+        */
+
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+                // ->orWhere('synopsis', 'like', '%' . $search . '%')
+            });
+        });
+    }
 }

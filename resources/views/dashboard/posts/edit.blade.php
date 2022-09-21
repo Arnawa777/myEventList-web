@@ -33,9 +33,9 @@
                 <option value="">Select Topic</option>
                 @foreach ($topics as $topic)
                 @if (old('topic_id', $post->topic_id) == $topic->id)
-                    <option value="{{ $topic->id }}" selected>{{ $topic->name }}</option>
+                    <option value="{{ $topic->id }}" selected>{{ $topic->topic }} - {{ $topic->sub_topic }}</option>
                 @else
-                    <option value="{{ $topic->id }}">{{ $topic->name }}</option>
+                    <option value="{{ $topic->id }}">{{ $topic->topic }} - {{ $topic->sub_topic }}</option>
                 @endif  
                 
                 @endforeach

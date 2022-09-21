@@ -13,16 +13,53 @@
     <form method="post" action="/dashboard/topics/{{ $topic->slug }}" enctype="multipart/form-data">
         @method('put')
         @csrf
+
+        {{-- Topic --}}
         <div class="mb-3">
-          <label for="name" class="form-label">Topic Name</label>
-          <input type="text" class="form-control @error('name') is-invalid @enderror" 
-           id="name" name="name" value="{{ old('name', $topic->name) }}" autofocus>
-           @error('name')
-               <div class="invalid-feedback">
+            <select class="form-select" name="topic" value="{{ old('topic', $topic->topic)}}">
+                @if (old('topic', $topic->topic))
+                    <option value="">Select Topic</option>
+                    <option {{ old('topic', $topic->topic) == 'MyEventList' ? 'selected' : '' }}  value="MyEventList">MyEventList</option>
+                    <option {{ old('topic', $topic->topic) == 'Event' ? 'selected' : '' }}  value="Event">Event</option>
+                    <option {{ old('topic', $topic->topic) == 'General' ? 'selected' : '' }}  value="General">General</option>
+                @else
+                    <option value="">Select Topic</option>
+                    <option value="MyEventList">MyEventList</option>
+                    <option value="Event">Event</option>
+                    <option value="General">General</option>
+                @endif
+            </select>
+            @error('topic')
+               <div style="color: red">
                    {{ $message }}
                </div>
            @enderror
         </div>
+
+        <div class="mb-3">
+            <label for="sub_topic" class="form-label">Sub Topic Name</label>
+            <input type="text" class="form-control @error('sub_topic') is-invalid @enderror" 
+             id="sub_topic" name="sub_topic" value="{{ old('sub_topic', $topic->sub_topic) }}" autofocus>
+             @error('sub_topic')
+                 <div style="color: red">
+                     {{ $message }}
+                 </div>
+             @enderror
+          </div>
+  
+          <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <input type="text" class="form-control @error('description') is-invalid @enderror" 
+               id="description" name="description" value="{{ old('description', $topic->description) }}">
+               @error('description')
+                   <div style="color: red">
+                       {{ $message }}
+                   </div>
+               @enderror
+          </div>
+
+
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

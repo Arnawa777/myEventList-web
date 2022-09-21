@@ -1,0 +1,153 @@
+{{-- ambil dari halaman layouts/main --}}
+@extends('layouts.main')
+
+{{-- isi dari layouts/main --}}
+@section('container')
+<link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
+
+<div class="container">
+    <div class="row" id="search-result">
+        <div style="width:75%; margin:auto;">
+            <div>
+                <div class="col-lg-12">
+                    <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
+                    <form action="/search">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Search.." 
+                            name="search" value="{{ request('search') }}">
+                            <button class="btn btn-primary" type="submit" >Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {{-- Event --}}
+            <div class="row" id="main-row">
+                <div class="col-12"> 
+                    <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
+                        <h5 style="float: left;">Events</h5>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                {{-- Data Event --}}
+                <div class="row">
+                    @if ($events->count())
+                    @foreach ($events as $event)
+                    <div class="mid-column">
+                        <table class="first-table">
+                            <tbody>
+                                <tr>
+                                    <td width="52px">
+                                        <a href="/events/{{ $event->slug }}"><img class="image-icon" src="/storage/event-picture/{{ $event->picture }}"  alt="event-picture"></a>
+                                    </td>
+                                    <td class="name-table">
+                                        <a href="/events/{{ $event->slug }}">
+                                        <h5>
+                                            {{ $event->name }}
+                                        </h5>
+                                        </a>
+                                        <p>{{ $event->category->name }} </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @endforeach
+
+                    {{-- Jika data tidak ada --}}
+                    @else
+                    <div class="col">
+                        <p class="text-center fs-4">404 no Event Found</p>
+                    </div>
+                    @endif
+                </div> <!--// close of Data Event div //-->
+            </div> <!--// close of Event div //-->
+
+            {{-- People --}}
+            <div class="row" id="main-row">
+                <div class="col-12"> 
+                    <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
+                        <h5 style="float: left;">People</h5>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                {{-- Data People --}}
+                <div class="row">
+                    @if ($people->count())
+                    @foreach ($people as $person)
+                    <div class="mid-column">
+                        <table class="first-table">
+                            <tbody>
+                                <tr>
+                                    <td width="52px">
+                                        <a href="/people/{{ $person->slug }}"><img class="image-icon" src="/storage/person-picture/{{ $person->picture }}"  alt="person-picture"></a>
+                                    </td>
+                                    <td class="name-table">
+                                        <a href="/people/{{ $person->slug }}">
+                                        <h5>
+                                            {{ $person->name }}
+                                        </h5>
+                                        </a>
+                                        <p>{{ $person->birthday }} </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @endforeach
+
+                    {{-- Jika data tidak ada --}}
+                    @else
+                    <div class="col">
+                        <p class="text-center fs-4">404 no People Found</p>
+                    </div>
+                    @endif
+                </div> <!--// close of Data People div //-->
+            </div> <!--// close of People div //-->
+
+
+            {{-- Characters --}}
+            <div class="row" id="main-row">
+                <div class="col-12"> 
+                    <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
+                        <h5 style="float: left;">Characters</h5>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>
+                {{-- Data Characters --}}
+                <div class="row">
+                    @if ($characters->count())
+                    @foreach ($characters as $character)
+                    <div class="mid-column">
+                        <table class="first-table">
+                            <tbody>
+                                <tr>
+                                    <td width="52px">
+                                        <a href="/characters/{{ $character->slug }}"><img class="image-icon" src="/storage/character-picture/{{ $character->picture }}"  alt="character-picture"></a>
+                                    </td>
+                                    <td class="name-table">
+                                        <a href="/characters/{{ $character->slug }}">
+                                        <h5>
+                                            {{ $character->name }}
+                                        </h5>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    @endforeach
+
+                    {{-- Jika data tidak ada --}}
+                    @else
+                    <div class="col">
+                        <p class="text-center fs-4">404 no Characters Found</p>
+                    </div>
+                    @endif
+                </div> <!--// close of Data Characters div //-->
+            </div> <!--// close of Characters div //-->
+        </div>
+    </div>
+</div>
+
+@endsection

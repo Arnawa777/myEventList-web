@@ -24,7 +24,8 @@
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
 					<th scope="col" style="width: 12%">Picture</th>
-					<th scope="col" style="width: 42%">Title</th>
+					<th scope="col" style="width: 22%">Title</th>
+					<th scope="col" style="width: 20%">Create by</th>
 					<th scope="col" style="width: 20%">Topic</th>
 					<th scope="col" style="width: 8%;">Action</th>
 				</tr>
@@ -40,19 +41,21 @@
 						@else
 							<img class="index-img" src="https://cdn.discordapp.com/attachments/729406248637956196/896117975281717358/1633607783751.jpg" alt="uwu">
 						@endif
-						
 					</td>
 					<td>{{ $post->title }}</td>
-					<td>{{ $post->topic->name }}</td>
+					<td>{{ $post->author->username }}</td>
+					<td>{{ $post->topic->topic }} - {{ $post->topic->sub_topic }}</td>
 					<td class="action align-middle text-center">
 						{{-- Menit 36 eps 17 --}}
 						<form action="/dashboard/posts/{{ $post->slug }}">
 							<button class="badge bg-info border-0"><i class="fa-solid fa-eye"></i></button>
 						</form>
-			
+						
 						<form action="/dashboard/posts/{{ $post->slug }}/edit">
 							<button class="badge bg-warning border-0"><i class="fa-solid fa-pen-to-square"></i></button>
 						</form>
+
+
 						<form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
 							@method('delete')
 							@csrf

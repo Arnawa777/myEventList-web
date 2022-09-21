@@ -6,6 +6,18 @@
     
 <div class="container">
     <div class="row">
+        <div style="display: flex; justify-content: center;">
+            <div class="col-lg-6">
+                <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
+                <form action="/users">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search.." 
+                        name="search" value="{{ request('search') }}">
+                        <button class="btn btn-primary" type="submit" >Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         @foreach ($users as $user)
         <div class="col-lg-4" style="padding: 20px 10px">
                 <div class="card" >
@@ -16,7 +28,7 @@
                         </h5>
                     </div>
                     <div class="card-footer text-muted">
-                        2 days ago
+                        <p>Joined Date : {{ $user->created_at->format('d F Y'); }}</p>
                     </div>
                 </div>
         </div>

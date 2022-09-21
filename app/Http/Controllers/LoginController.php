@@ -17,16 +17,16 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
-            'username' => 'required|min:3|max:16',
+            'username' => 'required|min:3|max:20',
             'password' => 'required'
-        ]); 
+        ]);
 
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
 
-        return back()->with('loginError', 'Invalid Login! Please Try Again');        
+        return back()->with('loginError', 'Invalid Login! Please Try Again');
     }
 
     public function logout()

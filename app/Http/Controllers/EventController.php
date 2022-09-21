@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Category;
 use App\Models\Actor;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
@@ -19,46 +20,16 @@ class EventController extends Controller
      */
     public function index()
     {
-
+        // dd(request('search'));
         return view('events.index', [
-            "title" => "All Events",
+            "title" => "Events",
             //eager loadng query dipindah ke model
-            "events" => Event::latest()->paginate(99),
+            //WithQuearyString membawa query sebelumnya pada pagination
+            "events" => Event::latest()->filter(request(['search', 'category']))->paginate(4)->withQueryString(),
+            "categories" => Category::all(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreEventRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreEventRequest $request)
-    {
-        $validatedData = $request->validate([
-            'body' => 'required|min:200|max:1000',
-        ]);
-
-        Review::create($validatedData);
-        return redirect()->back()->with('success', 'Review has been added!!!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
     public function show(Event $event)
     {
         if (Auth::user()) {
@@ -91,7 +62,7 @@ class EventController extends Controller
             $totalRating = "N/A";
         }
         return view('events.show', [
-            "title" => "Event",
+            "title" => "$event->name",
             'event' => $event,
             'actors' => $event->actor()->paginate(10),
             'staff' => $event->staff()->paginate(10),
@@ -103,37 +74,49 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
+    public function characters(Event $event)
     {
-        //
+        if (Auth::user()) {
+            $user = Auth::user();
+            $favorites = Favorite::where('event_id', $event->id)
+                ->where('user_id', $user->id)
+                ->first();
+        } else {
+            $favorites = '';
+        }
+
+        return view('events.characters', [
+            "title" => "$event->name - Characters & Staff",
+            'event' => $event,
+            'actors' => $event->actor()->get(),
+            'staff' => $event->staff()->get(),
+            'favorite' => $favorites,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateEventRequest  $request
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateEventRequest $request, Event $event)
+    public function reviews(Event $event)
     {
-        //
-    }
+        if (Auth::user()) {
+            $user = Auth::user();
+            $favorites = Favorite::where('event_id', $event->id)
+                ->where('user_id', $user->id)
+                ->first();
+        } else {
+            $favorites = '';
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Event $event)
-    {
-        //
+        //sort not null last
+        $allReview = Review::selectRaw('reviews.*')
+            ->join('events', 'events.id', '=', 'reviews.event_id')
+            ->orderByRaw('ISNULL(body), body ASC')
+            ->where('event_id', $event->id)
+            ->paginate(10);
+
+        return view('events.reviews', [
+            "title" => "$event->name - Reviews",
+            'event' => $event,
+            'allReviews' =>  $allReview,
+            'favorite' => $favorites,
+        ]);
     }
 }

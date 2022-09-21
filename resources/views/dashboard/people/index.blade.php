@@ -9,7 +9,16 @@
 </div>
 
 <div class="table-responsive col-lg-8">
+	<div style="text-align: left; width:49%; display: inline-block;">
 	<a href="/dashboard/people/create" class="btn btn-primary mb-3">Create New Person</a>
+	</div>
+	<div style="text-align: right; width:50%;  display: inline-block;">
+		<form method="get" action="/dashboard/people/search">
+			<input type="text" placeholder="Search.." name="search" id="search">
+			<button type="submit"><i class="fa fa-search"></i></button>
+		</form>
+	</div>
+    
 	
 	{{-- Message --}}
 	@if (session()->has('success'))
@@ -66,6 +75,5 @@
 		{{ $people->links('vendor.pagination.custom') }}
 	</div>
 </div>
-
 
 @endsection
