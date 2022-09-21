@@ -46,7 +46,7 @@ trix-toolbar [data-trix-button-group="file-tools"]{
                 <div class="col-md-8">
                     <div class="card-body">
 						<h4>Upload Picture</h4>
-						<p>Must be jpg, jpeg, png or gif format. Picture maximum size 1mb Maximum of 225 x 350 pixels (resized automatically).</p>
+						<p>Must be jpg, jpeg, png or gif format. Picture maximum size 2 MB Maximum of 225 x 350 pixels (resized automatically).</p>
 						@error('picture')
                 <div class="text-danger">
                     {{ $message }}
@@ -66,12 +66,12 @@ trix-toolbar [data-trix-button-group="file-tools"]{
                     <h4>Remove Picture</h4>
                       <p>You can remove this picture by clicking the button below. Don't forget to upload another though, or else you will have an default picture in its place..</p>
                       
-					  <form action="/setting/picture" method="post" class="d-inline">
-						@method('delete')
-						@csrf
-						<button class="btn btn-danger" onclick="return confirm('Are you sure?')">Remove</button>
-						
-                      </form>
+					<form action="/setting/picture" method="post" class="d-inline">
+					@method('delete')
+					@csrf
+					<button class="btn btn-danger" onclick="return confirm('Are you sure?')">Remove</button>
+					
+					</form>
                   </div>
                 </div>
               </div> 

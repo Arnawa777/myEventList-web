@@ -38,6 +38,7 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/search', [HomeController::class, 'search']);
 
 Route::get('/about', function () {
     return view('about', [
@@ -47,8 +48,6 @@ Route::get('/about', function () {
         "image" => "kuro.jpg"
     ]);
 });
-
-
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -72,63 +71,67 @@ Route::group(['middleware' => 'auth'], function () {
     //Create post forum
     Route::get('/forum/{topic:slug}/create-post', [ForumController::class, 'create']);
     Route::post('/forum/{topic:slug}', [ForumController::class, 'store']);
-
+    //Edit
+    Route::get('/forum/{topic:slug}/{post:slug}/edit', [ForumController::class, 'edit'])->name('post.edit');
+    Route::put('/forum/{topic:slug}/{post:slug}', [ForumController::class, 'update'])->name('post.update');
+    //Delete
+    Route::delete('/forum/{topic:slug}/{post:slug}', [ForumController::class, 'destroy']);
 
     //Comments
     Route::resource('/forum/{topic:sub_topic}/{post:slug}/comment', CommentController::class);
 
-    //Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard.home', [
-            "title" => "Dashboard"
+    // Role Admin
+    Route::group(['middleware' => 'role:admin'], function () {
+        //Dashboard
+        Route::get('/dashboard', function () {
+            return view('dashboard.home', [
+                "title" => "Dashboard"
+            ]);
+        });
+
+        Route::resource('/dashboard/events', DashboardEventController::class);
+        Route::resource('/dashboard/categories', DashboardCategoryController::class);
+        //Parameter untuk mengganti default parameter
+        Route::resource('/dashboard/staff', DashboardWorkerController::class)->parameters([
+            'staff' => 'staff' //Kiri Default Diganti ke kanann
         ]);
-    });
-    Route::resource('/dashboard/events', DashboardEventController::class);
-    Route::resource('/dashboard/categories', DashboardCategoryController::class);
-    //Parameter untuk mengganti default parameter
-    Route::resource('/dashboard/staff', DashboardWorkerController::class)->parameters([
-        'staff' => 'staff' //Kiri Default Diganti ke kanann
-    ]);
 
 
-    Route::get('/dashboard/actor-events/search', [DashboardActorEventController::class, 'search']);
-    Route::resource('/dashboard/actor-events', DashboardActorEventController::class);
+        Route::get('/dashboard/actor-events/search', [DashboardActorEventController::class, 'search']);
+        Route::resource('/dashboard/actor-events', DashboardActorEventController::class);
 
 
-    Route::resource('/dashboard/posts', DashboardPostController::class);
-    Route::resource('/dashboard/topics', DashboardTopicController::class);
+        Route::resource('/dashboard/posts', DashboardPostController::class);
+        Route::resource('/dashboard/topics', DashboardTopicController::class);
 
-    Route::resource('/dashboard/people', DashboardPersonController::class);
-    Route::resource('/dashboard/actors', DashboardActorController::class);
+        Route::resource('/dashboard/people', DashboardPersonController::class);
+        Route::get('/dashboard/people/search', [DashboardPersonController::class, 'search'])->name('people.search');
+        // Route::post('/employee/search',[EmployeeController::class,'showEmployee'])->name('employee.search')
 
-    Route::resource('/dashboard/characters', DashboardCharacterController::class);
-    Route::resource('/dashboard/locations', DashboardLocationController::class);
-    //add more Routes here
+        Route::resource('/dashboard/actors', DashboardActorController::class);
 
-
-
+        Route::resource('/dashboard/characters', DashboardCharacterController::class);
+        Route::resource('/dashboard/locations', DashboardLocationController::class);
+        //add more Routes here
+    }); //Close Role Admin
 });
 
-Route::get('/users', [PostController::class, 'index']);
-
-Route::get('/profile/{user:username}', [UserController::class, 'profile']);
-Route::get('/profile/{user:username}/favorites', [FavoriteController::class, 'show']);
-// Route::delete('/profile/favorites/{id}', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
-Route::resource('favorites', FavoriteController::class);
-
-Route::group(['middleware' => 'role:admin'], function () {
-});
 
 Route::group(['middleware' => 'role:user'], function () {
 });
 
 
+Route::get('/users', [PostController::class, 'index']);
 
-
+Route::get('/profile/{user:username}', [UserController::class, 'profile']);
+Route::get('/profile/{user:username}/favorites', [FavoriteController::class, 'show']);
+Route::get('/profile/{user:username}/posts', [UserController::class, 'user_posts']);
+// Route::delete('/profile/favorites/{id}', [FavoriteController::class, 'destroy'])->name('favorite.destroy');
+Route::resource('favorites', FavoriteController::class);
 
 
 Route::get('/forum', [ForumController::class, 'index']);
-Route::get('/forum/{topic:slug}', [ForumController::class, 'topic']);
+Route::get('/forum/{topic:slug}', [ForumController::class, 'topic'])->name('forum.topic');
 Route::get('/forum/{topic:slug}/{post:slug}', [ForumController::class, 'post'])->name('forum.post');
 //Halaman Single Post
 //Use route model binding
@@ -136,8 +139,11 @@ Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 
 
-
-Route::resource('/events', EventController::class);
+//! Event Frontend
+Route::get('/events', [EventController::class, 'index']);
+Route::get('/events/{event}', [EventController::class, 'show']);
+Route::get('/events/{event:slug}/characters', [EventController::class, 'characters']);
+Route::get('/events/{event:slug}/reviews', [EventController::class, 'reviews']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user:username}', [UserController::class, 'show']);

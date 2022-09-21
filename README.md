@@ -41,14 +41,29 @@ MEL-06
 <br>~Events
 <br>~Home Progress 90%
 
-Mel-07 
+MEL-07 
 <br>~Edit Review & Comment backend DONE
 <br>~Page People & Characters
 <br>~Create post and redirect
 
-- To Do
-<br>Create post without event (hide event)
-<br>Update Review & Comment CSS Finale
-<br>Searching
-<br>Finishing Some Page MEL-06
+MEL-08
+<br>~Fix dashboard Topic
+<br>~Fix dashboard Posts
+<br>~Folder Change for post views from forums to forum->post 
+<br>~Create post without event (hide event) (Just Event Schedules has event option)
+<br>~Search Events, People, Characters, Users, and Searching All
+<br>~Add Remove Image in edit Post
+<br>~Delete Post and redirect to topic
+<br>~Anchor for events frontend
 
+
+- To Do
+<br>Backend Search??
+<br>Update Review & Comment CSS Finale
+<br>Finishing Some Page MEL-06
+<br>CSS card events, people, characters still not final
+<br>Remove image in another edit
+<br>reviews tanpa minimal text (check document)
+<br>delete view more in people and characters
+<br>User favorite & post list
+<br>Dashboard HOme 

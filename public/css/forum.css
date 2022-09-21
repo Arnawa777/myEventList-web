@@ -87,3 +87,33 @@
 .replyBox {
     margin: 20px 0px;
 }
+
+.img-preview {
+    margin-bottom: 10px;
+    max-height: 200px;
+    max-width: 200px;
+    height: auto;
+    display: block;
+}
+
+/* unvisited link */
+.forum a:link {
+    color: #337ab7;
+}
+
+/* visited link */
+.forum a:visited {
+    color: #1d4568;
+}
+
+/* mouse over link */
+.forum a:hover,
+.forum a:focus {
+    text-decoration: underline;
+
+}
+
+/* selected link */
+.forum a .active {
+    font-weight: bold;
+}

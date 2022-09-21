@@ -30,9 +30,9 @@
                         <div class="mb-3">
                           <label for="title" class="form-label">Post Title</label>
                           <input type="text" class="form-control @error('title') is-invalid @enderror" 
-                           id="title" name="title" value="{{ old('title') }}" autofocus>
+                            name="title" value="{{ old('title') }}" autofocus>
                            @error('title')
-                               <div class="invalid-feedback">
+                               <div class="text-danger">
                                    {{ $message }}
                                </div>
                            @enderror
@@ -52,26 +52,28 @@
                         </div>
                 
                         {{-- Evemt --}}
-                        <div class="mb-3">
-                            <label for="event_id">Post Event</label>
-                            <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id') }}">
-                                <option value="">Select Event</option>
-                                @foreach ($events as $event)
-                                @if (old('event_id') == $event->id)
-                                    <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
-                                @else
-                                    <option value="{{ $event->id }}">{{ $event->name }}</option>
-                                @endif  
-                                
-                                @endforeach
-                            </select>
-                            @error('event_id')
-                            <div class="text-danger">
-                                {{ $message }}
+                        @if ($topic->slug === "event-schedules")
+                            <div class="mb-3">
+                                <label for="event_id">Post Event</label>
+                                <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id') }}">
+                                    <option value="">Select Event</option>
+                                    @foreach ($events as $event)
+                                    @if (old('event_id') == $event->id)
+                                        <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
+                                    @else
+                                        <option value="{{ $event->id }}">{{ $event->name }}</option>
+                                    @endif  
+                                    
+                                    @endforeach
+                                </select>
+                                @error('event_id')
+                                <div class="text-danger">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
-                            @enderror
-                        </div>
-                
+                        @endif
+
                         {{-- Picture --}}
                         <div class="mb-3">
                             <label for="picture" class="form-label">Post Picture</label>
@@ -91,7 +93,7 @@
                             <input id="body" type="hidden" name="body" value="{{ old('body') }}">
                                 <trix-editor input="body"></trix-editor>
                              @error('body')
-                                 <div class="invalid-feedback">
+                                 <div class="text-danger">
                                      {{ $message }}
                                  </div>
                              @enderror

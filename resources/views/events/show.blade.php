@@ -5,6 +5,31 @@
 @section('container')
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 {{-- {{ dd($allReviews) }} --}}
+<style>
+    #horiznav_nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333333;
+    }
+    
+    #horiznav_nav li {
+      float: left;
+    }
+    
+    #horiznav_nav li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      text-decoration: none;
+    }
+    
+    #horiznav_nav li a:hover {
+      background-color: #111111;
+    }
+    </style>
 
 <div class="container">
         <div class="row" id="land-event">
@@ -48,6 +73,16 @@
 
             {{-- Main Side --}}
             <div class="col-sm-9">
+                <div id="horiznav_nav" style="margin: 5px 0 10px 0;">
+                    <ul style="margin-right: 0; padding-right: 0;">
+                          <li><a href="{{ $event->slug }}">Details</a>
+                      </li>
+                          <li><a href="{{ $event->slug }}/characters">Characters &amp; Staff</a>
+                      </li>
+                          <li><a href="{{ $event->slug }}/reviews">Reviews</a>
+                      </li>
+                      </ul>
+                  </div>
                 {{-- Rating & Video --}}
                 <div class="row" id="main-row">
                     <div class="col-3 col-sm-3">
@@ -118,7 +153,7 @@
                         <div class="border-bottom" style="margin-bottom:10px;">
                             <h5 style="float: left;">Character & Actor</h5>
                             @if($actors->count())
-                            <a style="text-decoration: none; float: right; " href="">View More</a>
+                            <a style="text-decoration: none; float: right; " href="{{ $event->slug }}/characters">View More</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -157,14 +192,14 @@
                         @endforelse
                     </div> <!--// close of Data Chara div //-->
                 </div> <!--// close of Chara & person div //-->
-
+            
                 {{-- Staff --}}
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
                             <h5 style="float: left;">Staff</h5>
                             @if($staff->count())
-                            <a style="text-decoration: none; float: right;" href="#">View More</a>
+                            <a style="text-decoration: none; float: right;" href="{{ $event->slug }}/characters#staff">View More</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -201,7 +236,7 @@
                         <div class="border-bottom" style="margin-bottom:10px;">
                             <h5 style="float: left;">Review</h5>
                             @if($allReviews->count())
-                            <a style="text-decoration: none; float: right;" href="#">View More</a>
+                            <a style="text-decoration: none; float: right;" href="{{ $event->slug }}/reviews">View More</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -219,13 +254,20 @@
                                 <div class="col-11">
                                     <div class="card-block" style="min-height: 200px">
                                         <h4 class="card-title">{{ $rev->user->username }}</h4>
+                                        @if ($rev->rating >=8)
+                                            <p style="color: blue">Reviewer Rating: {{ $rev->rating }}</p>
+                                        @elseif($rev->rating <=7 && $rev->rating >=4 )
+                                            <p style="color: rgba(208, 196, 23, 0.967)">Reviewer Rating: {{ $rev->rating }}</p>
+                                        @else
+                                            <p style="color: red">Reviewer Rating: {{ $rev->rating }}</p>
+                                        @endif
+                                        
                                         <p class="card-text">{!! $rev->body !!}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {{-- View Comment --}}
-                        
                         
                         @empty
                             <p>No reviews have been submitted for this event. Be the first to make a review</p>
@@ -248,7 +290,13 @@
                             <div class="card" style="position: relative; min-height: 200px; width:100%; margin:10px 0px; padding-bottom:20px">
                                 <div class="card-body">
                                 <h3 class="card-title">{{ $myReview->user->username }}</h3>
-                                
+                                @if ($myReview->rating >=8)
+                                    <p style="color: blue">Reviewer Rating: {{ $myReview->rating }}</p>
+                                @elseif($rev->rating <=7 && $rev->rating >=4 )
+                                    <p style="color: rgba(208, 196, 23, 0.967)">Reviewer Rating: {{ $myReview->rating }}</p>
+                                @else
+                                    <p style="color: red">Reviewer Rating: {{ $myReview->rating }}</p>
+                                @endif
                                 <p>{!! $myReview->body !!}</p>
                                 <div class="footer-review" style="bottom: 0px; padding-bottom:10px; position:absolute; width:100%">
                                     <button type="button" class="showedit" data-id="{{ $myReview->id }}"><i class="fa-solid fa-pen-to-square"></i> Edit</button>

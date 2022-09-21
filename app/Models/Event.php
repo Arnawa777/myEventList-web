@@ -71,12 +71,43 @@ class Event extends Model
     }
 
     // this is a recommended way to declare event handlers
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
 
-        static::deleting(function($event) { // before delete() method call this
-             $event->actor_event()->delete();
-             // do the rest of the cleanup...
+        static::deleting(function ($event) { // before delete() method call this
+            $event->actor_event()->delete();
+            // do the rest of the cleanup...
         });
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+
+        //Null Coalescing operator
+        /* 
+        Penyederhanaan Ternary 
+
+        ?? = jika ada kembalikan $filters... jika tidak false
+        $filters['search'] ?? false
+        */
+
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            return $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+                // ->orWhere('synopsis', 'like', '%' . $search . '%')
+            });
+        });
+
+        //versi arrow function
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
+            $query->whereHas(
+                'category',
+                fn ($query) =>
+                $query->where('category_id', $category)
+            )
+        );
     }
 }

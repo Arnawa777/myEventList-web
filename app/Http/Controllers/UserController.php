@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Favorite;
+use App\Models\Post;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -15,7 +16,7 @@ class UserController extends Controller
         return view('users.users', [
             'title' => 'Users',
             //withQueryString membawa semua query diatas ke pagination (blom kepake)
-            'users' => User::latest()->paginate(6)->withQueryString(),
+            'users' => User::latest()->filter(request(['search']))->paginate(6)->withQueryString(),
         ]);
     }
 
@@ -111,5 +112,17 @@ class UserController extends Controller
             ->update($validatedData);
 
         return redirect('/setting/profile');
+    }
+
+    public function user_posts(User $user)
+    {
+        $posts = Post::where('user_id', $user->id)
+            ->paginate(10);
+
+        return view('users.posts', [
+            "title" => "$user->username - Posts",
+            "user" => $user,
+            'posts' => $posts,
+        ]);
     }
 }

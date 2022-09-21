@@ -13,7 +13,7 @@ class CharacterController extends Controller
         return view('characters.index', [
             "title" => "Characters",
             //eager loadng query dipindah ke model
-            "characters" => Character::latest()->get()
+            "characters" => Character::latest()->filter(request(['search']))->paginate(4)->withQueryString(),
         ]);
     }
 

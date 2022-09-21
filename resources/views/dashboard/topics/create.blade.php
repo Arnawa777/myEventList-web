@@ -12,15 +12,49 @@
     {{-- otomatis ke store karena menggunakan resource --}}
     <form method="post" action="/dashboard/topics" enctype="multipart/form-data">
         @csrf
+        
+        {{-- Topic --}}
         <div class="mb-3">
-          <label for="name" class="form-label">Topic Name</label>
-          <input type="text" class="form-control @error('name') is-invalid @enderror" 
-           id="name" name="name" value="{{ old('name') }}" autofocus>
-           @error('name')
-               <div class="invalid-feedback">
+            <select class="form-select" name="topic" value="{{ old('topic')}}">
+                @if (old('topic'))
+                    <option value="">Select Topic</option>
+                    <option {{ old('topic') == 'MyEventList' ? 'selected' : '' }}  value="MyEventList">MyEventList</option>
+                    <option {{ old('topic') == 'Event' ? 'selected' : '' }}  value="Event">Event</option>
+                    <option {{ old('topic') == 'General' ? 'selected' : '' }}  value="General">General</option>
+                @else
+                    <option value="">Select Topic</option>
+                    <option value="MyEventList">MyEventList</option>
+                    <option value="Event">Event</option>
+                    <option value="General">General</option>
+                @endif
+            </select>
+            @error('topic')
+               <div style="color: red">
                    {{ $message }}
                </div>
            @enderror
+        </div>
+
+        <div class="mb-3">
+          <label for="sub_topic" class="form-label">Sub Topic Name</label>
+          <input type="text" class="form-control @error('sub_topic') is-invalid @enderror" 
+           id="sub_topic" name="sub_topic" value="{{ old('sub_topic') }}" autofocus>
+           @error('sub_topic')
+               <div style="color: red">
+                   {{ $message }}
+               </div>
+           @enderror
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control @error('description') is-invalid @enderror" 
+             id="description" name="description" value="{{ old('description') }}">
+             @error('description')
+                 <div style="color: red">
+                     {{ $message }}
+                 </div>
+             @enderror
         </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>

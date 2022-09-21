@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')->nullable()->constrained('events')->nullOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete()->cascadeOnUpdate();
+            // Jika topic yang dipilih ingin dihapus tidak diperbolehkan
+            // cascade jika topic di edit
             $table->foreignId('topic_id')->constrained('topics')->restrictOnDelete()->cascadeOnUpdate();
             $table->string('title', 100);
             $table->string('picture')->nullable();

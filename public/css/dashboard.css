@@ -1,24 +1,25 @@
-  .search{
-    width:500px; 
+  .search {
+    width: 500px;
     padding-top: 10px
   }
 
-/* Index Table */
+  /* Index Table */
   .table {
     /* White space in table */
     border-collapse: separate;
   }
-/* Index With Cover */
-  .index-img{
-    display:block; 
-    width:100%; 
-    height:auto; 
-    max-height:140px; 
-    object-fit:cover
+
+  /* Index With Cover */
+  .index-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 140px;
+    object-fit: cover
   }
 
-  .table thead tr{
-    background:#2986f8;
+  .table thead tr {
+    background: #2986f8;
     color: white;
   }
 
@@ -26,89 +27,90 @@
     border-top: 15px solid black;
     max-height: 100px;
   }
- 
-  .table tbody tr{
+
+  .table tbody tr {
     /* background: #74b0fa;  */
     background: #DBE5F1;
     color: black;
   }
 
-  .table tbody .spacer{
+  .table tbody .spacer {
     margin-bottom: 10px;
     background: #DBE5F1;
   }
 
-  .table tbody .spacer td{
+  .table tbody .spacer td {
     border: 0;
   }
 
-  .table tbody td i
-  {
-    font-size:15px; 
-    color:white !important;
+  .table tbody td i {
+    font-size: 15px;
+    color: white !important;
   }
 
-  tr .action form button{
-    margin-bottom:10px;
-    width:44px;
+  tr .action form button {
+    margin-bottom: 10px;
+    width: 44px;
     height: 34px;
   }
 
-/* Index Table END */
+  /* Index Table END */
 
-form .btn-sub {
-  margin-bottom:5%;
-}
-
-.select2.select2-container {
-  width: 100% !important;
-  font-family: Roboto, Helvetica;
-}
-
-.select2.select2-container .select2-selection {
-  border: 1px solid #ccc;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  height: 34px;
-  margin-bottom: 15px;
-  outline: none !important;
-  transition: all .15s ease-in-out;
-}
-
-.select2.select2-container .select2-selection .select2-selection__rendered {
-  color: #333;
-  line-height: 32px;
-  padding-right: 33px;
-}
-
-.select2.select2-container .select2-selection .select2-selection__arrow {
-  background: #f8f8f8;
-  border-left: 1px solid #ccc;
-  -webkit-border-radius: 0 3px 3px 0;
-  -moz-border-radius: 0 3px 3px 0;
-  border-radius: 0 3px 3px 0;
-  height: 32px;
-  width: 33px;
-}
-
-.select2.select2-container.select2-container--open .select2-selection.select2-selection--single {
-  background: #f8f8f8;
-}
-
-.select2.select2-container.select2-container--open .select2-selection.select2-selection--single .select2-selection__arrow {
-  -webkit-border-radius: 0 3px 0 0;
-  -moz-border-radius: 0 3px 0 0;
-  border-radius: 0 3px 0 0;
-}
-
-/* Create Table */
-  .img-preview{
-    margin-bottom:10px; 
-    max-height:200px; 
-    max-width: 200px; 
-    height: auto; 
-    display:block;
+  form .btn-sub {
+    margin-bottom: 5%;
   }
 
-/* Create END */
+  .select2.select2-container {
+    width: 100% !important;
+    font-family: Roboto, Helvetica;
+  }
+
+  .select2.select2-container .select2-selection {
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    height: 34px;
+    margin-bottom: 15px;
+    outline: none !important;
+    transition: all .15s ease-in-out;
+  }
+
+  .select2.select2-container .select2-selection .select2-selection__rendered {
+    color: #333;
+    line-height: 32px;
+    padding-right: 33px;
+  }
+
+  .select2.select2-container .select2-selection .select2-selection__arrow {
+    background: #f8f8f8;
+    border-left: 1px solid #ccc;
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+    height: 32px;
+    width: 33px;
+  }
+
+  .select2.select2-container.select2-container--open .select2-selection.select2-selection--single {
+    background: #f8f8f8;
+  }
+
+  .select2.select2-container.select2-container--open .select2-selection.select2-selection--single .select2-selection__arrow {
+    -webkit-border-radius: 0 3px 0 0;
+    -moz-border-radius: 0 3px 0 0;
+    border-radius: 0 3px 0 0;
+  }
+
+  /* Create Table */
+  .img-preview {
+    margin-bottom: 10px;
+    max-height: 200px;
+    max-width: 200px;
+    height: auto;
+    display: block;
+  }
+
+  /* Create END */
+
+  /* Pagination */

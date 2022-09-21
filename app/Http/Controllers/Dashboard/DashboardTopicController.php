@@ -43,9 +43,11 @@ class DashboardTopicController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|min:3|max:25|unique:topics,name',
+            'topic' => 'required',
+            'sub_topic' => 'required|min:3|max:25|unique:topics,sub_topic',
+            'description' => 'nullable|min:5'
         ]);
-        $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->name);
+        $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
 
         Topic::create($validatedData);
         return redirect('dashboard/topics')->with('success', 'New Topic has been added!!!');
@@ -86,12 +88,14 @@ class DashboardTopicController extends Controller
     public function update(Request $request, Topic $topic)
     {
         $validatedData = $request->validate([
-            'name' => 'required|min:3|max:25|unique:topics,name,'.$topic->id,
+            'topic' => 'required',
+            'sub_topic' => 'required|min:3|max:25|unique:topics,sub_topic,' . $topic->id,
+            'description' => 'nullable|min:5'
         ]);
-        $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->name);
+        $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
 
         Topic::where('id', $topic->id)
-                ->update($validatedData);
+            ->update($validatedData);
         return redirect('dashboard/topics')->with('success', 'Topic has been update!!!');
     }
 
@@ -104,11 +108,10 @@ class DashboardTopicController extends Controller
     public function destroy(Topic $topic)
     {
         try {
-            Topic::destroy($topic->id); 
+            Topic::destroy($topic->id);
             return redirect('dashboard/topics')->with('success', 'Topic has been delete!!!');
-           } 
-        catch (\Illuminate\Database\QueryException $e) {
-            if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
                 return redirect('dashboard/topics')->with('fail', 'Topic in use!!!');
                 // return error to user here
             }

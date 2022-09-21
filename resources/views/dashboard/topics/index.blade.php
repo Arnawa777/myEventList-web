@@ -26,12 +26,13 @@
 	@endif
   
 	@if ($topics->count())
-		<table class="table table-sm text-nowrap">
+		<table class="table table-sm text-nowrap" style="width: 100%;">
 			<thead>
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
-					<th scope="col">Topic</th>
-					<th scope="col">Sub Topic</th>
+					<th scope="col" style="width:  15%">Topic</th>
+					<th scope="col" style="width:  25%">Sub Topic</th>
+					<th scope="col" style="width:  47%">Description</th>
 					<th scope="col" style="width:  10%">Action</th>
 				</tr>
 			</thead>
@@ -42,6 +43,16 @@
 				<td>{{ $topics->firstItem()+$loop->index }}</td>
 				<td>{{ $topic->topic }}</td>
 				<td>{{ $topic->sub_topic }}</td>
+				<td 
+				style="max-width: 0; overflow: hidden;
+				text-overflow: ellipsis; white-space: nowrap;">
+				@if ($topic->description)
+					{{ $topic->description }}
+				@else
+					<span> no description..</span>
+				@endif
+				</td>
+
 				<td style="flex">
 					{{-- Menit 36 eps 17 --}}
 					<a style="pointer-events: none;" href="#" 

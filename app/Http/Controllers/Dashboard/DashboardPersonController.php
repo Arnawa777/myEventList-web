@@ -14,11 +14,20 @@ class DashboardPersonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $text = $request->input('text');
+
+        if ($request->ajax()) {
+            $people = Person::where('name', 'LIKE', '%' . $text . '%')->get();
+            return response()->json($people);
+        } else {
+            $people = Person::latest();
+        }
+
         return view('dashboard.people.index', [
             "title" => "Dashboard People",
-            'people' => Person::latest()->paginate(5),
+            'people' => $people->paginate(5),
         ]);
     }
 
@@ -34,12 +43,6 @@ class DashboardPersonController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $rules = [
@@ -68,12 +71,6 @@ class DashboardPersonController extends Controller
         return redirect('/dashboard/people')->with('success', 'New Person has been added!!!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Person $person)
     {
         return view('dashboard.people.show', [
@@ -85,12 +82,6 @@ class DashboardPersonController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Person $person)
     {
         return view('dashboard.people.edit', [
@@ -152,5 +143,22 @@ class DashboardPersonController extends Controller
         Person::destroy($person->id);
 
         return redirect('/dashboard/people')->with('success', 'Person has been delete!!!');
+    }
+
+    public function search(Request $request)
+    {
+        $text = $request->input('text');
+
+        if ($request->ajax()) {
+            $people = Person::where('name', 'LIKE', '%' . $text . '%')->get();
+            return response()->json($people);
+        } else {
+            $people = Person::latest();
+        }
+
+        return view('dashboard.people.index', [
+            "title" => "Dashboard People",
+            'people' => $people->paginate(5),
+        ]);
     }
 }

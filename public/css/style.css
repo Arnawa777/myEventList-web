@@ -12,6 +12,17 @@ body {
   background: #74c0ff;
 }
 
+.navbar-brand,
+.nav-link {
+  color: black;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+  color: rgb(78, 78, 78);
+}
+
+
 footer {
   display: flex;
   justify-content: center;
@@ -36,24 +47,13 @@ a {
 }
 
 /* unvisited link */
-a:link {
-  color: #337ab7;
-  ;
+#my-navbar a:link {
+  color: black;
 }
 
-/* visited link */
-a:visited {
-  color: #1d4568;
-}
 
 /* mouse over link */
-a:hover,
-a:focus {
-  text-decoration: underline;
-
-}
-
-/* selected link */
-a .active {
-  font-weight: bold;
+#my-navbar a:hover,
+#my-navbar a:focus {
+  text-decoration: white;
 }

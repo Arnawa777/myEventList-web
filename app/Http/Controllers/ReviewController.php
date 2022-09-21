@@ -53,9 +53,10 @@ class ReviewController extends Controller
     {
         // dd($request);
         $validatedData = $request->validate([
-            'body' => 'required',
+            'body' => 'nullable',
         ]);
 
+        $validatedData['rating']  = $request->rating;
         // dd($validatedData);
         // $validatedData['user_id'] = auth()->user()->id;
         // $validatedData['review_id'] = $request->review_id;

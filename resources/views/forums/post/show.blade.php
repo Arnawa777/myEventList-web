@@ -1,5 +1,4 @@
 {{-- @dd ($post); --}}
-
 {{-- ambil dari halaman layouts/main --}}
 @extends('layouts.main')
 
@@ -31,18 +30,45 @@
                 </div>
 
                 <div class="col-lg-10 right-column">
-                    <p>{{ $post->created_at }}</p>
+                    <p style="float: left;">{{ $post->created_at }}</p>
+                    @auth
+                        @if ($post->author->id == auth()->user()->id)
+                            <div style="float: right; display:flex">
+                                <form action="/forum/{{ $topic->slug }}/{{ $post->slug }}/edit">
+                                    <button style="margin:0 10px 0 0;"> <i class="fa-solid fa-pen-to-square"></i></button>
+                                </form>
+                                <form action="/forum/{{ $topic->slug }}/{{ $post->slug }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <input type="hidden" name="topic_slug" value="{{ $topic->slug }}">
+                                    <button style="margin:0 0 0 0;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </div>
+                        @elseif (auth()->user()->role === "admin")
+                            <div style="float: right; display:flex">
+                                <form action="/forum/{{ $topic->slug }}/{{ $post->slug }}" method="post" class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <input type="hidden" name="topic_slug" value="{{ $topic->slug }}">
+                                    <button style="margin:0 0 0 0;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth                    
+                    <div style="clear: both;"></div>
                     <article class="my-3 fs-5">
-                        <img class="postPicture" src="/storage/post-picture/{{ $post->picture }}" alt="post-picture">
-                        <br>
+                        @if ($post->picture)
+                            <img class="postPicture" src="/storage/post-picture/{{ $post->picture }}" alt="post-picture">
+                            <br>
+                        @endif   
                         {!! $post->body !!}
                     </article>
                 </div>
             </div>
 
             {{-- Comment --}}
-            @if ($post->comments)
-                @foreach ($post->comments as $comment)
+            @if ($comments)
+                @foreach ($comments as $comment)
                     <div class="row postData">
                         {{-- View Comment --}}
                         <div class="col-lg-2 left-column">
@@ -55,7 +81,15 @@
 
                         <div class="col-lg-10 right-column" style="position: relative;" id="showcomment-{{ $comment->id }}">
                             <div  style="margin-bottom:50px">
-                                <p>{{ $comment->updated_at }}</p>
+                                <div>
+                                    <p style="float: left;">{{ $comment->updated_at }}</p>
+                                    <p style="float: right;">#{{ $comments->firstItem()+$loop->index }}</p>
+                                    <div style="clear: both;"></div>
+                                    {{-- 
+                                    <p style="text-align: left; width:49%; display: inline-block;">LEFT</p>
+                                    <p style="text-align: right; width:50%;  display: inline-block;">RIGHT</p>  --}}
+                                </div>
+                                
                                 <article class="my-3 fs-5">
                                     {!! $comment->body !!}
                                 </article>
@@ -109,6 +143,11 @@
                     </div>
                 @endforeach
             @endif
+
+            <div class="d-flex justify-content-end">
+                {{ $comments->links('vendor.pagination.custom') }}
+            </div>
+
             {{-- Reply --}}
             @if (auth()->user())
                 <div class="row postData">
