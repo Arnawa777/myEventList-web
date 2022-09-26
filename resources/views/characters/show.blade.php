@@ -15,8 +15,12 @@
         {{-- Left Side --}}
         <div class="col-sm-3">
             <div class="row" id="main-row">
-                <div style="margin-bottom:20px;">
-                    <img class="cover-event" src="/storage/character-picture/{{ $chara->picture }}" >
+                <div class="parent-cover-event">
+                    @if($chara->picture)
+                        <img class="cover-event" src="/storage/character-picture/{{ $chara->picture }}" >
+                    @else
+                        <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                    @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
                     <h5 style="float: left;">Event</h5>
@@ -31,7 +35,11 @@
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <img class="image-icon" src="/storage/event-picture/{{ $eventL->event->picture }}"  alt="event-picture">
+                                        @if($eventL->event->picture)
+                                            <img class="image-icon" src="/storage/event-picture/{{ $eventL->event->picture }}"  alt="event-picture">
+                                        @else
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
                                     </td>
                                     <td class="name-table">
                                         <h7>
@@ -78,9 +86,6 @@
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Actor</h5>
-                        @if($actors->count() > 10)
-                        <a style="text-decoration: none; float: right; " href="">View More</a>
-                        @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -93,7 +98,11 @@
                         <tbody>
                             <tr>
                                 <td width="52px">
-                                    <img class="image-icon" src="/storage/person-picture/{{ $actor->person->picture }}"  alt="person-picture">
+                                    @if($actor->person->picture)
+                                        <img class="image-icon" src="/storage/person-picture/{{ $actor->person->picture }}"  alt="person-picture">
+                                    @else
+                                        <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                    @endif
                                 </td>
                                 <td class="name-table">
                                     <h7>

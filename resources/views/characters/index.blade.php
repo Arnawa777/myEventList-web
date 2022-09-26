@@ -33,14 +33,13 @@
                             </div>
                         </div>
                         <p class="card__description">
-                            @if (is_null($character->description))
-                                This character doesn't have description yet...
+                            @if ($character->description)
+                            {{-- {!!  Str::limit($character->description, 50, $end='...')  !!} --}}
+                            {!!  substr(strip_tags($character->description), 0, 50) !!}...
                             @else
-                                {{-- {!!  Str::limit($character->description, 50, $end='...')  !!} --}}
-                                {!!  substr(strip_tags($character->description), 0, 50) !!}...
-                                
+                                This character doesn't have description yet...
                             @endif
-                            </p>
+                        </p>
                         </div>
                     </a>      
                     </li>

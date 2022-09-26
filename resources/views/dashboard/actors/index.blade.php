@@ -9,9 +9,29 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<div class="col-lg-8">
-		<a href="/dashboard/actors/create" class="btn btn-primary mb-3">Make Actor</a>
+	<div style="float: left">
+		<a href="/dashboard/actors/create" class="btn btn-primary mb-3">Create New Actor</a>
 	</div>
+	<div style="float: right">
+		<form action="/dashboard/actors">
+			<div class="input-group mb-3">
+				<select class="form-select" id="role" name="role" value="{{ request('role') }}">
+					<option value="">Select Role</option>
+					@foreach ($roles as $role)
+						@if (request('role') == $role->role)
+							<option value="{{ $role->role }}" selected>{{ $role->role }}</option>
+						@else
+							<option value="{{ $role->role }}">{{ $role->role }}</option>
+						@endif  
+					@endforeach
+				</select>
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit">Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 
 	{{-- Message --}}
 	@if (session()->has('success'))
@@ -36,10 +56,16 @@
 				<tr>
 					{{-- Loop number with pagination --}}
 					<td>{{ $actors->firstItem()+$loop->index }}</td>
-					<td>{{ $actor->person->name }}</td>
-					<td>{{ $actor->character->name }}</td>
-					<td>{{ $actor->character->role }}</td>
 					<td>
+						{{-- {{ Str::limit($actor->person->name, 50, $end='..') }} --}}
+						{{ $actor->person->name }}
+					</td>
+					<td>
+						{{-- {{ Str::limit($actor->character->name, 50, $end='..') }} --}}
+						{{ $actor->character->name }}
+					</td>
+					<td>{{ $actor->character->role }}</td>
+					<td class="actionButton">
 						{{-- Menit 36 eps 17 --}}
 						<a style="pointer-events: none;" href="#"
 							class="badge bg-secondary"><i class="fa-solid fa-eye-slash"></i></a>

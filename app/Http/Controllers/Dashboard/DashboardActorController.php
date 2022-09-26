@@ -17,9 +17,15 @@ class DashboardActorController extends Controller
      */
     public function index()
     {
+        $roles = Character::selectRaw('characters.*')
+            ->groupby('role')
+            ->orderby('role', 'asc')
+            ->get();
+
         return view('dashboard.actors.index', [
-            "title" => "Dashboard Actors",
-            'actors' => Actor::latest()->paginate(5),
+            "title" => "Dashboard - List Actor",
+            'actors' => Actor::latest()->filter(request(['search', 'role']))->paginate(10)->withQueryString(),
+            'roles' => $roles,
         ]);
     }
 
@@ -31,7 +37,7 @@ class DashboardActorController extends Controller
     public function create()
     {
         return view('dashboard.actors.create', [
-            "title" => "Create Actor",
+            "title" => "Dashboard - Create Actor",
             'people' => Person::orderBy('name', 'asc')->get(),
             'characters' => Character::orderBy('name', 'asc')->get(),
         ]);
@@ -45,42 +51,30 @@ class DashboardActorController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate(
-            [
-                'character_id' => 'required|unique:actors,character_id,NULL,id,person_id,' . $request->person_id,
-                'person_id' => 'required',
-            ],
-            [
-                'character_id.unique' => 'Actor already exist!!!',
-            ]
-        );
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/actors');
+        }
+        if ($request->action == 'create') {
+            $validatedData = $request->validate(
+                [
+                    'character_id' => 'required|unique:actors,character_id,NULL,id,person_id,' . $request->person_id,
+                    'person_id' => 'required',
+                ],
+                [
+                    'character_id.unique' => 'Actor already exist!!!',
+                ]
+            );
 
-        Actor::create($validatedData);
+            Actor::create($validatedData);
 
-        return redirect('/dashboard/actors')->with('success', 'New Actor has been added!!!');
+            return redirect('/dashboard/actors')->with('success', 'New Actor has been added!!!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Actor $actor)
     {
         return view('dashboard.actors.edit', [
-            "title" => "Edit Actor",
+            "title" => "Dashboard - Edit Actor",
             'people' => Person::orderBy('name', 'asc')->get(),
             'characters' => Character::orderBy('name', 'asc')->get(),
             'actor' => $actor
@@ -96,20 +90,25 @@ class DashboardActorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate(
-            [
-                'character_id' => 'required|unique:actors,character_id,' . $id . ',id,person_id,' . $request->person_id,
-                'person_id' => 'required',
-            ],
-            [
-                'character_id.unique' => 'Actor already exist!!!',
-            ]
-        );
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/actors');
+        }
+        if ($request->action == 'update') {
+            $validatedData = $request->validate(
+                [
+                    'character_id' => 'required|unique:actors,character_id,' . $id . ',id,person_id,' . $request->person_id,
+                    'person_id' => 'required',
+                ],
+                [
+                    'character_id.unique' => 'Actor already exist!!!',
+                ]
+            );
 
-        Actor::where('id', $id)
-            ->update($validatedData);
+            Actor::where('id', $id)
+                ->update($validatedData);
 
-        return redirect('/dashboard/actors')->with('success', 'Actor has been update!!!');
+            return redirect('/dashboard/actors')->with('success', 'Actor has been updated!!!');
+        }
     }
 
     /**
@@ -122,6 +121,6 @@ class DashboardActorController extends Controller
     {
         Actor::destroy($id);
 
-        return redirect('/dashboard/actors')->with('success', 'Actor has been delete!!');
+        return redirect('/dashboard/actors')->with('success', 'Actor has been deleted!!');
     }
 }

@@ -27,7 +27,7 @@ class Category extends Model
     {
         return 'slug';
     }
-    
+
     //Otomatis membuat slug
     public function sluggable(): array
     {
@@ -36,5 +36,15 @@ class Category extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        //versi arrow function
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where('name', 'like', '%' .  $search . '%')
+        );
     }
 }

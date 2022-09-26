@@ -9,7 +9,30 @@
 </div>
 
 <div class="table-responsive col-lg-8">
+	<div style="float: left">
 	<a href="/dashboard/posts/create" class="btn btn-primary mb-3">Create New Post</a>
+	</div>
+	<div style="float: right">
+		<form action="/dashboard/posts">
+			<div class="input-group mb-3">
+				<select class="form-select" id="topic" name="topic" value="{{ request('topic') }}">
+					<option value="">Select Topic</option>
+					@foreach ($topics as $topic)
+						@if (request('topic') == $topic->id)
+							<option value="{{ $topic->id }}" selected>{{ $topic->topic }} - {{ $topic->sub_topic }}</option>
+						@else
+							<option value="{{ $topic->id }}">{{ $topic->topic }} - {{ $topic->sub_topic }}</option>
+						@endif  
+					@endforeach
+				</select>
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
+
 	
 	{{-- Message --}}
 	@if (session()->has('success'))
@@ -39,10 +62,13 @@
 						@if ($post->picture)
 							<img class="index-img" src="/storage/post-picture/{{ $post->picture }}" alt="post-img">
 						@else
-							<img class="index-img" src="https://cdn.discordapp.com/attachments/729406248637956196/896117975281717358/1633607783751.jpg" alt="uwu">
+							<img class="index-img-empty" src="/img/No_image_available.svg" alt="no-img">
 						@endif
 					</td>
-					<td>{{ $post->title }}</td>
+					<td>
+						{{-- {{   Str::limit($post->title, 30, $end='..')   }} --}}
+						{{ $post->title }}
+					</td>
 					<td>{{ $post->author->username }}</td>
 					<td>{{ $post->topic->topic }} - {{ $post->topic->sub_topic }}</td>
 					<td class="action align-middle text-center">
@@ -50,11 +76,18 @@
 						<form action="/dashboard/posts/{{ $post->slug }}">
 							<button class="badge bg-info border-0"><i class="fa-solid fa-eye"></i></button>
 						</form>
-						
-						<form action="/dashboard/posts/{{ $post->slug }}/edit">
-							<button class="badge bg-warning border-0"><i class="fa-solid fa-pen-to-square"></i></button>
-						</form>
 
+						{{-- Check user --}}
+						@if ($post->author->id === auth()->user()->id)
+							<form action="/dashboard/posts/{{ $post->slug }}/edit">
+								<button class="badge bg-warning border-0"><i class="fa-solid fa-pencil"></i></button>
+							</form>
+						@else
+							{{-- Pake form krn males ganti CSSnya CAPEK --}}
+							<form action="">
+								<button disabled class="badge bg-secondary border-0"><i class="fa-solid fa-pencil"></i></button>
+							</form>
+						@endif
 
 						<form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
 							@method('delete')

@@ -90,6 +90,9 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::resource('/dashboard/events', DashboardEventController::class);
+        Route::get('dashboard/events/{event:slug}/characters', [DashboardEventController::class, 'characters']);
+        Route::get('dashboard/events/{event:slug}/reviews', [DashboardEventController::class, 'reviews']);
+
         Route::resource('/dashboard/categories', DashboardCategoryController::class);
         //Parameter untuk mengganti default parameter
         Route::resource('/dashboard/staff', DashboardWorkerController::class)->parameters([
@@ -97,7 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
         ]);
 
 
-        Route::get('/dashboard/actor-events/search', [DashboardActorEventController::class, 'search']);
+        // Route::get('/dashboard/actor-events/search', [DashboardActorEventController::class, 'search']);
         Route::resource('/dashboard/actor-events', DashboardActorEventController::class);
 
 
@@ -105,8 +108,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/dashboard/topics', DashboardTopicController::class);
 
         Route::resource('/dashboard/people', DashboardPersonController::class);
-        Route::get('/dashboard/people/search', [DashboardPersonController::class, 'search'])->name('people.search');
-        // Route::post('/employee/search',[EmployeeController::class,'showEmployee'])->name('employee.search')
 
         Route::resource('/dashboard/actors', DashboardActorController::class);
 

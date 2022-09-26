@@ -93,23 +93,23 @@
                                 <article class="my-3 fs-5">
                                     {!! $comment->body !!}
                                 </article>
-                            </div>
-                            <div style="bottom: 0px; padding-bottom:10px; position:absolute; width:100%;">
-                                @auth
-                                    @if ($comment->author->id == auth()->user()->id)
-                                            
-                                            <button type="button" class="showedit" data-id="{{ $comment->id }}"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-                                        
-                                            <form method="post" action="/forum/{{ $topic->slug }}/{{ $post->slug }}/comment/{{ $comment->id }}" enctype="multipart/form-data" class="d-inline">
-                                            @method('delete')
-                                            @csrf
-                                                {{-- yang penting kan jalan --}}
-                                                <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                                <button type="submit" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i> Delete</button>
-                                            </form>
-                                    @endif
-                                @endauth
-                            </div>
+                            </div>                        
+                            @auth
+                                @if ($comment->author->id == auth()->user()->id)
+                                    <div class="footer-action">
+                                        <button type="button" class="showedit" id="btn-action" data-id="{{ $comment->id }}"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                                    
+                                        <form method="post" action="/forum/{{ $topic->slug }}/{{ $post->slug }}/comment/{{ $comment->id }}" enctype="multipart/form-data" class="d-inline">
+                                        @method('delete')
+                                        @csrf
+                                            {{-- yang penting kan jalan --}}
+                                            <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+                                            <button type="submit" onclick="return confirm('Are you sure?')" id="btn-action"><i class="fa-solid fa-trash"></i> Delete</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
+                            
                         </div>
                         {{-- Edit --}}
                         <div class="col-lg-10 right-column" style="position: relative; display:none;" id="replycomment-{{ $comment->id }}">
@@ -118,10 +118,10 @@
                             @method('put')
                             @csrf
                             {{-- EditBOX --}}
-                            <div  style="margin-bottom:70px">
+                            <div  style="margin-bottom:25px">
                                 <div class="editBox">
                                     <input id="commentEdit-{{ $comment->id }}" type="hidden" name="body" value="{{ $comment->body }}">
-                                    <trix-editor input="commentEdit-{{ $comment->id }}"></trix-editor>
+                                    <trix-editor input="commentEdit-{{ $comment->id }}" style="min-height: 190px;"></trix-editor>
                                     @error('commentEdit')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -133,9 +133,9 @@
                                     <input type="hidden" name="comment_id" value="{{ $comment->id }}">
                                 </div>
                             </div> {{--! End of Editbox  --}}
-                            <div class="footer-comment" style="bottom: 0px; padding-bottom:10px; position:absolute; width:100%">
-                                <button type="submit" class="btn-sub btn btn-primary">Update Reply</button>
-                                <button type="button" class="canceledit" data-id="{{ $comment->id }}">Cancel Edit</button>
+                            <div class="footer-button">
+                                <button type="submit" id="btn-edit"><i class="fa-regular fa-floppy-disk"></i> SAVE</button>
+                                <button type="button" class="canceledit" id="btn-cancel" data-id="{{ $comment->id }}">CANCEL</button>
                             </div> 
                             
                             </form>
@@ -172,9 +172,9 @@
                             <div>
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                             </div>
-            
-                            <button type="submit" class="btn-sub btn btn-primary">Post Reply</button>
-                        
+                            <div class="footer-reply-right">
+                                <button type="submit" id="btn-reply"><i class="fa-solid fa-reply"></i> POST REPLY</button>
+                            </div>           
                         </form>
                     </div>
                 </div>
@@ -182,40 +182,6 @@
         </div>
     </div>
 
-    {{-- <script>
-        $(document).ready(function(){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $(document).on('click', '.deleteComment', function(){
-                if(confirm('Are you sure you want to delete this comment?'))
-                {
-                    var thisClicked = $(this);
-                    var comment_id = thisClicked.val();
-                    $.ajax({
-                        type: "POST",
-                        url: "/delete-comment",
-                        data: {
-                            'comment_id': comment_id
-                        },
-                        dataType: "JSON",
-                        success: function (res) {
-                            if(res.status == 200){
-                                thisClicked.closest('comment-container').remove();
-                                alert(res.message);
-                            }else{
-                                alert(res.message);
-                            }
-                            
-                        }
-                    });
-                }
-            });
-        });
-    </script> --}}
     <script>
         $(document).ready(function(){
             // change the selector to use a class

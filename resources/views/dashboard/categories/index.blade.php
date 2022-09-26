@@ -9,9 +9,19 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<div class="col-lg-8">
+	<div style="float: left">
 		<a href="/dashboard/categories/create" class="btn btn-primary mb-3">Create New Category</a>
 	</div>
+	<div style="float: right">
+		<form action="/dashboard/categories">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 
 	@if (session()->has('success'))
 		<div class="alert alert-success" role="alert">
@@ -40,7 +50,7 @@
 				{{-- Loop number with pagination --}}
 				<td>{{ $categories->firstItem()+$loop->index }}</td>
 				<td>{{ $category->name }}</td>
-				<td style="flex">
+				<td class="actionButton" style="flex">
 					{{-- Menit 36 eps 17 --}}
 					<a style="pointer-events: none;" href="#"
 						class="badge bg-secondary"><i class="fa-solid fa-eye-slash"></i></a>

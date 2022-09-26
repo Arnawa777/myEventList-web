@@ -106,7 +106,17 @@ class Event extends Model
             $query->whereHas(
                 'category',
                 fn ($query) =>
-                $query->where('category_id', $category)
+                $query->where('id', $category)
+            )
+        );
+
+        //versi arrow function
+        $query->when(
+            $filters['location'] ?? false,
+            fn ($query, $location) => $query->whereHas(
+                'location',
+                fn ($query) =>
+                $query->where('regency', $location)
             )
         );
     }

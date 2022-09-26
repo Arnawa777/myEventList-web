@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Category;
-use App\Models\Actor;
+use App\Models\Location;
 use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreEventRequest;
-use App\Http\Requests\UpdateEventRequest;
 use App\Models\Review;
 
 class EventController extends Controller
@@ -21,12 +19,17 @@ class EventController extends Controller
     public function index()
     {
         // dd(request('search'));
+        $locations = Location::selectRaw('locations.*')
+            ->groupby('regency')
+            ->get();
+
         return view('events.index', [
             "title" => "Events",
             //eager loadng query dipindah ke model
             //WithQuearyString membawa query sebelumnya pada pagination
-            "events" => Event::latest()->filter(request(['search', 'category']))->paginate(4)->withQueryString(),
+            "events" => Event::latest()->filter(request(['search', 'category', 'location']))->paginate(4)->withQueryString(),
             "categories" => Category::all(),
+            "locations" => $locations
         ]);
     }
 

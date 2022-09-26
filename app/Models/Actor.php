@@ -36,4 +36,23 @@ class Actor extends Model
     {
         return $this->belongsTo(Character::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        //versi arrow function
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) => $query->whereHas('person', fn ($query) =>
+            $query->where('name', 'like', '%' .  $search . '%'))
+                ->orWhereHas('character', fn ($query) =>
+                $query->where('name', 'like', '%' .  $search . '%'))
+        );
+
+        //versi arrow function
+        $query->when(
+            $filters['role'] ?? false,
+            fn ($query, $role) => $query->whereHas('character', fn ($query) =>
+            $query->where('role', $role))
+        );
+    }
 }

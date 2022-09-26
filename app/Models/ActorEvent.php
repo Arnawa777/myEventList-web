@@ -26,4 +26,21 @@ class ActorEvent extends Model
     {
         return $this->belongsTo(Actor::class);
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        //versi arrow function
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) => $query->whereHas('event', fn ($query) =>
+            $query->where('name', 'like', '%' .  $search . '%'))
+                ->orWhereHas(
+                    'actor',
+                    fn ($query) =>
+                    $query->whereHas('character', fn ($query) =>
+                    $query->where('name', 'like', '%' .  $search . '%')->orWhere('role', 'like', '%' . $search . '%'))
+                        ->orWhereHas('person', fn ($query) => $query->where('name', 'like', '%' . $search . '%'))
+                )
+        );
+    }
 }

@@ -34,11 +34,18 @@
                     @if ($events->count())
                     @foreach ($events as $event)
                     <div class="mid-column">
-                        <table class="first-table">
+                        <table class="second-table">
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <a href="/events/{{ $event->slug }}"><img class="image-icon" src="/storage/event-picture/{{ $event->picture }}"  alt="event-picture"></a>
+                                    <a href="/events/{{ $event->slug }}">
+                                        @if ($chara->picture)
+                                            <img class="image-icon" src="/storage/event-picture/{{ $event->picture }}"  alt="event-picture">
+                                            <img class="index-img" src="/storage/character-picture/{{ $chara->picture }}" alt="chara-img">
+                                        @else
+                                            <img class="index-img-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                    </a>
                                     </td>
                                     <td class="name-table">
                                         <a href="/events/{{ $event->slug }}">
@@ -76,7 +83,7 @@
                     @if ($people->count())
                     @foreach ($people as $person)
                     <div class="mid-column">
-                        <table class="first-table">
+                        <table class="second-table">
                             <tbody>
                                 <tr>
                                     <td width="52px">
@@ -119,7 +126,7 @@
                     @if ($characters->count())
                     @foreach ($characters as $character)
                     <div class="mid-column">
-                        <table class="first-table">
+                        <table class="second-table">
                             <tbody>
                                 <tr>
                                     <td width="52px">

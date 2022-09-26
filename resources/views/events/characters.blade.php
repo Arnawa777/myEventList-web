@@ -5,42 +5,21 @@
 @section('container')
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 {{-- {{ dd($allReviews) }} --}}
-<style>
-    #horiznav_nav ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333333;
-    }
-    
-    #horiznav_nav li {
-      float: left;
-    }
-    
-    #horiznav_nav li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 16px;
-      text-decoration: none;
-    }
-    
-    #horiznav_nav li a:hover {
-      background-color: #111111;
-    }
-</style>
 
 <div class="container">
         <div class="row" id="land-event">
-            <div class="col-sm-12" id="title">
+            <div class="col-sm-12" id="title" style="background: #333333; color:white">
                 <h3>{{ $event->name }}</h3>
             </div>
             {{-- Left Side --}}
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="background: #333333; border: 1px white solid; color:white;">
                 <div class="row" id="main-row">
-                    <div style="margin-bottom:20px;" id="event_id" data-field-id="{{ $event->id }}">
-                        <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" >
+                    <div style="margin-top:10px; margin-bottom:20px;" id="event_id" data-field-id="{{ $event->id }}">
+                        @if ($event->picture)
+                            <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+                        @else
+                            <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                        @endif
                     </div>
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5>Information</h5>
@@ -73,7 +52,7 @@
 
             {{-- Main Side --}}
             <div class="col-sm-9">
-                <div id="horiznav_nav" style="margin: 5px 0 10px 0;">
+                <div id="horiznav_nav" style="margin: 0 0 10px 0;">
                     <ul style="margin-right: 0; padding-right: 0;">
                           <li><a href="/events/{{ $event->slug }}">Details</a>
                       </li>
@@ -102,22 +81,38 @@
                                 <tbody>
                                     <tr>
                                         <td width="52px">
-                                            <img src="/storage/character-picture/{{ $ac->character->picture }}"  alt="person-picture">
+                                            <a href="/characters/{{ $ac->character->slug }}">
+                                            @if ($ac->character->picture)
+                                                <img class="image-icon" src="/storage/character-picture/{{ $ac->character->picture }}"  alt="character-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                            </a>
                                         </td>
-                                        <td>
-                                            <h7 class="name-table">
-                                                {{ Str::words($ac->character->name, 2, '') }}
-                                            </h7>
+                                        <td>   
+                                            <a href="/characters/{{ $ac->character->slug }}">
+                                                <h7 class="name-table">
+                                                    {{ Str::words($ac->character->name, 2, '') }}
+                                                </h7>
+                                            </a>        
                                             <p class="name-table">{{ $ac->character->role }}</p>
                                         </td>
                                         <td align="right">
-                                            <h7 class="name-table">
-                                                {{ Str::words($ac->person->name, 2, '') }}
-                                            </h7>
-                                            <p>Played</p>
+                                            <a href="/people/{{ $ac->person->slug }}">
+                                                <h7 class="name-table">
+                                                    {{ Str::words($ac->person->name, 2, '') }}
+                                                </h7>
+                                            </a>
+                                            <p class="name-table">Actor</p>
                                         </td>
                                         <td width="52px">
-                                            <img src="/storage/person-picture/{{ $ac->person->picture }}"  alt="person-picture">
+                                            <a href="/people/{{ $ac->person->slug }}">
+                                                @if ($ac->person->picture)
+                                                    <img class="image-icon" src="/storage/person-picture/{{ $ac->person->picture }}"  alt="person-picture">
+                                                @else
+                                                    <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                                @endif
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -145,12 +140,20 @@
                                     <tbody>
                                         <tr>
                                             <td width="52px">
-                                                <img src="/storage/person-picture/{{ $stf->person->picture }}"  alt="person-picture">
+                                                <a href="/people/{{ $stf->person->slug }}">
+                                                    @if ($stf->person->picture)
+                                                        <img class="image-icon" src="/storage/person-picture/{{ $stf->person->picture }}"  alt="person-picture">
+                                                    @else
+                                                        <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                                    @endif
+                                                </a>
                                             </td>
                                             <td>
-                                                <h7 class="name-table">
-                                                    {{ Str::words($stf->person->name, 2, '') }}
-                                                </h7>
+                                                <a href="/people/{{ $stf->person->slug }}">
+                                                    <h7 class="name-table">
+                                                        {{ Str::words($stf->person->name, 2, '') }}
+                                                    </h7>
+                                                </a>
                                                 <p class="name-table">{{ $stf->role }}</p>
                                             </td>
                                         </tr>

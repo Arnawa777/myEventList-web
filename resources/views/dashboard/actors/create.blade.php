@@ -42,11 +42,11 @@ style="padding: 30px 0px 20px 0px">
                 @foreach ($characters as $chara)
                     @if (old('character_id') == $chara->id)
                         <option value="{{ $chara->id }}" selected>
-                            {{ $chara->name }}
+                            {{ $chara->name }} - {{ $chara->role }}
                         </option>
                     @else
                         <option value="{{ $chara->id }}">
-                            {{ $chara->name }}
+                            {{ $chara->name }} - {{ $chara->role }}
                         </option>
                     @endif
                 @endforeach
@@ -61,8 +61,11 @@ style="padding: 30px 0px 20px 0px">
             @enderror 
         </div>   
         
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="create" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+        </div>
     </form>
 </div> <!--// close of Form div //-->
 

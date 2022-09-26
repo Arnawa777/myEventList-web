@@ -74,6 +74,7 @@
     height: 200px;
     object-fit: cover;
     border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 .postPicture {
@@ -88,21 +89,13 @@
     margin: 20px 0px;
 }
 
-.img-preview {
-    margin-bottom: 10px;
-    max-height: 200px;
-    max-width: 200px;
-    height: auto;
-    display: block;
-}
-
 /* unvisited link */
 .forum a:link {
     color: #337ab7;
 }
 
 /* visited link */
-.forum a:visited {
+.forum :not(.breadcrumb) a:visited {
     color: #1d4568;
 }
 

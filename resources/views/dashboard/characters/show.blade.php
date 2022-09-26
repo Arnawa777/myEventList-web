@@ -32,8 +32,12 @@
         {{-- Left Side --}}
         <div class="col-sm-3">
             <div class="row" id="main-row">
-                <div style="margin-bottom:20px;">
-                    <img class="cover-event" src="/storage/character-picture/{{ $chara->picture }}" >
+                <div class="parent-cover-event">
+                    @if($chara->picture)
+                        <img class="cover-event" src="/storage/character-picture/{{ $chara->picture }}" >
+                    @else
+                        <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                    @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
                     <h5 style="float: left;">Event</h5>
@@ -44,16 +48,24 @@
                     @if ($eventList->count())
                     @foreach ($eventList as $eventL)
                     <div class="mid-column border-bottom">
-                        <table class="first-table">
+                        <table class="second-table">
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <img class="image-icon" src="/storage/event-picture/{{ $eventL->event->picture }}"  alt="event-picture">
+                                        <a href="/dashboard/events/{{ $eventL->event->slug }}">
+                                            @if ($eventL->event->picture)
+                                                <img class="image-icon" src="/storage/event-picture/{{ $eventL->event->picture }}"  alt="event-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
                                     </td>
                                     <td class="name-table">
+                                        <a href="/dashboard/events/{{ $eventL->event->slug }}">
                                         <h7>
                                             {{ $eventL->event->name }}
                                         </h7>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -102,39 +114,43 @@
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Actor</h5>
-                        @if($actors->count() > 10)
-                        <a style="text-decoration: none; float: right; " href="">View More</a>
-                        @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>
             
                 <div class="row">
                     @if ($actors->count())
-                    @foreach ($actors as $actor)
-                    <div class="mid-column">
-                        <table class="first-table">
-                            <tbody>
-                                <tr>
-                                    <td width="52px">
-                                        <img class="image-icon" src="/storage/person-picture/{{ $actor->person->picture }}"  alt="person-picture">
-                                    </td>
-                                    <td class="name-table">
-                                        <h7>
-                                            {{ Str::words($actor->person->name, 2, '') }}
-                                        </h7>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    @endforeach
+                        @foreach ($actors as $actor)
+                        <div class="mid-column">
+                            <table class="second-table">
+                                <tbody>
+                                    <tr>
+                                        <td width="52px">
+                                            <a href="/dashboard/people/{{ $actor->person->slug }}">
+                                                @if ($actor->person->picture)
+                                                    <img class="image-icon" src="/storage/person-picture/{{ $actor->person->picture }}"  alt="person-picture">
+                                                @else
+                                                    <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                                @endif
+                                            </a>
+                                            
+                                        </td>
+                                        <td class="name-table">
+                                            <a href="/dashboard/people/{{ $actor->person->slug }}">
+                                            <h7>
+                                                {{ Str::words($actor->person->name, 2, '') }}
+                                            </h7>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        @endforeach
 
                     {{-- Jika data tidak ada --}}
                     @else
-                    <div class="col">
-                        <p class="text-center fs-4">This Characters Doesn't Have Actor</p>
-                    </div>
+                        <p>This Characters Doesn't Have Actor</p>
                     @endif
                 </div> <!--// close of Data Chara div //-->
             </div> <!--// close of Staff div //-->

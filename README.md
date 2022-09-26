@@ -57,13 +57,52 @@ MEL-08
 <br>~Anchor for events frontend
 
 
+MEL-09
+<br>~Update Review & Comment CSS Finale
+<br>~delete view more in people and characters (dashboard too)
+<br>~Post dashboard disable button edit from another user 
+<br>~Change database picture to nullable (delete default value)
+<br>~Search event with location
+<br>~Event Show & dashboard event add more page reviews, characters
+<br>~Dashboard event (100% I think)
+<br>~Add Search in Actor, Actor-Event, Category
+<br>~Dashboard character (100% I think)
+<br>~Event Show Color last (dashboard default)
+<br>~Remove image in edit [dashboard(event, character)]
+<br>~Dashboard actor (100% I think)
+<br>~Dashboard actor-events (100% I think)
+<br>~Dashboard People (100% I think)
+<br>~Dashboard Post (100%)
+<br>~when update not delete old image Fix (old_Picture to oldPicture)
+<br>~Dashboard Topic (100%)
+<br>~Dashboard Worker/Staff (100%)
+<br>~Index Limit(Workers)
+<br>~Update dashboard page => Image null (people, characters, events, posts) Done
+<br>~[Done] Limit Text in dashboard index (Important)
+<br>~Backend Search Done
+
+MEL-10
+<br>~
+<br>~
+<br>~
+<br>~
+
 - To Do
-<br>Backend Search??
-<br>Update Review & Comment CSS Finale
+
+
+Dashboard change per page 
+
+Give minimum value body(Post Done)
+
+Rombak Show People
+Check unique event at people and characters in frontend
+<br>notif success and fail not implement in frontend and maybe some backend (need check)
 <br>Finishing Some Page MEL-06
 <br>CSS card events, people, characters still not final
-<br>Remove image in another edit
 <br>reviews tanpa minimal text (check document)
-<br>delete view more in people and characters
 <br>User favorite & post list
-<br>Dashboard HOme 
+<br>Dashboard Home 
+<br>css score and favorited in events 
+
+DOC
+Hapus minimum value di review

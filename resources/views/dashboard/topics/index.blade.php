@@ -9,9 +9,19 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<div class="col-lg-8">
+	<div style="float:left">
 		<a href="/dashboard/topics/create" class="btn btn-primary mb-3">Create New Topic</a>
 	</div>
+	<div style="float: right">
+		<form action="/dashboard/topics">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 
 	@if (session()->has('success'))
 		<div class="alert alert-success" role="alert">
@@ -43,9 +53,7 @@
 				<td>{{ $topics->firstItem()+$loop->index }}</td>
 				<td>{{ $topic->topic }}</td>
 				<td>{{ $topic->sub_topic }}</td>
-				<td 
-				style="max-width: 0; overflow: hidden;
-				text-overflow: ellipsis; white-space: nowrap;">
+				<td>
 				@if ($topic->description)
 					{{ $topic->description }}
 				@else
@@ -53,7 +61,7 @@
 				@endif
 				</td>
 
-				<td style="flex">
+				<td class="actionButton" style="flex">
 					{{-- Menit 36 eps 17 --}}
 					<a style="pointer-events: none;" href="#" 
 					class="badge bg-secondary"><i class="fa-solid fa-eye-slash"></i></a>

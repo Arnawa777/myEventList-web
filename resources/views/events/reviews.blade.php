@@ -5,42 +5,21 @@
 @section('container')
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 {{-- {{ dd($allReviews) }} --}}
-<style>
-    #horiznav_nav ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #333333;
-    }
-    
-    #horiznav_nav li {
-      float: left;
-    }
-    
-    #horiznav_nav li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 16px;
-      text-decoration: none;
-    }
-    
-    #horiznav_nav li a:hover {
-      background-color: #111111;
-    }
-</style>
 
 <div class="container">
         <div class="row" id="land-event">
-            <div class="col-sm-12" id="title">
+            <div class="col-sm-12" id="title" style="background: #333333; color:white">
                 <h3>{{ $event->name }}</h3>
             </div>
             {{-- Left Side --}}
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="background: #333333; border: 1px white solid; color:white;">
                 <div class="row" id="main-row">
-                    <div style="margin-bottom:20px;" id="event_id" data-field-id="{{ $event->id }}">
-                        <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" >
+                    <div style="margin-top:10px; margin-bottom:20px;" id="event_id" data-field-id="{{ $event->id }}">
+                        @if ($event->picture)
+                            <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+                        @else
+                            <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                        @endif
                     </div>
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5>Information</h5>
@@ -97,14 +76,19 @@
                         <div class="card" style="min-height: 200px; width:100%; margin:10px 0px;">
                             <div class="row no-gutters">
                                 <div class="col-1" style="padding-right: 0px; margin-right:0px;">
-                                    <img style="
-                                    max-width: 100%;
-                                    height: 84px;
-                                    object-fit: cover;" src="/storage/user-picture/{{ $rev->user->picture }}" class="img-fluid" alt="user-picture">
+                                    <a href="/profile/{{ $rev->user->username }}">
+                                        @if ($rev->user->picture)
+                                            <img class="review-img" src="/storage/user-picture/{{ $rev->user->picture }}" class="img-fluid" alt="user-picture">
+                                        @else
+                                            <img class="review-img-empty" src="{{ URL::to('/') }}/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                    </a>
                                 </div>
                                 <div class="col-11">
                                     <div class="card-block" style="min-height: 200px">
-                                        <h4 class="card-title">{{ $rev->user->username }}</h4>
+                                        <a href="/profile/{{ $rev->user->username }}">
+                                            <h4 class="card-title">{{ $rev->user->username }}</h4>
+                                        </a>
                                         @if ($rev->rating >=8)
                                             <p style="color: blue">Reviewer Rating: {{ $rev->rating }}</p>
                                         @elseif($rev->rating <=7 && $rev->rating >=4 )

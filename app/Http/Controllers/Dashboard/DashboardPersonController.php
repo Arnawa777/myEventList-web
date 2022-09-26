@@ -16,18 +16,9 @@ class DashboardPersonController extends Controller
      */
     public function index(Request $request)
     {
-        $text = $request->input('text');
-
-        if ($request->ajax()) {
-            $people = Person::where('name', 'LIKE', '%' . $text . '%')->get();
-            return response()->json($people);
-        } else {
-            $people = Person::latest();
-        }
-
         return view('dashboard.people.index', [
-            "title" => "Dashboard People",
-            'people' => $people->paginate(5),
+            'title' => 'Dashboard - List Person',
+            'people' => Person::latest()->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -39,36 +30,39 @@ class DashboardPersonController extends Controller
     public function create()
     {
         return view('dashboard.people.create', [
-            "title" => "Dashboard - Create Person",
+            'title' => 'Dashboard - Create Person',
         ]);
     }
 
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|unique:people|min:3|max:50',
-            'birthday' => '',
-            'biography' => '',
-            'picture' => 'image|file|max:1024',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        if (empty($request->file('picture'))) {
-            $validatedData['picture'] = 'default.jpg';
-        } else {
-            // memberikan nama pada file yang diupload
-            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('person-picture', $filename, 'public');
-
-            $validatedData['picture'] = $filename;
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/people');
         }
+        if ($request->action == 'create') {
+            $rules = [
+                'name' => 'required|unique:people|min:3|max:50',
+                'birthday' => 'nullable',
+                'biography' => 'nullable',
+                'picture' => 'nullable|image|file|max:1024',
+            ];
 
-        $validatedData['slug'] = SlugService::createSlug(Person::class, 'slug', $request->name);
+            $validatedData = $request->validate($rules);
 
-        Person::create($validatedData);
+            if (($request->file('picture'))) {
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('person-picture', $filename, 'public');
 
-        return redirect('/dashboard/people')->with('success', 'New Person has been added!!!');
+                $validatedData['picture'] = $filename;
+            }
+
+            $validatedData['slug'] = SlugService::createSlug(Person::class, 'slug', $request->name);
+
+            Person::create($validatedData);
+
+            return redirect('/dashboard/people')->with('success', 'New Person has been added!!!');
+        }
     }
 
     public function show(Person $person)
@@ -85,80 +79,79 @@ class DashboardPersonController extends Controller
     public function edit(Person $person)
     {
         return view('dashboard.people.edit', [
-            "title" => "Dashboard - Edit Person",
+            'title' => 'Dashboard - Edit Person',
             'person' => $person,
         ]);
     }
 
     public function update(Request $request, Person $person)
     {
-        $rules = [
-            'name' => 'required|min:3|max:50|unique:people,name,' . $person->id,
-            'birthday' => '',
-            'biography' => '',
-            'picture' => 'image|file|max:1024',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        if (empty($request->file('picture'))) {
-            $validatedData['picture'] = 'default.jpg';
-        } else {
-            if (!empty($request->oldPicture)) {
-                if ($request->oldPicture !== 'default.jpg') {
-                    $file = public_path('/storage/person-picture/' . $request->oldPicture);
-
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                }
-            }
-            // memberikan nama pada file yang diupload
-            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('person-picture', $filename, 'public');
-
-            $validatedData['picture'] = $filename;
-        }
-
-        $validatedData['slug'] = SlugService::createSlug(Person::class, 'slug', $request->name);
-
-        Person::where('id', $person->id)
-            ->update($validatedData);
-
-        return redirect('/dashboard/people')->with('success', 'Person has been update!!!');
-    }
-
-    public function destroy(Person $person)
-    {
-        if (!empty($person->picture)) {
-            if ($person->picture !== 'default.jpg') {
+        if ($request->action == 'remove') {
+            if ($request->oldPicture) {
                 $file = public_path('/storage/person-picture/' . $person->picture);
 
                 if (file_exists($file)) {
                     unlink($file);
                 }
             }
+
+            Person::where('id', $person->id)
+                ->update(['picture' => null]);
+
+            return redirect()->back();
+        }
+
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/people');
+        }
+
+        if ($request->action == 'update') {
+            $rules = [
+                'name' => 'required|min:3|max:50|unique:people,name,' . $person->id,
+                'birthday' => 'nullable',
+                'biography' => 'nullable',
+                'picture' => 'nullable|image|file|max:1024',
+            ];
+
+            $validatedData = $request->validate($rules);
+
+            if ($request->file('picture')) {
+                if ($request->oldPicture) {
+                    $file = public_path('/storage/person-picture/' . $request->oldPicture);
+
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
+
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('person-picture', $filename, 'public');
+
+                $validatedData['picture'] = $filename;
+            }
+
+            $validatedData['slug'] = SlugService::createSlug(Person::class, 'slug', $request->name);
+
+            Person::where('id', $person->id)
+                ->update($validatedData);
+
+            return redirect('/dashboard/people')->with('success', 'Person has been updated!!!');
+        }
+    }
+
+    public function destroy(Person $person)
+    {
+        if (!empty($person->picture)) {
+            $file = public_path('/storage/person-picture/' . $person->picture);
+
+            if (file_exists($file)) {
+                unlink($file);
+            }
         }
 
         Person::destroy($person->id);
 
-        return redirect('/dashboard/people')->with('success', 'Person has been delete!!!');
-    }
-
-    public function search(Request $request)
-    {
-        $text = $request->input('text');
-
-        if ($request->ajax()) {
-            $people = Person::where('name', 'LIKE', '%' . $text . '%')->get();
-            return response()->json($people);
-        } else {
-            $people = Person::latest();
-        }
-
-        return view('dashboard.people.index', [
-            "title" => "Dashboard People",
-            'people' => $people->paginate(5),
-        ]);
+        return redirect('/dashboard/people')->with('success', 'Person has been deleted!!!');
     }
 }

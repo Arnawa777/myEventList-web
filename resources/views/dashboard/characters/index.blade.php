@@ -9,7 +9,29 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<a href="/dashboard/characters/create" class="btn btn-primary mb-3">Create New Character</a>
+	<div style="float: left">
+		<a href="/dashboard/characters/create" class="btn btn-primary mb-3">Create New Character</a>
+	</div>
+	<div style="float: right">
+		<form action="/dashboard/characters">
+			<div class="input-group mb-3">
+				<select class="form-select" id="role" name="role" value="{{ request('role') }}">
+					<option value="">Select Role</option>
+					@foreach ($roles as $role)
+						@if (request('role') == $role->role)
+							<option value="{{ $role->role }}" selected>{{ $role->role }}</option>
+						@else
+							<option value="{{ $role->role }}">{{ $role->role }}</option>
+						@endif  
+					@endforeach
+				</select>
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 	
 	{{-- Message --}}
 	@if (session()->has('success'))
@@ -35,7 +57,11 @@
 					{{-- Loop number with pagination --}}
 					<td>{{ $characters->firstItem()+$loop->index }}</td>
 					<td>
-						<img class="index-img" src="/storage/character-picture/{{ $chara->picture }}">
+						@if ($chara->picture)
+							<img class="index-img" src="/storage/character-picture/{{ $chara->picture }}" alt="chara-img">
+						@else
+							<img class="index-img-empty" src="/img/No_image_available.svg" alt="no-img">
+						@endif
 					</td>
 					<td>{{ $chara->name }}</td>
 					<td>{{ $chara->role }}</td>

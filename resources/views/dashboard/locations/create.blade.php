@@ -10,7 +10,7 @@
 
 <div class="col-lg-8">
     {{-- otomatis ke store karena menggunakan resource --}}
-    <form method="post" action="/dashboard/categories" enctype="multipart/form-data">
+    <form method="post" action="/dashboard/locations" enctype="multipart/form-data">
         @csrf
 
         {{-- Regency --}}
@@ -36,8 +36,12 @@
                  </div>
              @enderror
           </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+          {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="create" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+        </div>
     </form>
 </div>
 

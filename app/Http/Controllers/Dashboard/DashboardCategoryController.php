@@ -19,7 +19,7 @@ class DashboardCategoryController extends Controller
     {
         return view('dashboard.categories.index', [
             'title' => "Dashboard - List Category",
-            'categories' => Category::latest()->paginate(5),
+            'categories' => Category::latest()->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -87,13 +87,13 @@ class DashboardCategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $validatedData = $request->validate([
-            'name' => 'required|min:3|max:25|unique:categories,name,'.$category->id,
+            'name' => 'required|min:3|max:25|unique:categories,name,' . $category->id,
         ]);
 
         $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
 
         Category::where('id', $category->id)
-                ->update($validatedData);
+            ->update($validatedData);
 
         return redirect('dashboard/categories')->with('success', 'Category has been update!!!');
     }
@@ -109,18 +109,14 @@ class DashboardCategoryController extends Controller
         // if ($category->events()->exists()
         // || $category->employee()->exists())
         try {
-            Category::destroy($category->id); 
+            Category::destroy($category->id);
             return redirect('dashboard/categories')->with('success', 'Category has been delete!!!');
-           } 
-        catch (\Illuminate\Database\QueryException $e) {
-       
-               if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
-                    return redirect('dashboard/categories')->with('fail', 'Category in use!!!');
-                   // return error to user here
-               }
-           }
+        } catch (\Illuminate\Database\QueryException $e) {
 
-        
-        
+            if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
+                return redirect('dashboard/categories')->with('fail', 'Category in use!!!');
+                // return error to user here
+            }
+        }
     }
 }

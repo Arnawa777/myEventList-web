@@ -34,15 +34,15 @@
                 @foreach ($actors as $actor)
                     @if (old('actor_id') == $actor->id)
                         <option  value="{{ $actor->id }}" selected>
-                            Character: {{ Str::words($actor->character->name, 2, '') }} 
+                            Character: {{ Str::words($actor->chara_name, 2, '') }} 
                                 &nbsp;&nbsp;&nbsp;───&nbsp;&nbsp;&nbsp;
-                            Person: {{ Str::words($actor->person->name, 2, '') }}
+                            Person: {{ Str::words($actor->person_name, 2, '') }}
                         </option>
                     @else
                         <option value="{{ $actor->id }}">
-                                Character: {{ Str::words($actor->character->name, 2, '') }}
+                                Character: {{ Str::words($actor->chara_name, 2, '') }}
                                 &nbsp;&nbsp;&nbsp;───&nbsp;&nbsp;&nbsp;
-                                Person: {{ Str::words($actor->person->name, 2, '') }}
+                                Person: {{ Str::words($actor->person_name, 2, '') }}
                         </option>
                     @endif
                 @endforeach
@@ -63,7 +63,11 @@
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="create" id="btn-reply">Assign</button>
+        </div>
     </form>
 
 </div> <!--// close of Form div //-->

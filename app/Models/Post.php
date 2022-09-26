@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -60,5 +61,51 @@ class Post extends Model
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+
+        //Null Coalescing operator
+        /* 
+        Penyederhanaan Ternary 
+
+        ?? = jika ada kembalikan $filters... jika tidak false
+        $filters['search'] ?? false
+        */
+
+
+
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhereHas('author', fn ($query) =>
+                $query->where('username', 'like', '%' .  $search . '%'))
+        );
+
+        //versi arrow function
+        $query->when(
+            $filters['topic'] ?? false,
+            fn ($query, $topic) => $query->whereHas('topic', fn ($query) =>
+            $query->where('id', $topic))
+        );
+
+        // $request = request('user');
+        // $auth = Auth::user()->username;
+
+        // if ($request == 1) {
+        //     $query->when(
+        //         $filters['user'] ?? false,
+        //         fn ($query, $auth) => $query->whereHas('author', fn ($query) =>
+        //         $query->where('id', $auth))
+        //     );
+        // } elseif ($request == 2) {
+        //     $query->when(
+        //         $filters['user'] ?? false,
+        //         fn ($query, $auth) => $query->whereHas('author', fn ($query) =>
+        //         $query->where('id', '!==', $auth))
+        //     );
+        // }
     }
 }
