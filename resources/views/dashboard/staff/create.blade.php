@@ -19,7 +19,7 @@
             <select class="form-select" id="event" name="event_id" value="{{ old('event_id') }}">
                 @foreach ($events as $event)
                 @if (old('event_id') == $event->id)
-                <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
+                    <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
                 @else
                     <option value="{{ $event->id }}">{{ $event->name }}</option>
                 @endif  
@@ -80,10 +80,25 @@
             @enderror
         </div>
 
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="create" id="btn-reply">Assign</button>
+        </div>
 
-
-        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.form-select').select2();
+    });
+
+    // autofocus search
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+</script>
 
 @endsection

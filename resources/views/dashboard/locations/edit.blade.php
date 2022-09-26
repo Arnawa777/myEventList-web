@@ -5,12 +5,12 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
      style="padding: 30px 0px 20px 0px">
-    <h2>Create New Location</h2>
+    <h2>Edit Location</h2>
 </div>
 
 <div class="col-lg-8">
     {{-- otomatis ke update karena menggunakan resource --}}
-    <form method="post" action="/dashboard/categories/{{ $location->id }}" enctype="multipart/form-data">
+    <form method="post" action="/dashboard/locations/{{ $location->id }}" enctype="multipart/form-data">
         @method('put')
         @csrf
 
@@ -37,7 +37,12 @@
                  </div>
              @enderror
           </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+          {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+        </div>
     </form>
 </div>
 

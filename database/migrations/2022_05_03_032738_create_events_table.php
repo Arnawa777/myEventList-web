@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('synopsis')->nullable();
             $table->string('phone', 20)->nullable();
             $table->date('date')->nullable();
-            $table->string('picture')->nullable()->default('default.jpg');
+            $table->string('picture')->nullable();
             $table->string('video')->nullable();
             $table->timestamps();
         });

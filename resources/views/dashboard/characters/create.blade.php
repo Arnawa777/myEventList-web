@@ -29,10 +29,11 @@
         <div class="mb-3">
             <label for="picture" class="form-label">Character Picture</label>
             <img class="img-preview">
-            <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
-            onchange="previewImage()">
+            <div class="col-lg-10" style="width: 400px; margin-right: 20px">
+            <input class="form-control @error('picture') is-invalid @enderror" type="file" name="picture" id="picture" onchange="previewImageData()">
+            </div>
             @error('picture')
-               <div class="invalid-feedback">
+               <div style="color: red">
                    {{ $message }}
                </div>
            @enderror
@@ -40,20 +41,27 @@
 
         {{-- Role --}}
         <div class="mb-3">
-            <label for="role" class="form-label">Character Role</label>
-            <input type="text" class="form-control @error('role') is-invalid @enderror" 
-             id="role" name="role" value="{{ old('role') }}">
-             @error('role')
-                 <div class="invalid-feedback">
-                     {{ $message }}
-                 </div>
-             @enderror
-          </div>
+            <label for="role">Character Role</label>
+            <select class="form-select" name="role" value="{{ old('role') }}">
+                    @if (old('role'))
+                        <option {{ old('role') == 'Main' ? 'selected' : '' }}  value="Main">Main</option>
+                        <option {{ old('role') == 'Support' ? 'selected' : '' }}  value="Support">Support</option>
+                    @else
+                        <option value="Main">Main</option>
+                        <option value="Support">Support</option>
+                    @endif
+            </select>
+                @error('role')
+                    <div class="alert-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+        </div>
 
-          {{-- TRIX Description --}}
+        {{-- TRIX Description --}}
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <input id="description" type="hidden" name="description" value="{{ old('description') }}>
+            <input id="description" type="hidden" name="description" value="{{ old('description') }}">
                 <trix-editor input="description"></trix-editor>
              @error('description')
                  <div class="invalid-feedback">
@@ -61,8 +69,12 @@
                  </div>
              @enderror
         </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="create" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+        </div>
     </form>
 </div>
 

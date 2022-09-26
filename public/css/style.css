@@ -57,3 +57,143 @@ a {
 #my-navbar a:focus {
   text-decoration: white;
 }
+
+/* Button Edit post cancel */
+.footer-action {
+  position: absolute;
+  /* padding-bottom: 10px; */
+  bottom: 10px;
+  right: 10px;
+}
+
+
+.footer-button {
+  margin: 0;
+  padding-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-reply-right {
+  margin: 0;
+  padding-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.footer-submit-right {
+  margin: 0;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+#btn-action {
+  background-color: #e7e7e7;
+  color: black;
+  border: 0;
+  border-radius: 4px;
+}
+
+/* submit or edit something */
+#btn-edit {
+  background-color: #0B5ED7;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+/* cancel edit */
+#btn-cancel {
+  background-color: #e0e0e0;
+  /* background-color: transparent; */
+  color: #0B5ED7;
+  border: 0;
+  height: 40px;
+  border-radius: 4px;
+  font-weight: bolder;
+}
+
+#btn-cancel :hover {
+  /* background-color: #e7e7e7; */
+  background-color: red;
+  color: #0B5ED7;
+  border: 0;
+  height: 40px;
+  border-radius: 4px;
+  transition: 0.7s;
+  /* font-weight: bolder; */
+}
+
+#btn-reply {
+  background-color: #0B5ED7;
+  padding: 0 10px;
+  margin-left: 10px;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+  height: 40px;
+}
+
+.profile-preview {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.img-preview {
+  margin-bottom: 10px;
+  max-height: 200px;
+  max-width: 200px;
+  height: auto;
+  display: block;
+}
+
+.img-video-preview {
+  margin-bottom: 10px;
+  max-height: 200px;
+  max-width: 300px;
+  height: auto;
+  display: block;
+}
+
+.clear {
+  clear: both;
+}
+
+
+/* Style Search Delete */
+span.deleteicon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+span.deleteicon span {
+  position: absolute;
+  display: block;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: rgb(0, 0, 0);
+  font: 14px monospace;
+  text-align: center;
+  line-height: 1em;
+  cursor: pointer;
+}
+
+span.deleteicon input {
+  padding-right: 18px;
+  box-sizing: border-box;
+}
+
+/* End */

@@ -16,47 +16,32 @@ class DashboardActorEventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         return view('dashboard.actor-events.index', [
-            "title" => "Dashboard Actor Events",
-            'actor_events' => ActorEvent::latest()->paginate(5),
-            ]);
+            'title' => "Dashboard - List Actor in Event",
+            'actor_events' => ActorEvent::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+        ]);
     }
 
-    public function search(Request $request){
-        $movies = [];
-        if($request->has('q')){
-            $search = $request->q;
-            $movies =Event::select("id", "name", "slug")
-            		->where('name', 'LIKE', "%$search%")
-            		->get();
-        }
-        return response()->json($movies);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $query = new Actor; //new object
-        //$query = Product::where('id','!=',0);
-        $chara = $query->join('characters', 'characters.id','=','actors.character_id');
-        $chara = $chara->select('characters.name as char_name','actors.*');
-        $chara = $chara->orderBy('char_name','asc');
-        $recordChara = $chara->get();
+        //Join for sorting by character asc
+        $actorSortBy = Actor::selectRaw('actors.*')
+            ->join('characters', 'characters.id', '=', 'actors.character_id')
+            ->join('people', 'people.id', '=', 'actors.person_id')
+            ->select('characters.name as chara_name', 'people.name as person_name', 'actors.*')
+            ->orderBy('chara_name', 'asc')
+            ->orderBy('person_name', 'asc')
+            ->get();
+        // dd($actorSortBy);
 
         return view('dashboard.actor-events.create', [
-            "title" => "Create Actor Events",
+            'title' => "Dashboard - Create Actor Events",
             'events' => Event::orderBy('name', 'asc')->get(),
-            'actor_events' => ActorEvent::class,
-            'actors' => $recordChara,
+            'actors' => $actorSortBy,
         ]);
-
-        
     }
 
     /**
@@ -67,73 +52,69 @@ class DashboardActorEventController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'event_id' => 'required|unique:actor_events,event_id,NULL,id,actor_id,'. $request->actor_id,
-            'actor_id' => 'required',
-        ],
-        [
-            'event_id.unique' => 'Event and Actor has already been use!',
-        ]);
-        ActorEvent::create($validatedData);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/actor-events');
+        }
+        if ($request->action == 'create') {
+            $validatedData = $request->validate(
+                [
+                    'event_id' => 'required|unique:actor_events,event_id,NULL,id,actor_id,' . $request->actor_id,
+                    'actor_id' => 'required',
+                ],
+                [
+                    'event_id.unique' => 'Event and Actor already exist!',
+                ]
+            );
+            ActorEvent::create($validatedData);
 
-        return redirect('/dashboard/actor-events')->with('success', 'New Actor in Event has been added!!!');
+            return redirect('/dashboard/actor-events')->with('success', 'Assign Actor to Event has been added!!!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(ActorEvent $actorEvent)
     {
-        $query = new Actor; //new object
-        //$query = Product::where('id','!=',0);
-        $query = $query->join('characters', 'characters.id','=','actors.character_id');
-        $query = $query->select('characters.name as char_name','actors.*');
-        $query = $query->orderBy('char_name','asc');
-        $record = $query->get();
+        $actorSortBy = Actor::selectRaw('actors.*')
+            ->join('characters', 'characters.id', '=', 'actors.character_id')
+            ->join('people', 'people.id', '=', 'actors.person_id')
+            ->select('characters.name as chara_name', 'people.name as person_name', 'actors.*')
+            ->orderBy('chara_name', 'asc')
+            ->orderBy('person_name', 'asc')
+            ->get();
 
         return view('dashboard.actor-events.edit', [
-            "title" => "Edit Actor Events",
+            "title" => "Dashboard - Edit Actor Event",
             'actor_events' => $actorEvent,
             'events' => Event::orderBy('name', 'asc')->get(),
-            'actors' => $record,
+            'actors' => $actorSortBy,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'event_id' => 'required|unique:actor_events,event_id,'. $id . ',id,actor_id,'. $request->actor_id,
-            'actor_id' => 'required',
-        ],
-        [
-            'event_id.unique' => 'Event and Actor has already been use!',
-        ]);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/actor-events');
+        }
+        if ($request->action == 'update') {
+            $validatedData = $request->validate(
+                [
+                    'event_id' => 'required|unique:actor_events,event_id,' . $id . ',id,actor_id,' . $request->actor_id,
+                    'actor_id' => 'required',
+                ],
+                [
+                    'event_id.unique' => 'Event and Actor already exist!',
+                ]
+            );
 
-        ActorEvent::where('id', $id)
+            ActorEvent::where('id', $id)
                 ->update($validatedData);
 
-        return redirect('/dashboard/actor-events')->with('success', 'New Actor in Event has been update!!!');
+            return redirect('/dashboard/actor-events')->with('success', 'Assigned Actor in Event has been updated!!!');
+        }
     }
 
     /**
@@ -146,6 +127,6 @@ class DashboardActorEventController extends Controller
     {
         ActorEvent::destroy($id);
 
-        return redirect('/dashboard/actor-events')->with('success', 'Actor in Event has been delete!!');
+        return redirect('/dashboard/actor-events')->with('success', 'Assigned Actor in Event has been deleted!!');
     }
 }

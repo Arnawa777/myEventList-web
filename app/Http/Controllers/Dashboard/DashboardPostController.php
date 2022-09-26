@@ -19,10 +19,16 @@ class DashboardPostController extends Controller
      */
     public function index()
     {
+        $topic = Topic::selectRaw('topics.*')
+            ->select('topics.id', 'topics.topic', 'topics.sub_topic')
+            ->orderby('topic', 'asc')
+            ->orderby('sub_topic', 'asc')
+            ->get();
+
         return view('dashboard.posts.index', [
             "title" => "Dashboard - List Post",
-            'posts' => Post::latest()->paginate(10),
-            // 'posts' => Post::where('user_id', auth()->user()->id)->paginate(5),
+            'posts' => Post::latest()->filter(request(['search', 'topic']))->paginate(10)->withQueryString(),
+            'topics' => $topic,
         ]);
     }
 
@@ -33,10 +39,21 @@ class DashboardPostController extends Controller
      */
     public function create()
     {
+
+        $topicSort = Topic::selectRaw('topics.*')
+            ->orderBy('topic', 'asc')
+            ->orderBy('sub_topic', 'asc')
+            ->get();
+
+        $eventSort = Event::selectRaw('events.*')
+            ->select('events.id', 'events.name')
+            ->orderBy('name', 'asc')
+            ->get();
+
         return view('dashboard.posts.create', [
             "title" => "Dashboard - Create Post",
-            'topics' => Topic::all(),
-            'events' => Event::all(),
+            'topics' => $topicSort,
+            'events' => $eventSort,
         ]);
     }
 
@@ -48,134 +65,146 @@ class DashboardPostController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'title' => 'required|min:3|max:150',
-            'topic_id' => 'required',
-            'event_id' => '',
-            'picture' => 'image|file|max:1024',
-            'body' => 'required|min:3',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        if (empty($request->file('picture'))) {
-            $validatedData['picture'] = 'default.jpg';
-        } else {
-            // memberikan nama pada file yang diupload
-            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('post-picture', $filename, 'public');
-
-            $validatedData['picture'] = $filename;
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/posts');
         }
+        if ($request->action == 'create') {
+            $validatedData = $request->validate(
+                [
+                    'title' => 'required|min:3|max:150',
+                    'topic_id' => 'required',
+                    'event_id' => 'nullable',
+                    'picture' => 'nullable|image|file|max:1024',
+                    'body' => 'required|min:20',
+                ],
+                [
+                    'body.min' => 'Body too short'
+                ]
+            );
+
+            if ($request->file('picture')) {
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('post-picture', $filename, 'public');
+
+                $validatedData['picture'] = $filename;
+            }
 
 
-        $validatedData['slug'] = SlugService::createSlug(Post::class, 'slug', $request->title);
-        $validatedData['user_id'] = auth()->user()->id;
+            $validatedData['slug'] = SlugService::createSlug(Post::class, 'slug', $request->title);
+            $validatedData['user_id'] = auth()->user()->id;
 
 
-        Post::create($validatedData);
+            Post::create($validatedData);
 
-        return redirect('dashboard/posts')->with('success', 'New Post has been added!!!');
+            return redirect('dashboard/posts')->with('success', 'New Post has been added!!!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
+    public function show(Post $post, Topic $topic,)
     {
         return view('dashboard.posts.show', [
             "title" => "Dashboard - Show $post->title",
-            'post' => $post,
+            "topic" => $topic,
+            "post" => $post,
+            "comments" => $post->comments()->paginate(5),
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Post $post)
     {
+        $topicSort = Topic::selectRaw('topics.*')
+            ->orderBy('topic', 'asc')
+            ->orderBy('sub_topic', 'asc')
+            ->get();
+
+        $eventSort = Event::selectRaw('events.*')
+            ->select('events.id', 'events.name')
+            ->orderBy('name', 'asc')
+            ->get();
+
         return view('dashboard.posts.edit', [
             "title" => "Dashboard - Edit Post",
             'post' => $post,
-            'topics' => Topic::all(),
-            'events' => Event::all(),
+            'topics' => $topicSort,
+            'events' => $eventSort,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Post $post)
     {
-        $rules = [
-            'title' => 'required|min:3|max:150',
-            'topic_id' => 'required',
-            'event_id' => '',
-            'image' => 'image|file|max:1024',
-            'body' => 'required',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        if (empty($request->file('picture'))) {
-            $validatedData['picture'] = 'default.jpg';
-        } else {
-            if (!empty($request->oldPicture)) {
-                if ($request->oldPicture !== 'default.jpg') {
-                    $file = public_path('/storage/post-picture/' . $request->oldPicture);
-                    if (file_exists($file)) {
-                        unlink($file);
-                    }
-                }
-            }
-            // memberikan nama pada file yang diupload
-            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('post-picture', $filename, 'public');
-
-            $validatedData['picture'] = $filename;
-        }
-
-
-        $validatedData['slug'] = SlugService::createSlug(Post::class, 'slug', $request->title);
-        $validatedData['user_id'] = auth()->user()->id;
-
-
-        Post::where('id', $post->id)
-            ->update($validatedData);
-
-        return redirect('dashboard/posts')->with('success', 'Post has been update!!!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Post $post)
-    {
-        if (!empty($post->picture)) {
-            if ($post->picture !== 'default.jpg') {
+        if ($request->action == 'remove') {
+            if ($request->oldPicture) {
                 $file = public_path('/storage/post-picture/' . $post->picture);
 
                 if (file_exists($file)) {
                     unlink($file);
                 }
             }
+
+            Post::where('id', $post->id)
+                ->update(['picture' => null]);
+
+            return redirect()->back();
+        }
+
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/posts');
+        }
+
+        if ($request->action == 'update') {
+
+            $validatedData = $request->validate(
+                [
+                    'title' => 'required|min:3|max:150',
+                    'topic_id' => 'required',
+                    'event_id' => 'nullable',
+                    'picture' => 'nullable|image|file|max:1024',
+                    'body' => 'required|min:20',
+                ],
+                [
+                    'body.min' => 'Body too short'
+                ]
+            );
+
+            if ($request->file('picture')) {
+                if ($request->oldPicture) {
+                    $file = public_path('/storage/post-picture/' . $request->oldPicture);
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                }
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('post-picture', $filename, 'public');
+
+                $validatedData['picture'] = $filename;
+            }
+
+
+            $validatedData['slug'] = SlugService::createSlug(Post::class, 'slug', $request->title);
+            $validatedData['user_id'] = auth()->user()->id;
+
+
+            Post::where('id', $post->id)
+                ->update($validatedData);
+
+            return redirect('dashboard/posts')->with('success', 'Post has been updated!!!');
+        }
+    }
+
+    public function destroy(Post $post)
+    {
+        if ($post->picture) {
+            $file = public_path('/storage/post-picture/' . $post->picture);
+
+            if (file_exists($file)) {
+                unlink($file);
+            }
         }
 
         Post::destroy($post->id);
 
-        return redirect('/dashboard/posts')->with('success', 'Post has been delete!!!');
+        return redirect('/dashboard/posts')->with('success', 'Post has been deleted!!!');
     }
 }

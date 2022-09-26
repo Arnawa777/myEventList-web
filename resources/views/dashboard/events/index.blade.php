@@ -9,7 +9,39 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<a href="/dashboard/events/create" class="btn btn-primary mb-3">Create New Event</a>
+	<div style="float: left">
+		<a href="/dashboard/events/create" class="btn btn-primary mb-3">Create New Event</a>
+	</div>
+	<div style="float: right">
+		<form action="/dashboard/events">
+			<div class="input-group mb-3">
+				<select class="form-select" id="category" name="category" value="{{ request('category') }}">
+					<option value="">Select Category</option>
+					@foreach ($categories as $category)
+						@if (request('category') == $category->id)
+							<option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+						@else
+							<option value="{{ $category->id }}">{{ $category->name }}</option>
+						@endif  
+					@endforeach
+				</select>
+				<select class="form-select" id="location" name="location" value="{{ request('location') }}">
+					<option value="">Select Location</option>
+					@foreach ($locations as $location)
+						@if (request('location') == $location->regency)
+							<option value="{{ $location->regency }}" selected>{{ $location->regency }}</option>
+						@else
+							<option value="{{ $location->regency }}">{{ $location->regency }}</option>
+						@endif  
+					@endforeach
+				</select>
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 	
 	{{-- Message --}}
 	@if (session()->has('success'))
@@ -22,9 +54,10 @@
 		<table class="table table-sm text-nowrap">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 3%;">#</th>
+					<th scope="col" style="width: 3%; text-align:center;">#</th>
 					<th scope="col" style="width: 12%">Picture</th>
-					<th scope="col" style="width: 50%">Title</th>
+					<th scope="col" style="width: 35%">Title</th>
+					<th scope="col" style="width: 15%">Location</th>
 					<th scope="col" style="width: 12%">Category</th>
 					<th scope="col" style="width: 8%">Action</th>
 				</tr>
@@ -32,11 +65,19 @@
 			<tbody>
 				@foreach ($events as $event) 
 				<tr>
-					<td>{{ $events->firstItem()+$loop->index }}</td>
+					<td style="text-align:center;">{{ $events->firstItem()+$loop->index }}</td>
 					<td>
-						<img class="index-img"  src="/storage/event-picture/{{ $event->picture }}">
+						@if ($event->picture)
+							<img class="index-img" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+						@else
+							<img class="index-img-empty" src="/img/No_image_available.svg" alt="no-img">
+						@endif
 					</td>
-					<td>{{ $event->name }}</td>
+					<td>
+						{{-- {{ Str::limit($event->name, 40, $end='..') }} --}}
+						{{ $event->name }}
+					</td>
+					<td>{{ $event->location->regency }}</td>
 					<td>{{ $event->category->name }}</td>
 					<td class="action align-middle text-center">
 						{{-- Menit 36 eps 17 --}}

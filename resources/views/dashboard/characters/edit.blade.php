@@ -26,7 +26,7 @@
             @enderror
         </div>
   
-          {{-- Picture --}}
+        {{-- Picture --}}
         <div class="mb-3">
             <label for="picture" class="form-label">Character Picture</label>
             <input type="hidden" name="oldPicture" value="{{ $chara->picture }}">
@@ -35,41 +35,61 @@
             @else
                 <img class="img-preview">
             @endif
-            <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
-            onchange="previewImage()">
+            
+            <div style="display: flex">
+                <div class="col-lg-10" style="width: 400px; margin-right: 20px">
+                    <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
+                    value="{{ $chara->picture }}" onchange="previewImageData()">
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
+                </div>
+            </div>
             @error('picture')
-               <div class="invalid-feedback">
+               <div style="color: red">
                    {{ $message }}
                </div>
            @enderror
         </div>
   
-          {{-- Role --}}
-          <div class="mb-3">
-              <label for="role" class="form-label">Character Role</label>
-              <input type="text" class="form-control @error('role') is-invalid @enderror" 
-               id="role" name="role" value="{{ old('role', $chara->role) }}">
-               @error('role')
-                   <div class="invalid-feedback">
-                       {{ $message }}
-                   </div>
-               @enderror
-            </div>
+        {{-- Role --}}
+        <div class="mb-3">
+            <label for="role">Character Role</label>
+            <select class="form-select" name="role" value="{{ old('role') }}">
+                    @if (old('role', $chara->role))
+                        <option {{ old('role', $chara->role) == 'Main' ? 'selected' : '' }}  value="Main">Main</option>
+                        <option {{ old('role', $chara->role) == 'Support' ? 'selected' : '' }}  value="Support">Support</option>
+                    @else
+                        <option value="Main">Main</option>
+                        <option value="Support">Support</option>
+                    @endif
+            </select>
+                @error('role')
+                    <div class="alert-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+        </div>
   
-            {{-- TRIX Description --}}
-          <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <input id="description" type="hidden" name="description" 
-                     value="{{ old('description', $chara->description) }}">
-                  <trix-editor input="description"></trix-editor>
-               @error('description')
-                   <div class="invalid-feedback">
-                       {{ $message }}
-                   </div>
-               @enderror
-          </div>
+        {{-- TRIX Description --}}
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input id="description" type="hidden" name="description" 
+                    value="{{ old('description', $chara->description) }}">
+                <trix-editor input="description"></trix-editor>
+            @error('description')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{-- Button Action --}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+        </div>
+        
     </form>
 </div>
 

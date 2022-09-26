@@ -13,14 +13,23 @@
                 <form action="/events">
                     <div class="input-group mb-3">
                         <select class="form-select" id="category" name="category" value="{{ request('category') }}">
-                            <option value="">Select Topic</option>
+                            <option value="">Select Category</option>
                             @foreach ($categories as $category)
-                            @if (request('category') == $category->id)
-                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                            @else
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endif  
-                            
+                                @if (request('category') == $category->id)
+                                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                @else
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endif  
+                            @endforeach
+                        </select>
+                        <select class="form-select" id="location" name="location" value="{{ request('location') }}">
+                            <option value="">Select Location</option>
+                            @foreach ($locations as $location)
+                                @if (request('location') == $location->regency)
+                                    <option value="{{ $location->regency }}" selected>{{ $location->regency }}</option>
+                                @else
+                                    <option value="{{ $location->regency }}">{{ $location->regency }}</option>
+                                @endif  
                             @endforeach
                         </select>
                         <input type="text" class="form-control" placeholder="Search.." 
@@ -38,13 +47,14 @@
                     <a href="/events/{{ $event->slug }}" class="card">
                         <img src="/storage/event-picture/{{ $event->picture }}" class="card__image" alt="" />
                         <div class="card__overlay">
-                        <div class="card__header">
-                            <div class="card__header-text">
-                            <h3 class="card__title">{{ $event->name }}</h3>            
-                            <span class="card__status">{{ $event->category->name }}</span>
+                            <div class="card__header">
+                                <div class="card__header-text">
+                                <h3 class="card__title">{{ $event->name }}</h3>            
+                                <span class="card__status">{{ $event->category->name }} - {{ $event->location->regency}}</span>
+                                </div>
                             </div>
-                        </div>
-                        <p class="card__description">
+                            
+                            <p class="card__description">
                             @if (is_null($event->synopsis))
                                 This Event doesn't have synopsis yet...
                             @else

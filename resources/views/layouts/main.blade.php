@@ -21,6 +21,7 @@
 	{{-- Trix Text Editor --}}
 	<link rel="stylesheet" type="text/css" href="{{ URL::to('/') }}/css/trix.css">
 	<script type="text/javascript" src="{{ URL::to('/') }}/js/trix.js"></script>
+	<script src="{{ URL::to('/') }}/js/dashboard.js"></script>
 
 	{{-- Trix Hide Upload --}}
 	<style> 

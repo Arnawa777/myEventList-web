@@ -13,7 +13,7 @@
             &nbsp
             >
             &nbsp
-            <a href="/forum/{{ $topic->slug }}" class="active">{{ $topic->sub_topic }}</a>
+            <a href="/forum/{{ $topic->slug }}">{{ $topic->sub_topic }}</a>
             &nbsp
             >
             &nbsp
@@ -91,7 +91,7 @@
                             <div style="display: flex">
                                 <div class="col-lg-10" style="width: 400px; margin-right: 20px">
                                     <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
-                                    onchange="previewImage()">
+                                    onchange="previewImageData()">
                                 </div>
                                 <div class="col-lg-2">
                                     <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
@@ -119,7 +119,7 @@
                         {{-- POST ID --}}
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
 
-                        <button type="submit" name="action" value="update" class="btn btn-primary">Update</button>
+                        <button type="submit" name="action" value="update" class="btn btn-primary" >Update</button>
                     </form>
                 </div> <!-- Close Category one -->
 

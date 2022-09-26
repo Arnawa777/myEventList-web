@@ -9,7 +9,19 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<a href="/dashboard/staff/create" class="btn btn-primary mb-3">Assign Staff</a>
+	<div style="float:left">
+		<a href="/dashboard/staff/create" class="btn btn-primary mb-3">Assign Staff</a>
+	</div>
+	<div style="float: right">
+		<form action="/dashboard/staff">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 	
 	@if (session()->has('success'))
 		<div class="alert alert-success" role="alert">
@@ -31,6 +43,7 @@
 					<th scope="col">Event</th>
 					<th scope="col">Person</th>
 					<th scope="col">Role</th>
+					<th scope="col">Description</th>
 					<th scope="col" style="width:  10%">Action</th>
 				</tr>
 			</thead>
@@ -39,10 +52,23 @@
 				<tr>
 					{{-- Loop number with pagination --}}
 					<td>{{ $workers->firstItem()+$loop->index }}</td>
-					<td>{{ $staff->event->name }}</td>
-					<td>{{ $staff->person->name }}</td>
+					<td>
+						{{ $staff->event->name }}
+						{{-- {{ Str::limit($staff->event->name, 30, $end='..') }} --}}
+					</td>
+					<td>
+						{{-- {{ Str::limit($staff->person->name, 20, $end='..') }} --}}
+						{{ $staff->person->name }}
+					</td>
 					<td>{{ $staff->role }}</td>
 					<td>
+						@if ($staff->description)
+							{!!  substr(strip_tags($staff->description), 0, 50) !!}...
+							{{-- {!! $staff->description  !!} --}}
+						@else
+							No Description...
+                        @endif</td>
+					<td class="actionButton">
 						{{-- Menit 36 eps 17 --}}
 						<a style="pointer-events: none;" href="#"
 							class="badge bg-secondary"><i class="fa-solid fa-eye-slash"></i></a>

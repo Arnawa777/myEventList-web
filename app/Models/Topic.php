@@ -40,4 +40,15 @@ class Topic extends Model
             ]
         ];
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        //versi arrow function
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where('topic', 'like', '%' .  $search . '%')
+                ->orWhere('sub_topic', 'like', '%' .  $search . '%')
+        );
+    }
 }

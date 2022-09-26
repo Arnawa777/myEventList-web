@@ -36,15 +36,15 @@ style="padding: 30px 0px 20px 0px">
                 @foreach ($actors as $actor)
                     @if (old('actor_id', $actor_events->actor_id) == $actor->id)
                         <option value="{{ $actor->id }}" selected>
-                            Character: {{ Str::words($actor->character->name, 2, '') }}
+                            Character: {{ Str::words($actor->chara_name, 2, '') }}
                                 &nbsp;&nbsp;&nbsp;───&nbsp;&nbsp;&nbsp;
-                            Person: {{ $actor->person->name }}
+                            Person: {{ $actor->person_name }}
                         </option>
                     @else
                         <option value="{{ $actor->id }}">
-                            Character: {{ Str::words($actor->character->name, 2, '') }}
+                            Character: {{ Str::words($actor->chara_name, 2, '') }}
                                 &nbsp;&nbsp;&nbsp;───&nbsp;&nbsp;&nbsp;
-                            Person: {{ $actor->person->name }}
+                            Person: {{ $actor->person_name }}
                         </option>
                     @endif
                 @endforeach
@@ -65,7 +65,11 @@ style="padding: 30px 0px 20px 0px">
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+        </div>
     </form>
 </div> <!--// close of Form div //-->
 

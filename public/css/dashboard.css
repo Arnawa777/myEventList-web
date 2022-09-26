@@ -9,13 +9,26 @@
     border-collapse: separate;
   }
 
+  .table td:not(.actionButton) {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   /* Index With Cover */
   .index-img {
     display: block;
     width: 100%;
-    height: auto;
     max-height: 140px;
-    object-fit: cover
+    object-fit: cover;
+  }
+
+  .index-img-empty {
+    display: block;
+    width: 100%;
+    max-height: 140px;
+    object-fit: fill;
   }
 
   .table thead tr {
@@ -48,7 +61,13 @@
     color: white !important;
   }
 
-  tr .action form button {
+  tr .action button {
+    margin-bottom: 10px;
+    width: 44px;
+    height: 34px;
+  }
+
+  tr .action button svg {
     margin-bottom: 10px;
     width: 44px;
     height: 34px;

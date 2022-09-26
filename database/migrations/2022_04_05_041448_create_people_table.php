@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug', 75)->unique();
             $table->date('birthday')->nullable();
             $table->text('biography')->nullable();
-            $table->string('picture')->default('default.jpg');
+            $table->string('picture')->nullable();
             $table->timestamps();
         });
     }

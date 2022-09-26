@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug', 75)->unique();
             $table->string('role', 75);
             $table->text('description')->nullable();
-            $table->string('picture')->nullable()->default('default.jpg');
+            $table->string('picture')->nullable();
             $table->timestamps();
         });
     }

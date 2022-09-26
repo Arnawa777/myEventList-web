@@ -39,15 +39,15 @@
       </li>
       <li class="second-item {{ Request::is('dashboard/actors*') ? 'active' : '' }}"><a href="/dashboard/actors">
           <img src="{{ URL::to('/') }}/icon/corner-down-right.svg" class="icon" alt="icon-corner-right">
-          <p>Actor</p></a>
+          <p>Actors</p></a>
       </li>
       <li class="first-item {{ Request::is('dashboard/characters*') ? 'active' : '' }}"><a href="/dashboard/characters">
           <img src="{{ URL::to('/') }}/icon/icon-wayang.svg" class="icon" alt="icon-character">
-          <p>Character</p></a>
+          <p>Characters</p></a>
       </li>
       <li class="first-item {{ Request::is('dashboard/locations*') ? 'active' : '' }}"><a href="/dashboard/locations">
           <img src="{{ URL::to('/') }}/icon/map-pin.svg" class="icon" alt="icon-location">    
-          <p>Location</p></a>
+          <p>Locations</p></a>
       </li>
   </ul>
 </div>

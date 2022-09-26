@@ -57,5 +57,11 @@ class Character extends Model
                 // ->orWhere('synopsis', 'like', '%' . $search . '%')
             });
         });
+
+        //versi arrow function
+        $query->when(
+            $filters['role'] ?? false,
+            fn ($query, $role) => $query->where('role', $role)
+        );
     }
 }

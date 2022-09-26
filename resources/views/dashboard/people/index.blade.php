@@ -9,17 +9,20 @@
 </div>
 
 <div class="table-responsive col-lg-8">
-	<div style="text-align: left; width:49%; display: inline-block;">
+	<div style="float:left">
 	<a href="/dashboard/people/create" class="btn btn-primary mb-3">Create New Person</a>
 	</div>
-	<div style="text-align: right; width:50%;  display: inline-block;">
-		<form method="get" action="/dashboard/people/search">
-			<input type="text" placeholder="Search.." name="search" id="search">
-			<button type="submit"><i class="fa fa-search"></i></button>
+	<div style="float: right">
+		<form action="/dashboard/people">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
 		</form>
 	</div>
-    
-	
+	<div class="clear"></div>
+
 	{{-- Message --}}
 	@if (session()->has('success'))
 		<div class="alert alert-success" role="alert">
@@ -44,10 +47,20 @@
 					{{-- Loop number with pagination --}}
 					<td>{{ $people->firstItem()+$loop->index }}</td>
 					<td>
-						<img class="index-img" src="/storage/person-picture/{{ $person->picture }}">
+						@if ($person->picture)
+							<img class="index-img" src="/storage/person-picture/{{ $person->picture }}" alt="person-img">
+						@else
+							<img class="index-img-empty" src="/img/No_image_available.svg" alt="no-img">
+						@endif
 					</td>
 					<td>{{ $person->name }}</td>
-					<td>{{ $person->birthday }}</td>
+					<td>
+						@if ($person->birthday)
+							{{ $person->birthday }}
+						@else
+							Unknown
+						@endif
+					</td>
 					<td class="action align-middle text-center">
 						{{-- Menit 36 eps 17 --}}
 						<form action="/dashboard/people/{{ $person->slug }}">

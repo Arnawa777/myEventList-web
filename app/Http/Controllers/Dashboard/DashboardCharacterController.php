@@ -16,9 +16,15 @@ class DashboardCharacterController extends Controller
      */
     public function index()
     {
+        $roles = Character::selectRaw('characters.*')
+            ->groupby('role')
+            ->orderby('role', 'asc')
+            ->get();
+
         return view('dashboard.characters.index', [
             "title" => "Dashboard - List Character",
-            'characters' => Character::latest()->paginate(5),
+            'characters' => Character::latest()->filter(request(['search', 'role']))->paginate(5)->withQueryString(),
+            'roles' => $roles,
         ]);
     }
 
@@ -42,46 +48,42 @@ class DashboardCharacterController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|unique:characters|min:3|max:50',
-            'role' => 'required|min:3|max:75',
-            'description' => '',
-            'picture' => 'image|file|max:1024',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        if (empty($request->file('picture')))
-        {
-            $validatedData['picture'] = 'default.jpg';
-        }else{
-            // memberikan nama pada file yang diupload
-            $filename = time() .'-'.$request->picture->getClientOriginalName().'.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('character-picture',$filename,'public');
-
-            $validatedData['picture'] = $filename;
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/characters');
         }
+        if ($request->action == 'create') {
+            $rules = [
+                'name' => 'required|unique:characters|min:3|max:50',
+                'role' => 'required',
+                'description' => 'nullable',
+                'picture' => 'image|file|max:1024',
+            ];
 
-        $validatedData['slug'] = SlugService::createSlug(Character::class, 'slug', $request->name);
+            $validatedData = $request->validate($rules);
 
-        Character::create($validatedData);
+            if (($request->file('picture'))) {
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('character-picture', $filename, 'public');
 
-        return redirect('/dashboard/characters')->with('success', 'New Character has been added!!!');
+                $validatedData['picture'] = $filename;
+            }
+
+            $validatedData['slug'] = SlugService::createSlug(Character::class, 'slug', $request->name);
+
+            Character::create($validatedData);
+
+            return redirect('/dashboard/characters')->with('success', 'New Character has been added!!!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Character $character)
     {
         return view('dashboard.characters.show', [
             "title" => "Dashboard - Show $character->name",
             'chara' => $character,
             'actors' => $character->actor,
-            'eventList' => $character->actor_event,
+            'eventList' => $character->actor_event->unique('event_id'),
         ]);
     }
 
@@ -94,82 +96,82 @@ class DashboardCharacterController extends Controller
     public function edit(Character $character)
     {
         return view('dashboard.characters.edit', [
-            "title" => "Dashboard - Edit Character",
+            'title' => "Dashboard - Edit Character",
             'chara' => $character,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Character $character)
     {
-        $rules = [
-            'name' => 'required|min:3|max:50|unique:characters,name,'.$character->id,
-            'role' => 'required|min:3|max:75',
-            'description' => '',
-            'picture' => 'image|file|max:1024',
-        ];
+        if ($request->action == 'remove') {
+            if ($request->oldPicture) {
+                $file = public_path('/storage/character-picture/' . $character->picture);
 
-        $validatedData = $request->validate($rules);
+                if (file_exists($file)) {
+                    unlink($file);
+                }
+            }
 
-        if (empty($request->file('picture')))
-        {
-            $validatedData['picture'] = 'default.jpg';
-        }else{
-            if(!empty($request->oldPicture))
-            {
-                if($request->oldPicture !== 'default.jpg'){
+            Character::where('id', $character->id)
+                ->update(['picture' => null]);
+
+            return redirect()->back();
+        }
+
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/characters');
+        }
+
+        if ($request->action == 'update') {
+            $rules = [
+                'name' => 'required|min:3|max:50|unique:characters,name,' . $character->id,
+                'role' => 'required',
+                'description' => 'nullable',
+                'picture' => 'nullable|image|file|max:1024',
+            ];
+
+            $validatedData = $request->validate($rules);
+
+            if ($request->file('picture')) {
+                if (($request->oldPicture)) {
                     $file = public_path('/storage/character-picture/' . $request->oldPicture);
-                
+
                     if (file_exists($file)) {
                         unlink($file);
                     }
                 }
+
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('character-picture', $filename, 'public');
+
+                $validatedData['picture'] = $filename;
             }
-            // memberikan nama pada file yang diupload
-            $filename = time() .'-'.$request->picture->getClientOriginalName().'.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('character-picture',$filename,'public');
 
-            $validatedData['picture'] = $filename;
-        }
-
-        $validatedData['slug'] = SlugService::createSlug(Character::class, 'slug', $request->name);
+            $validatedData['slug'] = SlugService::createSlug(Character::class, 'slug', $request->name);
 
 
-        Character::where('id', $character->id)
+            Character::where('id', $character->id)
                 ->update($validatedData);
 
-
-        return redirect('/dashboard/characters')->with('success', 'Character has been update!!!');
-    
+            return redirect('/dashboard/characters')->with('success', 'Character has been updated!!!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Character $chara)
     {
-        if(!empty($chara->picture))
-        {
-            if($chara->picture !== 'default.jpg'){
-                $file = public_path('/storage/character-picture/' . $chara->picture);  
-                
+        if ($chara->picture) {
+            if ($chara->picture) {
+                $file = public_path('/storage/character-picture/' . $chara->picture);
+
                 if (file_exists($file)) {
                     unlink($file);
                 }
             }
         }
-        
+
         Character::destroy($chara->id);
 
-        return redirect('/dashboard/characters')->with('success', 'Character has been delete!!!');
+        return redirect('/dashboard/characters')->with('success', 'Character has been deleted!!!');
     }
 }

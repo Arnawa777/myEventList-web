@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Review;
 use App\Models\Category;
+use App\Models\Location;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Validation\Rule;
 
 class DashboardEventController extends Controller
 {
@@ -18,9 +20,15 @@ class DashboardEventController extends Controller
      */
     public function index()
     {
+        $locations = Location::selectRaw('locations.*')
+            ->groupby('regency')
+            ->get();
+
         return view('dashboard.events.index', [
-            "title" => "Dashboard Events",
-            'events' => Event::latest()->paginate(5),
+            "title" => "Dashboard - List Event",
+            'events' => Event::latest()->filter(request(['search', 'category', 'location']))->paginate(5)->withQueryString(),
+            "categories" => Category::all(),
+            "locations" => $locations
         ]);
     }
 
@@ -31,10 +39,16 @@ class DashboardEventController extends Controller
      */
     public function create()
     {
+        $location = Location::selectRaw('locations.*')
+            ->orderBy('regency', 'asc')
+            ->orderBy('sub_regency', 'asc')
+            ->get();
+
         return view('dashboard.events.create', [
-            "title" => "Create Event",
+            "title" => "Dashboard - Create Event",
             'events' => Event::class,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'locations' => $location
         ]);
     }
 
@@ -46,41 +60,47 @@ class DashboardEventController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required|unique:events|min:3|max:100',
-            'location_id' => 'required',
-            'category_id' => 'required',
-            'synopsis' => '',
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:13',
-            'date' => 'required',
-            'picture' => 'image|file|max:1024',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        if (empty($request->file('picture'))) {
-            $validatedData['picture'] = 'default.jpg';
-        } else {
-            // memberikan nama pada file yang diupload
-            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('event-picture', $filename, 'public');
-
-            $validatedData['picture'] = $filename;
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/events');
         }
+        if ($request->action == 'create') {
+            $rules = [
+                'name' => 'required|unique:events|min:3|max:100',
+                'location_id' => 'required',
+                'category_id' => 'required',
+                'synopsis' => 'nullable',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:13',
+                'date' => 'required',
+                'picture' => 'nullable|image|file|max:1024',
+            ];
 
-        if (!empty($request->video)) {
-            $url = $request->input('video');
-            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user|shorts)\/))([^\?&\"'>]+)/", $url, $matches);
-            //Cuma bisa yang ada V= nya 
-            // parse_str( parse_url( $url, PHP_URL_QUERY ), $youtube );
+            $validatedData = $request->validate($rules);
 
-            $validatedData['video'] = $matches[1];
+            if ($request->file('picture')) {
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('event-picture', $filename, 'public');
+
+                $validatedData['picture'] = $filename;
+            }
+
+            if ($request->video) {
+                $url = $request->input('video');
+                preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user|shorts)\/))([^\?&\"'>]+)/", $url, $matches);
+                //Cuma bisa yang ada V= nya 
+                // parse_str( parse_url( $url, PHP_URL_QUERY ), $youtube );
+                if ($matches) {
+                    $validatedData['video'] = $matches[1];
+                } else {
+                    $validatedData['video'] = $url;
+                }
+            }
+            $validatedData['slug'] = SlugService::createSlug(Event::class, 'slug', $request->name);
+
+            Event::create($validatedData);
+
+            return redirect('dashboard/events')->with('success', 'New Event has been added!!!');
         }
-        $validatedData['slug'] = SlugService::createSlug(Event::class, 'slug', $request->name);
-
-        Event::create($validatedData);
-
-        return redirect('dashboard/events')->with('success', 'New Event has been added!!!');
     }
 
     /**
@@ -109,7 +129,7 @@ class DashboardEventController extends Controller
         }
 
         return view('dashboard.events.show', [
-            "title" => "Event",
+            "title" => "Dashboard - Show $event->name",
             'event' => $event,
             'actors' => $event->actor()->paginate(10),
             'staff' => $event->staff()->paginate(10),
@@ -127,72 +147,89 @@ class DashboardEventController extends Controller
      */
     public function edit(Event $event)
     {
+        $location = Location::selectRaw('locations.*')
+            ->orderBy('regency', 'asc')
+            ->orderBy('sub_regency', 'asc')
+            ->get();
+
         return view('dashboard.events.edit', [
-            "title" => "Event",
+            "title" => "Dashboard - Edit Event",
             'event' => $event,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'locations' => $location,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Event $event)
     {
-        $rules = [
-            'name' => 'required|min:3|max:100|unique:events,name,' . $event->id,
-            'location_id' => 'required',
-            'category_id' => 'required',
-            'synopsis' => '',
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:13|unique:events,phone,' . $event->id,
-            'date' => 'required',
-            'picture' => 'image|file|max:1024',
-        ];
+        // dd($request);
+        if ($request->action == 'remove') {
+            $file = public_path('/storage/event-picture/' . $event->picture);
 
-        $validatedData = $request->validate($rules);
+            if (file_exists($file)) {
+                unlink($file);
+            }
 
-        if (empty($request->file('picture'))) {
-            $validatedData['picture'] = 'default.jpg';
-        } else {
-            if (!empty($request->oldPicture)) {
-                if ($request->oldPicture !== 'default.jpg') {
-                    $file = public_path('/storage/event-picture/' . $request->oldPicture);
+            Event::where('id', $event->id)
+                ->update(['picture' => null]);
+
+            return redirect()->back();
+        }
+
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/events');
+        }
+
+        if ($request->action == 'update') {
+            $rules = [
+                'name' => 'required|min:3|max:100|unique:events,name,' . $event->id,
+                'location_id' => 'required',
+                'category_id' => 'required',
+                'synopsis' => 'nullable',
+                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:13|unique:events,phone,' . $event->id,
+                'date' => 'required',
+                'picture' => 'nullable|image|file|max:1024',
+            ];
+
+            $validatedData = $request->validate($rules);
+
+            if (($request->file('picture'))) {
+                // Delete old picture
+                if ($request->oldPicture) {
+                    $file = public_path('/storage/event-picture/' . $event->picture);
 
                     if (file_exists($file)) {
                         unlink($file);
                     }
                 }
+
+                // memberikan nama pada file yang diupload
+                $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
+                $request->picture->storeAs('event-picture', $filename, 'public');
+
+                $validatedData['picture'] = $filename;
             }
-            // memberikan nama pada file yang diupload
-            $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
-            $request->picture->storeAs('event-picture', $filename, 'public');
 
-            $validatedData['picture'] = $filename;
-        }
+            if ($request->video) {
+                $url = $request->input('video');
+                preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user|shorts)\/))([^\?&\"'>]+)/", $url, $matches);
+                //Cuma bisa yang ada V= nya 
+                // parse_str( parse_url( $url, PHP_URL_QUERY ), $youtube );
 
-        if (!empty($request->video)) {
-            $url = $request->input('video');
-            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user|shorts)\/))([^\?&\"'>]+)/", $url, $matches);
-            //Cuma bisa yang ada V= nya 
-            // parse_str( parse_url( $url, PHP_URL_QUERY ), $youtube );
-
-            if (!empty($matches)) {
-                $validatedData['video'] = $matches[1];
-            } else {
-                $validatedData['video'] = $url;
+                if ($matches) {
+                    $validatedData['video'] = $matches[1];
+                } else {
+                    $validatedData['video'] = $url;
+                }
             }
+
+            $validatedData['slug'] = SlugService::createSlug(Event::class, 'slug', $request->name);
+
+            Event::where('id', $event->id)
+                ->update($validatedData);
+
+            return redirect('dashboard/events')->with('success', 'Event has been updated!!!');
         }
-
-        $validatedData['slug'] = SlugService::createSlug(Event::class, 'slug', $request->name);
-
-        Event::where('id', $event->id)
-            ->update($validatedData);
-
-        return redirect('dashboard/events')->with('success', 'New Event has been added!!!');
     }
 
     /**
@@ -203,18 +240,42 @@ class DashboardEventController extends Controller
      */
     public function destroy(Event $event)
     {
-        if (!empty($event->picture)) {
-            if ($event->picture !== 'default.jpg') {
-                $file = public_path('/storage/event-picture/' . $event->picture);
+        if (($event->picture)) {
+            $file = public_path('/storage/event-picture/' . $event->picture);
 
-                if (file_exists($file)) {
-                    unlink($file);
-                }
+            if (file_exists($file)) {
+                unlink($file);
             }
         }
 
         Event::destroy($event->id);
 
         return redirect('/dashboard/events')->with('success', 'Event has been delete!!!');
+    }
+
+    public function characters(Event $event)
+    {
+        return view('dashboard.events.characters', [
+            "title" => "$event->name - Characters & Staff",
+            'event' => $event,
+            'actors' => $event->actor()->get(),
+            'staff' => $event->staff()->get(),
+        ]);
+    }
+
+    public function reviews(Event $event)
+    {
+        //sort not null last
+        $allReview = Review::selectRaw('reviews.*')
+            ->join('events', 'events.id', '=', 'reviews.event_id')
+            ->orderByRaw('ISNULL(body), body ASC')
+            ->where('event_id', $event->id)
+            ->paginate(10);
+
+        return view('dashboard.events.reviews', [
+            "title" => "$event->name - Reviews",
+            'event' => $event,
+            'allReviews' =>  $allReview,
+        ]);
     }
 }

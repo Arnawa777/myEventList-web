@@ -18,7 +18,7 @@ class DashboardTopicController extends Controller
     {
         return view('dashboard.topics.index', [
             'title' => "Dashboard - List Topic",
-            'topics' => Topic::latest()->paginate(5),
+            'topics' => Topic::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -42,15 +42,20 @@ class DashboardTopicController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'topic' => 'required',
-            'sub_topic' => 'required|min:3|max:25|unique:topics,sub_topic',
-            'description' => 'nullable|min:5'
-        ]);
-        $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/topics');
+        }
+        if ($request->action == 'create') {
+            $validatedData = $request->validate([
+                'topic' => 'required',
+                'sub_topic' => 'required|min:3|max:25|unique:topics,sub_topic',
+                'description' => 'nullable'
+            ]);
+            $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
 
-        Topic::create($validatedData);
-        return redirect('dashboard/topics')->with('success', 'New Topic has been added!!!');
+            Topic::create($validatedData);
+            return redirect('dashboard/topics')->with('success', 'New Topic has been added!!!');
+        }
     }
 
     /**
@@ -64,12 +69,6 @@ class DashboardTopicController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Topic $topic)
     {
         return view('dashboard.topics.edit', [
@@ -78,25 +77,24 @@ class DashboardTopicController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Topic $topic)
     {
-        $validatedData = $request->validate([
-            'topic' => 'required',
-            'sub_topic' => 'required|min:3|max:25|unique:topics,sub_topic,' . $topic->id,
-            'description' => 'nullable|min:5'
-        ]);
-        $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/topics');
+        }
 
-        Topic::where('id', $topic->id)
-            ->update($validatedData);
-        return redirect('dashboard/topics')->with('success', 'Topic has been update!!!');
+        if ($request->action == 'update') {
+            $validatedData = $request->validate([
+                'topic' => 'required',
+                'sub_topic' => 'required|min:3|max:25|unique:topics,sub_topic,' . $topic->id,
+                'description' => 'nullable|min:5'
+            ]);
+            $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
+
+            Topic::where('id', $topic->id)
+                ->update($validatedData);
+            return redirect('dashboard/topics')->with('success', 'Topic has been updated!!!');
+        }
     }
 
     /**
@@ -109,7 +107,7 @@ class DashboardTopicController extends Controller
     {
         try {
             Topic::destroy($topic->id);
-            return redirect('dashboard/topics')->with('success', 'Topic has been delete!!!');
+            return redirect('dashboard/topics')->with('success', 'Topic has been deleted!!!');
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
                 return redirect('dashboard/topics')->with('fail', 'Topic in use!!!');

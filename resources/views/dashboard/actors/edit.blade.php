@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 style="padding: 30px 0px 20px 0px">
-    <h2>Update Actor</h2>
+    <h2>Edit Actor</h2>
 </div>
 
 <div class="col-lg-8">
@@ -61,7 +61,11 @@ style="padding: 30px 0px 20px 0px">
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+        </div>
     </form>
 </div> <!--// close of Form div //-->
 

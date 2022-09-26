@@ -6,16 +6,23 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 col-lg-8 border-bottom" 
 	 style="padding: 30px 0px 20px 0px">
 	<h2>List Actor in Event</h2>
-    <div class="search">
-    	{{-- <select class="livesearch form-control" name="livesearch"></select> --}}
-    </div>
 </div>
 
 
 <div class="table-responsive col-lg-8">
-	<div class="col-lg-8">
-		<a href="/dashboard/actor-events/create" class="btn btn-primary mb-3">Assign Actor to Event</a>
+	<div style="float: left">
+		<a href="/dashboard/actor-events/create" class="btn btn-primary mb-3">Assign Actor</a>
   	</div>
+	<div style="float: right">
+		<form action="/dashboard/actor-events">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Search.." 
+				name="search" value="{{ request('search') }}" id="deleteInput">
+				<button class="btn btn-primary" type="submit" >Search</button>
+			</div>
+		</form>
+	</div>
+	<div class="clear"></div>
 
 	{{-- Message --}}
 	@if (session()->has('success'))
@@ -29,9 +36,9 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
-					<th scope="col">Event</th>
-					<th scope="col">Character</th>
-					<th scope="col">Person</th>
+					<th scope="col" style="width: 30%">Event</th>
+					<th scope="col" style="width: 27%">Character</th>
+					<th scope="col" style="width: 27%">Person</th>
 					<th scope="col" style="width: 10%">Action</th>
 				</tr>
 			</thead>
@@ -44,7 +51,7 @@
 					<td>{{ $ae->event->name }}</td>
 					<td>{{ $ae->actor->character->name }}</td>
 					<td>{{ $ae->actor->person->name }}</td>
-					<td style="flex">
+					<td class="actionButton" style="flex">
 						{{-- Menit 36 eps 17 --}}
 						<a style="pointer-events: none;" href="#"
 							class="badge bg-secondary"> <i class="fa-solid fa-eye-slash"></i></a>

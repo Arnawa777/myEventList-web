@@ -49,14 +49,23 @@
 
         {{-- Location --}}
         <div class="mb-3">
-          <label for="location_id" class="form-label">Event Location</label>
-          <input type="text" class="form-control @error('location_id') is-invalid @enderror" 
-           id="location_id" name="location_id" value="{{ old('location_id', $event->location_id) }}">
-           @error('location_id')
-               <div class="invalid-feedback">
-                   {{ $message }}
-               </div>
-           @enderror
+            <label for="location_id">Event Location</label>
+            <select class="form-select" id="location_id" name="location_id" value="{{ old('location_id') }}">
+                <option value="">Select Location</option>
+                @foreach ($locations as $location)
+                @if (old('location_id', $event->location_id) == $location->id)
+                    <option value="{{ $location->id }}" selected>{{ $location->regency }} - {{ $location->sub_regency }}</option>
+                @else
+                    <option value="{{ $location->id }}">{{ $location->regency }} - {{ $location->sub_regency }}</option>
+                @endif  
+                
+                @endforeach
+            </select>
+            @error('location_id')
+            <div class="text-danger">
+                {{ $message }}
+            </div>
+            @enderror
         </div>
 
         {{-- Phone --}}
@@ -95,10 +104,18 @@
             @else
                 <img class="img-preview">
             @endif
-            <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
-            onchange="previewImage()">
+            
+            <div style="display: flex">
+                <div class="col-lg-10" style="width: 400px; margin-right: 20px">
+                    <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
+                    value="{{ $event->picture }}" onchange="previewImageData()">
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
+                </div>
+            </div>
             @error('picture')
-               <div class="invalid-feedback">
+               <div style="color: red">
                    {{ $message }}
                </div>
            @enderror
@@ -106,9 +123,14 @@
 
         {{-- Video --}}
         <div class="mb-3">
+            @if ($event->video)
+                <img class="img-video-preview" src="http://img.youtube.com/vi/{{ $event->video }}/mqdefault.jpg">
+            @else
+                <img class="img-video-preview" src="{{ URL::to('/') }}/img/no-video.jpg">
+            @endif
             <label for="video" class="form-label">Event Video</label>
-            <input type="text" class="form-control @error('video') is-invalid @enderror" 
-             id="video" name="video" value="{{ old('video', $event->video) }}">
+            <input type="text" class="form-control"  id="video" name="video" value="{{ old('video', $event->video) }}"
+            onkeyup="previewImageVideo()" onclick="previewImageVideo()"  placeholder="Youtube only or it won't save">
              @error('video')
                  <div class="invalid-feedback">
                      {{ $message }}
@@ -127,8 +149,10 @@
                  </div>
              @enderror
         </div>
-        
-        <button type="submit" class="btn-sub btn btn-primary">Submit</button>
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+        </div>
     </form>
 </div>
 

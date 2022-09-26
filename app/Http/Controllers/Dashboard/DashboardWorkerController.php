@@ -18,9 +18,9 @@ class DashboardWorkerController extends Controller
     public function index()
     {
         return view('dashboard.staff.index', [
-            "title" => "Dashboard Staff",
-            'workers' => Worker::latest()->paginate(5),
-            ]);
+            "title" => "Dashboard - List Staff",
+            'workers' => Worker::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+        ]);
     }
 
     /**
@@ -31,11 +31,11 @@ class DashboardWorkerController extends Controller
     public function create()
     {
         return view('dashboard.staff.create', [
-            "title" => "Dashboard Create Staff",
+            "title" => "Dashboard - Create Staff",
             'events' => Event::orderBy('name', 'asc')->get(),
             'people' => Person::orderBy('name', 'asc')->get(),
             'staff' => Worker::class,
-            ]);
+        ]);
     }
 
     /**
@@ -46,39 +46,29 @@ class DashboardWorkerController extends Controller
      */
     public function store(Request $request)
     {
-        //Menggunakan database Unique dua column
-        $validatedData = $request->validate([
-            'event_id' => 'required|unique:workers,event_id,NULL,id,person_id,'. $request->person_id,
-            'person_id' => 'required',
-            'role' => 'required|min:3|max:75', //Role
-            'description' => ''
-        ],
-        [
-            'event_id.unique' => 'Staff has already in Event!!!',
-        ]);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/staff');
+        }
+        if ($request->action == 'create') {
+            //Menggunakan database Unique dua column
+            $validatedData = $request->validate(
+                [
+                    'event_id' => 'required|unique:workers,event_id,NULL,id,person_id,' . $request->person_id,
+                    'person_id' => 'required',
+                    'role' => 'required|min:3|max:75', //Role
+                    'description' => ''
+                ],
+                [
+                    'event_id.unique' => 'Staff already in Event!!!',
+                ]
+            );
 
-        Worker::create($validatedData);
+            Worker::create($validatedData);
 
-        return redirect('/dashboard/staff')->with('success', 'New Staff has been added in Event!!!');
+            return redirect('/dashboard/staff')->with('success', 'New Staff has been added in Event!!!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Worker $staff)
     {
         return view('dashboard.staff.edit', [
@@ -98,32 +88,33 @@ class DashboardWorkerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'event_id' => 'required|unique:workers,event_id,'. $id .',id,person_id,'. $request->person_id,
-            'person_id' => 'required',
-            'role' => 'required|min:3|max:75', //Role
-            'description' => ''
-        ],
-        [
-            'event_id.unique' => 'Person has already in Event!!!',
-        ]);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/staff');
+        }
+        if ($request->action == 'update') {
+            $validatedData = $request->validate(
+                [
+                    'event_id' => 'required|unique:workers,event_id,' . $id . ',id,person_id,' . $request->person_id,
+                    'person_id' => 'required',
+                    'role' => 'required|min:3|max:75', //Role
+                    'description' => ''
+                ],
+                [
+                    'event_id.unique' => 'Staff already in Event!!!',
+                ]
+            );
 
-        Worker::where('id', $id)
+            Worker::where('id', $id)
                 ->update($validatedData);
 
-        return redirect('/dashboard/staff')->with('success', 'Staff has been update!!!');
+            return redirect('/dashboard/staff')->with('success', 'Staff has been updated!!!');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         Worker::destroy($id);
 
-        return redirect('/dashboard/staff')->with('success', 'Staff has been delete!!!');
+        return redirect('/dashboard/staff')->with('success', 'Staff has been deleted!!!');
     }
 }

@@ -15,7 +15,7 @@
         {{-- Left Side --}}
         <div class="col-sm-3">
             <div class="row" id="main-row">
-                <div style="margin-bottom:20px;">
+                <div class="parent-cover-event">
                     <img class="cover-event" src="/storage/person-picture/{{ $person->picture }}" >
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">

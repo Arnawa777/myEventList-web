@@ -32,8 +32,12 @@
         {{-- Left Side --}}
         <div class="col-sm-3">
             <div class="row" id="main-row">
-                <div style="margin-bottom:20px;">
-                    <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" >
+                <div class="parent-cover-event">
+                    @if ($event->picture)
+                        <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+                    @else
+                        <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                    @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
                     <h5>Information</h5>
@@ -48,34 +52,51 @@
 
         {{-- Main Side --}}
         <div class="col-sm-9">
+            <div id="horiznav_nav" style="margin: 0 0 10px 0;">
+                <ul style="margin-right: 0; padding-right: 0;">
+                      <li><a href="/dashboard/events/{{ $event->slug }}">Details</a>
+                  </li>
+                      <li><a href="/dashboard/events/{{ $event->slug }}/characters">Characters &amp; Staff</a>
+                  </li>
+                      <li><a href="/dashboard/events/{{ $event->slug }}/reviews">Reviews</a>
+                  </li>
+                </ul>
+            </div>
             {{-- Rating & Video --}}
             <div class="row" id="main-row">
                 <div class="col-3 col-sm-3">
                     <div class="card" style="height: 200px; width:100%">
-                        <div class="card-body">
-                          <h2 class="card-title">Score</h2>
-                          <h2 class="card-text">
-                            {{ substr($totalRating, 0, 4) }}
-                            
-                            {{-- {{$event->reviews->sum('rating')}} --}}
-                          </h2>
+                        <div class="card-body" style="text-align:center;">
+                            <h2 class="card-title">Score</h2>
+                            <h2 class="numberCircle">
+                                {{-- 4 digit --}}
+                                {{ substr($totalRating, 0, 4) }}
+                                {{-- {{$event->reviews->sum('rating')}} --}}
+                            </h2>
                           <p>From {{ $userReview }} User</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-3 col-sm-3">
                     <div class="card" style="height: 200px; width:100%">
-                        <div class="card-body">
-                          <h2 class="card-title">Favorited</h2>
-                          <h2 class="card-text">
-                            {{ $event->favorites->count() }}
-                          </h2>
+                        <div class="card-body" style="text-align:center;">
+                            <h2 class="card-title">Favorited</h2>
+                            @if ($event->favorites->count() >= 1000)
+                                <h2 class="favCircleMany">
+                                    {{ $event->favorites->count() }} <i class="fas fa-heart"></i>
+                                </h2>
+                            @else
+                                <h2 class="favCircle">
+                                    {{ $event->favorites->count() }} <i class="fas fa-heart"></i>
+                                </h2>
+                            @endif
+                          
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-sm-6 float-end text-end">
                     @if (is_null($event->video))
-                    <img class="cover-video" src="{{ URL::to('/') }}/img/no-video.jpg" alt="Video not found">
+                        <img class="cover-video" src="{{ URL::to('/') }}/img/no-video.jpg" alt="Video not found">
                     @else
                         <a href="#myModal" data-toggle="modal">
                         <div id="coverVideo">
@@ -112,85 +133,65 @@
               </div>
             </div> 
 
-            {{-- Character & Person --}}
+            {{-- Character & Actor --}}
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Character & Actor</h5>
-                        @if($actors->count() > 10)
-                        <a style="text-decoration: none; float: right; " href="">View More</a>
+                        @if($actors->count())
+                        <a style="text-decoration: none; float: right; " href="/dashboard/events/{{ $event->slug }}/characters">View More</a>
                         @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>
             
-                <div class="row">
-                    @if ($actors->count())
-                    {{-- @foreach ($actors->take(1) as $ac) --}}
-                    @foreach ($actors->collapse() as $ac)
-                    <div class="left-column">
+                <div class="col-12">
+                    <div class="row">
+                        @forelse ($actors as $ac)
                         <table class="first-table">
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <img src="/storage/character-picture/{{ $ac->character->picture }}"  alt="person-picture">
+                                        <a href="/dashboard/characters/{{ $ac->character->slug }}">
+                                            @if ($ac->character->picture)
+                                                <img class="image-icon" src="/storage/character-picture/{{ $ac->character->picture }}"  alt="character-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
                                     </td>
                                     <td>
-                                        <h7 class="name-table">
-                                            {{ Str::words($ac->character->name, 2, '') }}
-                                        </h7>
-                                        <p>Something</p>
+                                        <a href="/dashboard/characters/{{ $ac->character->slug }}">
+                                            <h7 class="name-table">
+                                                {{ Str::words($ac->character->name, 2, '') }}
+                                            </h7>
+                                        </a>
+                                        <p class="name-table">{{ $ac->character->role }}</p>
                                     </td>
                                     <td align="right">
-                                        <h7 class="name-table">
-                                            {{ Str::words($ac->person->name, 2, '') }}
-                                        </h7>
-                                        <p>Something</p>
+                                        <a href="/dashboard/people/{{ $ac->person->slug }}">
+                                            <h7 class="name-table">
+                                                {{ Str::words($ac->person->name, 2, '') }}
+                                            </h7>
+                                        </a>
+                                        <p class="name-table">Actor</p>
                                     </td>
                                     <td width="52px">
-                                        <img src="/storage/person-picture/{{ $ac->person->picture }}"  alt="person-picture">
+                                        <a href="/dashboard/people/{{ $ac->person->slug }}">
+                                            @if ($ac->person->picture)
+                                                <img class="image-icon" src="/storage/person-picture/{{ $ac->person->picture }}"  alt="person-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        @empty
+                            <p>No Character & Actor have been added for this event.</p>
+                        @endforelse
                     </div>
-                    @endforeach
-                    {{-- @foreach ($event->actor->skip(1) as $ac) --}}
-                    @foreach ($actors as $ac)
-                    <div class="right-column">
-                        <table class="first-table">
-                            <tbody>
-                                <tr>
-                                    <td width="52px">
-                                        <img src="/storage/character-picture/{{ $ac->character->picture }}"  alt="person-picture">
-                                    </td>
-                                    <td>
-                                        <h7 class="name-table">
-                                            {{ Str::words($ac->character->name, 2, '') }}
-                                        </h7>
-                                        <p>Something</p>
-                                    </td>
-                                    <td align="right">
-                                        <h7 class="name-table">
-                                            {{ Str::words($ac->person->name, 2, '') }}
-                                        </h7>
-                                        <p>Something</p>
-                                    </td>
-                                    <td width="52px">
-                                        <img src="/storage/person-picture/{{ $ac->person->picture }}"  alt="person-picture">
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>       
-                    @endforeach
-
-                    {{-- Jika data tidak ada --}}
-                    @else
-                    <div class="col">
-                        <p class="text-center fs-4">This Event Doesn't Have Character</p>
-                    </div>
-                    @endif
                 </div> <!--// close of Data Chara div //-->
             </div> <!--// close of Chara & person div //-->
 
@@ -199,42 +200,43 @@
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Staff</h5>
-                        @if($staff->count() > 10)
-                        <a style="text-decoration: none; float: right; " href="">View More</a>
+                        @if($staff->count())
+                        <a style="text-decoration: none; float: right; " href="/dashboard/events/{{ $event->slug }}/characters#staff">View More</a>
                         @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>
             
-                <div class="row">
-                    @if ($staff->count())
-                    {{-- @foreach ($staff->take(1) as $stf) --}}
-                    @foreach ($staff as $stf)
-                    <div class="left-column">
+                <div class="col-12">
+                    <div class="row">
+                        @forelse ($staff as $stf)
                         <table class="first-table">
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <img src="/storage/person-picture/{{ $stf->person->picture }}"  alt="person-picture">
+                                        <a href="/dashboard/people/{{ $stf->person->slug }}">
+                                            @if ($stf->person->picture)
+                                                <img class="image-icon" src="/storage/person-picture/{{ $stf->person->picture }}"  alt="person-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
                                     </td>
                                     <td>
-                                        <h7 class="name-table">
-                                            {{ Str::words($stf->person->name, 2, '') }}
-                                        </h7>
-                                        <p>Something</p>
+                                        <a href="/dashboard/people/{{ $stf->person->slug }}">
+                                            <h7 class="name-table">
+                                                {{ Str::words($stf->person->name, 2, '') }}
+                                            </h7>
+                                        </a>
+                                        <p class="name-table">{{ $stf->role }}</p>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        @empty
+                            <p>No Staff have been added for this event.</p>
+                        @endforelse
                     </div>
-                    @endforeach
-
-                    {{-- Jika data tidak ada --}}
-                    @else
-                    <div class="col">
-                        <p class="text-center fs-4">This Event Doesn't Have Staff</p>
-                    </div>
-                    @endif
                 </div> <!--// close of Data Chara div //-->
             </div> <!--// close of Staff div //-->
 
@@ -243,34 +245,53 @@
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
                         <h5 style="float: left;">Review</h5>
-                        @if($allReviews->count() > 3)
-                        <a style="text-decoration: none; float: right;" href="">View More</a>
+                        @if($allReviews->count())
+                        <a style="text-decoration: none; float: right;" href="/dashboard/events/{{ $event->slug }}/reviews">View More</a>
                         @endif
                         <div style="clear: both;"></div>
                     </div>
                 </div>
                 <div class="col-12"> 
                     @forelse ($allReviews as $rev)
-                        <div class="card" style="min-height: 200px; width:100%; margin:10px 0px">
-                            <div class="card-body">
-                            <h3 class="card-title">{{ $rev->user->username }}</h3>
-                            {!! $rev->body !!}
-                            {{-- <p>{{ $rev->body }}</p> --}}
-                            {{-- <p class="card-text" style="padding-left:20px">{!! $rev->body !!}</p> --}}
+                        <div class="card" style="min-height: 200px; width:100%; margin:10px 0px;">
+                            <div class="row no-gutters">
+                                <div class="col-1" style="padding-right: 0px; margin-right:0px;">
+                                    <a href="/profile/{{ $rev->user->username }}">
+                                        @if ($rev->user->picture)
+                                            <img class="review-img" src="/storage/user-picture/{{ $rev->user->picture }}" class="img-fluid" alt="user-picture">
+                                        @else
+                                            <img class="review-img-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="col-11">
+                                    <div class="card-block" style="min-height: 200px">
+                                        <a href="/profile/{{ $rev->user->username }}">
+                                            <h4 class="card-title">{{ $rev->user->username }}</h4>
+                                        </a>
+
+                                        @if ($rev->rating >=8)
+                                            <p style="color: blue">Reviewer Rating: {{ $rev->rating }}</p>
+                                        @elseif($rev->rating <=7 && $rev->rating >=4 )
+                                            <p style="color: rgba(208, 196, 23, 0.967)">Reviewer Rating: {{ $rev->rating }}</p>
+                                        @else
+                                            <p style="color: red">Reviewer Rating: {{ $rev->rating }}</p>
+                                        @endif
+                                        
+                                        <p class="card-text">{!! $rev->body !!}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    @empty
-                        <p>No reviews have been submitted for this event.</p>
-                    @endforelse
+                        @empty
+                            <p>No reviews have been submitted for this event. Be the first to make a review</p>
+                        @endforelse
                 </div>
             </div> 
            
         </div> <!--// close of Main Side div //-->
     </div>
 </div>
-
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
 
 <script type="text/javascript">
 //     if (document.getElementById('inline') !=null) 
@@ -307,26 +328,6 @@
         clip.classList.remove("active");
         
     }
-   
-    // document.getElementById("myModal").on('show.bs.modal', function () {
-    //     document.querySelectorAll("#myModal iframe").attr("src", videoSrc+"?autoplay=1");
-    //     // btn.classList.add("active");
-    //     // clip.classList.add("active");
-    // })
-
-    // $('#myModal').on('show.bs.modal', function () { // on opening the modal
-        
-    //     // set the video to autostart
-    //     $("#myModal iframe").attr("src", videoSrc+"?autoplay=1");
-    //     // btn.classList.add("active");
-    //     // clip.classList.add("active");
-        
-    // }).on('hidden.bs.modal', function (e) { // on closing the modal
-    //     // stop the video
-    //     $("#myModal iframe").attr("src", null);
-    //     btn.classList.remove("active");
-    //     clip.classList.remove("active");
-    // });
 
     </script>
 
