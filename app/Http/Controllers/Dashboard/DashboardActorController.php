@@ -17,15 +17,10 @@ class DashboardActorController extends Controller
      */
     public function index()
     {
-        $roles = Character::selectRaw('characters.*')
-            ->groupby('role')
-            ->orderby('role', 'asc')
-            ->get();
 
         return view('dashboard.actors.index', [
             "title" => "Dashboard - List Actor",
-            'actors' => Actor::latest()->filter(request(['search', 'role']))->paginate(10)->withQueryString(),
-            'roles' => $roles,
+            'actors' => Actor::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 

@@ -17,10 +17,12 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => $this->faker->numberBetween(1,10),
-            'event_id' => $this->faker->numberBetween(1,10),
-            'rating' => '5',
-            'body' => 'Good Works',
+            'user_id' => $this->faker->unique()->numberBetween(3, 20),
+            'event_id' => $this->faker->unique()->numberBetween(8, 20),
+            'rating' => $this->faker->numberBetween(1, 10),
+            'body' => collect($this->faker->paragraphs(mt_rand(5, 7)))
+                ->map(fn ($p) => "<p> $p </p>")
+                ->implode('')
         ];
     }
 }

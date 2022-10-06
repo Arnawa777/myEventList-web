@@ -11,9 +11,9 @@
             <div class="col-lg-6">
                 <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                 <form action="/people">
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" style="justify-content: center">
                         <input type="text" class="form-control" placeholder="Search.." 
-                        name="search" value="{{ request('search') }}">
+                        name="search" value="{{ request('search') }}" id="deleteInputLong">
                         <button class="btn btn-primary" type="submit" >Search</button>
                     </div>
                 </form>
@@ -25,7 +25,13 @@
                     @foreach ($people as $person)
                     <li>
                     <a href="/people/{{ $person->slug }}" class="card">
-                        <img src="/storage/person-picture/{{ $person->picture }}" class="card__image" alt="" />
+                        <div class="parent-cover-event" style="margin-bottom:100px;">
+                            @if($person->picture)
+                                <img class="cover-event" src="/storage/person-picture/{{ $person->picture }}" alt="person-img">
+                            @else
+                                <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                            @endif
+                        </div>
                         <div class="card__overlay">
                         <div class="card__header">
                             <div class="card__header-text">
@@ -36,9 +42,7 @@
                             @if (is_null($person->biography))
                                 This person doesn't have biography yet...
                             @else
-                                {{-- {!!  Str::limit($person->synopsis, 50, $end='...')  !!} --}}
-                                {!!  substr(strip_tags($person->biography), 0, 50) !!}...
-                                
+                                {!!  substr(strip_tags($person->biography), 0, 50) !!}...                
                             @endif
                             </p>
                         </div>

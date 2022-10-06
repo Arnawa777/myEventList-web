@@ -15,7 +15,7 @@
         <div style="padding-bottom: 10px">
             <a href="/dashboard/events"
             class="btn btn-info border-0">
-            <span data-feather="arrow-left"></span> Back to List Event
+            <span data-feather="arrow-left"></span> Back to All Events
         </a>
         <a href="/dashboard/events/{{ $event->slug }}/edit"
             class="btn btn-warning border-0">
@@ -46,6 +46,7 @@
                     <p> Category:  {{ $event->category->name }} </p>
                     <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
                     <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                    <p> Phone: {{ $event->phone }}</p>
                 </div>
             </div>
         </div> <!--// close of Left Side div //-->
@@ -93,7 +94,7 @@
                                                 {{ Str::words($ac->character->name, 2, '') }}
                                             </h7>
                                         </a>
-                                        <p class="name-table">{{ $ac->character->role }}</p>
+                                        <p class="name-table">{{ $ac->role }}</p>
                                     </td>
                                     <td align="right">
                                         <a href="/dashboard/people/{{ $ac->person->slug }}">

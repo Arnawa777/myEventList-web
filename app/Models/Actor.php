@@ -49,10 +49,10 @@ class Actor extends Model
         );
 
         //versi arrow function
-        $query->when(
-            $filters['role'] ?? false,
-            fn ($query, $role) => $query->whereHas('character', fn ($query) =>
-            $query->where('role', $role))
-        );
+        // $query->when(
+        //     $filters['role'] ?? false,
+        //     fn ($query, $role) => $query->whereHas('character', fn ($query) =>
+        //     $query->where('role', $role))
+        // );
     }
 }

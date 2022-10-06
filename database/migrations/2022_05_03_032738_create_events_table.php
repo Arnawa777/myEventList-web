@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('restrict')->onUpdate('cascade');
             $table->string('name', 100);
             $table->string('slug', 125)->unique();
-            $table->text('synopsis')->nullable();
+            $table->text('description')->nullable();
             $table->string('phone', 20)->nullable();
             $table->date('date')->nullable();
             $table->string('picture')->nullable();

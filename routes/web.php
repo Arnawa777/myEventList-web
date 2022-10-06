@@ -20,6 +20,7 @@ use App\Http\Controllers\Dashboard\DashboardTopicController;
 use App\Http\Controllers\Dashboard\DashboardPersonController;
 use App\Http\Controllers\Dashboard\DashboardActorController;
 use App\Http\Controllers\Dashboard\DashboardCharacterController;
+use App\Http\Controllers\Dashboard\DashboardHomeController;
 use App\Http\Controllers\Dashboard\DashboardLocationController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ReviewController;
@@ -83,11 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Role Admin
     Route::group(['middleware' => 'role:admin'], function () {
         //Dashboard
-        Route::get('/dashboard', function () {
-            return view('dashboard.home', [
-                "title" => "Dashboard"
-            ]);
-        });
+        Route::get('/dashboard', [DashboardHomeController::class, 'index']);
 
         Route::resource('/dashboard/events', DashboardEventController::class);
         Route::get('dashboard/events/{event:slug}/characters', [DashboardEventController::class, 'characters']);

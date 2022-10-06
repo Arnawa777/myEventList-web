@@ -43,32 +43,20 @@ class DashboardCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:25|unique:categories,name',
-        ]);
-        $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/categories');
+        }
+        if ($request->action == 'create') {
+            $validatedData = $request->validate([
+                'name' => 'required|min:3|max:25|unique:categories,name',
+            ]);
+            $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
 
-        Category::create($validatedData);
-        return redirect('dashboard/categories')->with('success', 'New Category has been added!!!');
+            Category::create($validatedData);
+            return redirect('dashboard/categories')->with('success', 'New Category has been added!!!');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Category $category)
     {
         return view('dashboard.categories.edit', [
@@ -86,16 +74,21 @@ class DashboardCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:25|unique:categories,name,' . $category->id,
-        ]);
+        if ($request->action == 'cancel') {
+            return redirect('dashboard/categories');
+        }
+        if ($request->action == 'update') {
+            $validatedData = $request->validate([
+                'name' => 'required|min:3|max:25|unique:categories,name,' . $category->id,
+            ]);
 
-        $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
+            $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
 
-        Category::where('id', $category->id)
-            ->update($validatedData);
+            Category::where('id', $category->id)
+                ->update($validatedData);
 
-        return redirect('dashboard/categories')->with('success', 'Category has been update!!!');
+            return redirect('dashboard/categories')->with('success', 'Category has been update!!!');
+        }
     }
 
     /**

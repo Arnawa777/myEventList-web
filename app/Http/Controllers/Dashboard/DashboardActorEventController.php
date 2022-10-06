@@ -60,6 +60,7 @@ class DashboardActorEventController extends Controller
                 [
                     'event_id' => 'required|unique:actor_events,event_id,NULL,id,actor_id,' . $request->actor_id,
                     'actor_id' => 'required',
+                    'role' => 'required',
                 ],
                 [
                     'event_id.unique' => 'Event and Actor already exist!',
@@ -104,6 +105,7 @@ class DashboardActorEventController extends Controller
                 [
                     'event_id' => 'required|unique:actor_events,event_id,' . $id . ',id,actor_id,' . $request->actor_id,
                     'actor_id' => 'required',
+                    'role' => 'required',
                 ],
                 [
                     'event_id.unique' => 'Event and Actor already exist!',

@@ -33,8 +33,8 @@
                             @endforeach
                         </select>
                         <input type="text" class="form-control" placeholder="Search.." 
-                        name="search" value="{{ request('search') }}">
-                        <button class="btn btn-primary" type="submit" >Search</button>
+                        name="search" value="{{ request('search') }}" id="deleteInput">
+                        <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
             </div>
@@ -45,7 +45,13 @@
                     @foreach ($events as $event)
                     <li>
                     <a href="/events/{{ $event->slug }}" class="card">
-                        <img src="/storage/event-picture/{{ $event->picture }}" class="card__image" alt="" />
+                        <div class="parent-cover-event" style="margin-bottom:100px;">
+                            @if($event->picture)
+                                <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+                            @else
+                                <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                            @endif
+                        </div>
                         <div class="card__overlay">
                             <div class="card__header">
                                 <div class="card__header-text">
@@ -55,11 +61,11 @@
                             </div>
                             
                             <p class="card__description">
-                            @if (is_null($event->synopsis))
-                                This Event doesn't have synopsis yet...
+                            @if (is_null($event->description))
+                                This Event doesn't have description yet...
                             @else
-                                {{-- {!!  Str::limit($event->synopsis, 50, $end='...')  !!} --}}
-                                {!!  substr(strip_tags($event->synopsis), 0, 50) !!}...
+                                {{-- {!!  Str::limit($event->description, 50, $end='...')  !!} --}}
+                                {!!  substr(strip_tags($event->description), 0, 50) !!}...
                                 
                             @endif
                             </p>

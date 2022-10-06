@@ -16,7 +16,6 @@ class FavoriteController extends Controller
      */
     public function index()
     {
-       
     }
 
     /**
@@ -42,16 +41,16 @@ class FavoriteController extends Controller
         ]);
         $itemuser = $request->user();
         $validasiwishlist = Favorite::where('event_id', $request->event_id)
-                                    ->where('user_id', $itemuser->id)
-                                    ->first();
+            ->where('user_id', $itemuser->id)
+            ->first();
         if ($validasiwishlist) {
-            $validasiwishlist->delete();//kalo udah ada, berarti wishlist dihapus
-            return back()->with('success', 'Wishlist berhasil dihapus');
+            $validasiwishlist->delete(); //kalo udah ada, berarti wishlist dihapus
+            return back()->with('success', 'Event has been deleted from Favorite');
         } else {
             $inputan = $request->all();
             $inputan['user_id'] = $itemuser->id;
             Favorite::create($inputan);
-            return back()->with('success', 'Produk berhasil ditambahkan ke wishlist');
+            return back()->with('success', 'Event has been added to Favorite');
         }
     }
 
@@ -64,12 +63,12 @@ class FavoriteController extends Controller
     public function show(User $user)
     {
         $favorites = Favorite::where('user_id', $user->id)
-        ->paginate(10);
+            ->paginate(10);
 
         return view('users.favorite', [
-        "title" => "Favorite",
-        "user" => $user,
-        'favorites' => $favorites,
+            "title" => "Favorite",
+            "user" => $user,
+            'favorites' => $favorites,
         ]);
     }
 
@@ -106,11 +105,11 @@ class FavoriteController extends Controller
     {
         // dd($favorite->id);
         Favorite::where('id', $id)
-        ->delete();
+            ->delete();
 
         // $favorite->delete();
         // Favorite::destroy($id);
-        
+
         // Favorite::where('id', $favorite->id)
         // ->destroy('id');
 

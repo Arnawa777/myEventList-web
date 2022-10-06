@@ -3,7 +3,6 @@
 
 {{-- isi dari layouts/main --}}
 @section('container')
-<link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 {{-- {{ dd($allReviews) }} --}}
 
 <div class="container">
@@ -14,11 +13,11 @@
             {{-- Left Side --}}
             <div class="col-sm-3" style="background: #333333; border: 1px white solid; color:white;">
                 <div class="row" id="main-row">
-                    <div style="margin-top:10px; margin-bottom:20px;" id="event_id" data-field-id="{{ $event->id }}">
+                    <div class="parent-cover-event" style="margin-top:10px; margin-bottom:20px;" id="event_id">
                         @if ($event->picture)
-                            <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+                            <img class="cover-event" style="border: 2px white solid;" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
                         @else
-                            <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                            <img class="cover-event-empty" style="border: 2px white solid;" src="/img/No_image_available.svg" alt="no-img">
                         @endif
                     </div>
                     <div class="border-bottom" style="margin-bottom:10px;">
@@ -27,7 +26,8 @@
                     <div>
                         <p> Category:  {{ $event->category->name }} </p>
                         <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
-                        <p> Location: {{ $event->location->regency }}</p>
+                        <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                        <p> Phone: {{ $event->phone }}</p>
                     </div>
                     <div>
                         @auth
@@ -86,6 +86,10 @@
                                 </div>
                                 <div class="col-11">
                                     <div class="card-block" style="min-height: 200px">
+                                        <p style="float: right; padding-right:10px;">
+                                            {{ date('d M Y', strtotime($rev->created_at)) }}
+                                        </p>
+                                        <div style="clear: left;"></div>
                                         <a href="/profile/{{ $rev->user->username }}">
                                             <h4 class="card-title">{{ $rev->user->username }}</h4>
                                         </a>
@@ -98,6 +102,9 @@
                                         @endif
                                         
                                         <p class="card-text">{!! $rev->body !!}</p>
+                                    </div>
+                                    <div>
+                                        
                                     </div>
                                 </div>
                             </div>

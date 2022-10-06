@@ -35,6 +35,7 @@
 	<script src="{{ URL::to('/') }}/js/select2.js"></script>
 
 
+	<link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 	<link rel="stylesheet" href="{{ URL::to('/') }}/css/style.css">
 	<link rel="stylesheet" href="{{ URL::to('/') }}/css/forum.css">
 

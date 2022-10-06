@@ -6,6 +6,15 @@
 
 {{-- isi dari layouts/main --}}
 @section('container')
+<style>
+    table td:not(.count) {
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+  }
+</style>
+
 <div class="container">
     <div class="row forum">
         {{-- {{ dd($threads) }} --}}
@@ -51,10 +60,15 @@
                                 <td>
                                     @if ($thread->latestPost)
                                     <h6 class="font-weight-bold mb-0">
-                                        <a href="forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">{{ $thread->latestPost->title }}</a>
+                                        <a href="forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">
+                                            {{ Str::limit($thread->latestPost->title, 20) }}
+                                        </a>
                                     </h6>
                                     <div>{{ date('d-m-Y', strtotime($thread->latestPost->created_at)) }}
-                                        <a href="/profile/{{ $thread->latestPost->author->username }}">{{ $thread->latestPost->author->username }}</a></div>
+                                        <a href="/profile/{{ $thread->latestPost->author->username }}">
+                                            {{ Str::limit($thread->latestPost->author->username, 10) }}
+                                        </a>
+                                    </div>
                                     @else
                                         <h6 class="text-center font-weight-bold mb-0">
                                             No Post
@@ -104,10 +118,15 @@
                                     <td>
                                         @if ($thread->latestPost)
                                         <h6 class="font-weight-bold mb-0">
-                                            <a href="/forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">{{ $thread->latestPost->title }}</a>
+                                            <a href="/forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">
+                                                {{ Str::limit($thread->latestPost->title, 20) }}
+                                            </a>
                                         </h6>
                                         <div>{{ date('d-m-Y', strtotime($thread->latestPost->created_at)) }}
-                                            <a href="/profile/{{ $thread->latestPost->author->username }}">{{ $thread->latestPost->author->username }}</a></div>
+                                            <a href="/profile/{{ $thread->latestPost->author->username }}">
+                                                {{ Str::limit($thread->latestPost->author->username, 10) }}
+                                            </a>
+                                        </div>
                                         @else
                                             <h6 class="text-center font-weight-bold mb-0">
                                                 No Post
@@ -157,10 +176,16 @@
                                     <td>
                                         @if ($thread->latestPost)
                                         <h6 class="font-weight-bold mb-0">
-                                            <a href="/forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">{{ $thread->latestPost->title }}</a>
+                                            <a href="/forum/{{ $thread->slug }}/{{ $thread->latestPost->slug }}">
+
+                                                {{ Str::limit($thread->latestPost->title, 20) }}
+                                            </a>
                                         </h6>
                                         <div>{{ date('d-m-Y', strtotime($thread->latestPost->created_at)) }}
-                                            <a href="/profile/{{ $thread->latestPost->author->username }}">{{ $thread->latestPost->author->username }}</a></div>
+                                            <a href="/profile/{{ $thread->latestPost->author->username }}">
+                                                {{ Str::limit($thread->latestPost->author->username, 10) }}
+                                            </a>
+                                        </div>
                                         @else
                                             <h6 class="text-center font-weight-bold mb-0">
                                                 No Post
@@ -185,8 +210,11 @@
         <div class="col-lg-4">
             <aside>
             <div class="card">
+                <h4 class="card-title" 
+                style="background-color: #74c0ff; margin: 0; padding: 10px;"
+                >Recent Post</h4>
                 <div class="card-body">
-                <h4 class="card-title" style="color: #2A99F2">Recent Post</h4>
+                
                     <table width="100%">
                         <thead>
                             <tr>
@@ -200,7 +228,9 @@
                                 <tr>
                                     <td>
                                         <h5>
-                                        <a href="/forum/{{ $post->topic->slug }}/{{ $post->slug }}">{{ $post->title }}</a>
+                                        <a href="/forum/{{ $post->topic->slug }}/{{ $post->slug }}">
+                                            {{ Str::limit($post->title, 30) }}
+                                        </a>
                                         </h5>
                                         <label>
                                             <a href="/forum/{{ $post->topic->slug }}">{{ $post->topic->sub_topic }}</a>

@@ -15,7 +15,9 @@
                 &nbsp
                 >
                 &nbsp
-                <a href="/forum/{{ $topic->slug }}/{{ $post->slug }}" class="active">{{ $post->title }}</a>
+                <a href="/forum/{{ $topic->slug }}/{{ $post->slug }}" class="active">
+                    {{ Str::limit($post->title, 20, $end='...') }}
+                </a>
 
             </nav>
             {{-- Post --}}

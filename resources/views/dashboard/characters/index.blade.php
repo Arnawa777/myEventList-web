@@ -5,7 +5,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 	 style="padding: 30px 0px 20px 0px">
-    <h2>List Character</h2>
+    <h2>Characters</h2>
 </div>
 
 <div class="table-responsive col-lg-8">
@@ -15,16 +15,6 @@
 	<div style="float: right">
 		<form action="/dashboard/characters">
 			<div class="input-group mb-3">
-				<select class="form-select" id="role" name="role" value="{{ request('role') }}">
-					<option value="">Select Role</option>
-					@foreach ($roles as $role)
-						@if (request('role') == $role->role)
-							<option value="{{ $role->role }}" selected>{{ $role->role }}</option>
-						@else
-							<option value="{{ $role->role }}">{{ $role->role }}</option>
-						@endif  
-					@endforeach
-				</select>
 				<input type="text" class="form-control" placeholder="Search.." 
 				name="search" value="{{ request('search') }}" id="deleteInput">
 				<button class="btn btn-primary" type="submit" >Search</button>
@@ -47,7 +37,6 @@
 					<th scope="col" style="width: 3%;">#</th>
 					<th scope="col" style="width: 12%">Picture</th>
 					<th scope="col" style="width: 50%">Name</th>
-					<th scope="col" style="width: 12%">Role</th>
 					<th scope="col" style="width: 8%">Action</th>
 				</tr>
 			</thead>
@@ -64,7 +53,6 @@
 						@endif
 					</td>
 					<td>{{ $chara->name }}</td>
-					<td>{{ $chara->role }}</td>
 					<td class="action align-middle text-center">
 						{{-- Menit 36 eps 17 --}}
 						<form action="/dashboard/characters/{{ $chara->slug }}">

@@ -4,154 +4,185 @@
 {{-- isi dari layouts/main --}}
 @section('container')
 
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" integrity="sha512-wR4oNhLBHf7smjy0K4oqzdWumd+r5/+6QO/vDda76MW5iug4PT7v86FoEkySIJft3XA0Ae6axhIvHrqwm793Nw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
-
-
-
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('/') }}/css/carousal.css">
 
-<div class="container ">
-    <h1>Hello World</h1>
-    <h2 class="text-end">World Hello</h2>
-
+<div class="container">
     <div class="main">
       	<div class="row">
         	<div class="col-lg-12">
+				</div>
 				<div class="top_slider">
 					@foreach ($favorites as $favorite)
 					<div class="car">
-						<div class="card">
-							<div class="card-header">
-								<img src="/storage/event-picture/{{ $favorite->picture }}">
-								<div id="" class="middle">
-									<div class="text">{{ $favorite->name }}</div>
+						<a href="/events/{{ $favorite->slug }}">
+							<div class="card">
+								<div class="card-header main-header">
+									@if ($favorite->picture)
+										<img class="main-img" src="/storage/event-picture/{{ $favorite->picture }}" alt="favorite-img">
+									@else
+										<img class="main-img" style="background: #333333; object-fit:fill" src="/img/No_image_available.svg" alt="no-img">
+									@endif
+									<div class="border-hover"></div>
+									<div class="middle">
+										<div>{{ Str::words( $favorite->name, 2,'') }}</div>
+									</div>
+								</div>
+								<div class="main-card-body">
+									<div class="card-title">{{ $favorite->name }}</div>
 								</div>
 							</div>
-							<div class="card-body">
-							<div class="card-content">
-							<div class="card-title">{{ $favorite->name }}</div>
-				
-							</div>
-							</div>
-						</div>
+						</a>
 					</div>
 					@endforeach
 				</div>
         	</div>
       	</div>
 		<div class="row">
-			<div class="col-lg-8">
-			{{ $popular }}
-			{{-- Event --}}
-			<div class="header-slider">
-				<h5>Latest Updated Event</h5>
-			</div>
-			<div class="slider">
-				@foreach ($events as $event)
-				<div class="car">
-					<div class="card">
-						<div class="card-header">
-							<img src="/storage/event-picture/{{ $event->picture }}">
-							<div id="" class="middle">
-							<div class="text">{{ $event->name }}</div>
+			<div class="col-lg-8" id="left-side">
+
+				{{-- Event --}}
+				<div class="side-title-slider">
+					<h5>Latest Updated Event</h5>
+				</div>
+				<div class="slider">
+					@forelse ($events as $event)
+					<div class="car">
+						<a href="/events/{{ $event->slug }}">
+							<div class="card">
+								<div class="card-header side-header">
+									@if ($event->picture)
+										<img class="side-img" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+									@else
+										<img class="side-img" style="background: #333333; object-fit:fill" src="/img/No_image_available.svg" alt="no-img">
+									@endif
+									<div class="border-hover"></div>
+									<div class="middle">
+									<div>{{ Str::words($event->name, 2, '') }}</div>
+									</div>
+								</div>
+						
+								<div class="side-card-body">
+									<div class="side-title">{{ $event->name }}</div>
+								</div>
 							</div>
+						</a>
+					</div>
+					@empty
+						<h1>Event 404</h1>
+					@endforelse
+				</div>
+				{{-- People --}}
+				<div class="side-title-slider">
+					<h5>Latest Updated People</h5>
+				</div>
+				<div class="slider">
+					@forelse ($people as $person)
+						<div class="car">
+							<a href="/people/{{ $person->slug }}">
+								<div class="card">
+									<div class="card-header side-header">
+										@if ($person->picture)
+											<img class="side-img" src="/storage/person-picture/{{ $person->picture }}" alt="person-img">
+										@else
+											<img class="side-img" style="background: #333333; object-fit:fill" src="/img/No_image_available.svg" alt="no-img">
+										@endif
+										<div class="border-hover"></div>
+										<div class="middle">
+											<div>{{ Str::words($person->name, 2, '') }}</div>
+										</div>
+									</div>
+						
+									<div class="side-card-body">
+										<div class="side-title">{{ $person->name }}</div>
+									</div>
+								</div>
+							</a>
 						</div>
-				
-						<div class="card-body">
-							<div class="card-content">
-							<div class="card-title">{{ $event->name }}</div>
-				
+					@empty
+						<h1>People 404</h1>
+					@endforelse
+				</div>
+
+				{{-- Characters --}}
+				<div class="side-title-slider">
+					<h5>Latest Updated Character</h5>
+				</div>
+				<div class="slider">
+					@forelse ($characters as $character)
+					<div class="car">
+						<a href="/characters/{{ $character->slug }}">
+							<div class="card">
+								<div class="card-header side-header">
+									@if ($character->picture)
+										<img class="side-img" src="/storage/character-picture/{{ $character->picture }}" alt="character-img">
+									@else
+										<img class="side-img" style="background: #333333; object-fit:fill" src="/img/No_image_available.svg" alt="no-img">
+									@endif
+									<div class="border-hover"></div>
+									<div class="middle">
+									<div>{{ Str::words($character->name, 2, '') }}</div>
+									</div>
+								</div>
+					
+								<div class="side-card-body">
+									<div class="side-title">
+										{{ $character->name }}
+									</div>
+								</div>
 							</div>
-						</div>
+						</a>
 					</div>
+					@empty
+						<h1>Character 404</h1>
+					@endforelse
 				</div>
-				@endforeach
 			</div>
-			{{-- People --}}
-			<div class="header-slider">
-				<h5>Latest Updated People</h5>
-			</div>
-			<div class="slider">
-				@foreach ($people as $person)
-				<div class="car">
-					<div class="card">
-					<div class="card-header">
-						<img src="/storage/person-picture/{{ $person->picture }}">
-						<div id="" class="middle">
-						<div class="text">{{ $person->name }}</div>
-						</div>
-					</div>
-			
-					<div class="card-body">
-						<div class="card-content">
-						<div class="card-title">{{ $person->name }}</div>
-			
-						</div>
-					</div>
-					</div>
-				</div>
-				@endforeach
-			</div>
-			{{-- Characters --}}
-			<div class="header-slider">
-				<h5>Latest Updated Character</h5>
-			</div>
-			<div class="slider">
-				@foreach ($characters as $character)
-				<div class="car">
-					<div class="card">
-					<div class="card-header">
-						<img src="/storage/character-picture/{{ $character->picture }}">
-						<div id="" class="middle">
-						<h1> Wlep gan Gasken aja</h1>
-						</div>
-					</div>
-			
-					<div class="card-body">
-						<div class="card-content">
-						<div class="card-title">
-							{{ $character->name }}
-						</div>
-			
-						</div>
-					</div>
-					</div>
-				</div>
-				@endforeach
-			</div>
-			</div>
+
 			{{-- Right Side --}}
-			{{-- Popular Forum Maybe--}}
+			{{-- Popular Forum by most Review--}}
 			<div class="col-lg-4">
-				@foreach ($characters as $character)
 				<div class="card">
-					<div class="card-header">
-					<img src="/storage/character-picture/{{ $character->picture }}">
-					<div id="" class="middle">
-						<h1> Wlep gan Gasken aja</h1>
-					</div>
-					</div>
-			
+					<h4 class="card-title" 
+					style="background-color: #74c0ff; margin: 0; padding: 10px;"
+					>Popular Event</h4>
 					<div class="card-body">
-					<div class="card-content">
-						<div class="card-title">
-							{{ $character->name }}
-						</div>
-			
-					</div>
+						@forelse ($popular as $pp)
+						<table class="popular-table">
+							<tbody>
+								<tr>
+									<td style="width: 90px;">
+										<a href="/events/{{ $pp->slug }}">
+										@if ($pp->picture)
+											<img class="small-img" src="/storage/event-picture/{{ $pp->picture }}" alt="event-img">
+										@else
+											<img class="small-img" style="background: #333333; object-fit:fill" src="/img/No_image_available.svg" alt="no-img">
+										@endif
+										</a>
+									</td>
+									<td class="popular-info">
+										<a href="/events/{{ $pp->slug }}">
+											<h3>{{ $pp->name }}</h3>
+										</a>
+										<p>Scored: {{ substr($pp->rating, 0, 4) }}</p>
+										<p>{{ $pp->member }} Member</p>
+									</td>
+								</tr>	
+							</tbody>
+						</table>
+						@empty
+							<p>There are no popular event yet</p>
+						@endforelse
 					</div>
 				</div>
-				@endforeach
 			</div>
 
 		</div>
 
     </div>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script src="{{ URL::to('/') }}/js/carousal.js"></script>

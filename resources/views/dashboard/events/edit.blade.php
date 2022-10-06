@@ -140,10 +140,10 @@
 
         {{-- Description --}}
         <div class="mb-3">
-            <label for="synopsis" class="form-label">Synopsis</label>
-            <input id="synopsis" type="hidden" name="synopsis" value="{{ old('synopsis', $event->synopsis) }}">
-            <trix-editor input="synopsis"></trix-editor>
-             @error('synopsis')
+            <label for="description" class="form-label">Description</label>
+            <input id="description" type="hidden" name="description" value="{{ old('description', $event->description) }}">
+            <trix-editor input="description"></trix-editor>
+             @error('description')
                  <div class="invalid-feedback">
                      {{ $message }}
                  </div>

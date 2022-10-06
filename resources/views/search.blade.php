@@ -3,7 +3,6 @@
 
 {{-- isi dari layouts/main --}}
 @section('container')
-<link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 
 <div class="container">
     <div class="row" id="search-result">
@@ -12,9 +11,9 @@
                 <div class="col-lg-12">
                     <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                     <form action="/search">
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3" style="justify-content: center">
                             <input type="text" class="form-control" placeholder="Search.." 
-                            name="search" value="{{ request('search') }}">
+                            name="search" value="{{ request('search') }}" id="deleteInputLong">
                             <button class="btn btn-primary" type="submit" >Search</button>
                         </div>
                     </form>
@@ -22,7 +21,7 @@
             </div>
 
             {{-- Event --}}
-            <div class="row" id="main-row">
+            <div class="row" id="main-row" style="justify-content: center">
                 <div class="col-12"> 
                     <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
                         <h5 style="float: left;">Events</h5>
@@ -39,11 +38,10 @@
                                 <tr>
                                     <td width="52px">
                                     <a href="/events/{{ $event->slug }}">
-                                        @if ($chara->picture)
+                                        @if ($event->picture)
                                             <img class="image-icon" src="/storage/event-picture/{{ $event->picture }}"  alt="event-picture">
-                                            <img class="index-img" src="/storage/character-picture/{{ $chara->picture }}" alt="chara-img">
                                         @else
-                                            <img class="index-img-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
                                         @endif
                                     </a>
                                     </td>
@@ -71,7 +69,7 @@
             </div> <!--// close of Event div //-->
 
             {{-- People --}}
-            <div class="row" id="main-row">
+            <div class="row" id="main-row" style="justify-content: center">
                 <div class="col-12"> 
                     <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
                         <h5 style="float: left;">People</h5>
@@ -87,7 +85,13 @@
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <a href="/people/{{ $person->slug }}"><img class="image-icon" src="/storage/person-picture/{{ $person->picture }}"  alt="person-picture"></a>
+                                        <a href="/people/{{ $person->slug }}">
+                                            @if ($person->picture)
+                                                <img class="image-icon" src="/storage/person-picture/{{ $person->picture }}"  alt="person-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
                                     </td>
                                     <td class="name-table">
                                         <a href="/people/{{ $person->slug }}">
@@ -95,7 +99,11 @@
                                             {{ $person->name }}
                                         </h5>
                                         </a>
-                                        <p>{{ $person->birthday }} </p>
+                                        @if ($person->birthday)
+                                            <p>{{ $person->birthday }} </p>
+                                        @else
+                                            <p>Unknown</p>
+                                        @endif
                                     </td>
                                 </tr>
                             </tbody>
@@ -114,7 +122,7 @@
 
 
             {{-- Characters --}}
-            <div class="row" id="main-row">
+            <div class="row" id="main-row" style="justify-content: center">
                 <div class="col-12"> 
                     <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
                         <h5 style="float: left;">Characters</h5>
@@ -130,7 +138,13 @@
                             <tbody>
                                 <tr>
                                     <td width="52px">
-                                        <a href="/characters/{{ $character->slug }}"><img class="image-icon" src="/storage/character-picture/{{ $character->picture }}"  alt="character-picture"></a>
+                                        <a href="/characters/{{ $character->slug }}">
+                                            @if ($character->picture)
+                                            <img class="image-icon" src="/storage/character-picture/{{ $character->picture }}"  alt="character-picture">
+                                        @else
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                        </a>
                                     </td>
                                     <td class="name-table">
                                         <a href="/characters/{{ $character->slug }}">

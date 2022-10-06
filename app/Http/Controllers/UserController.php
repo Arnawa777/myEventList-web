@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Favorite;
 use App\Models\Post;
+use App\Models\Topic;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -60,7 +61,6 @@ class UserController extends Controller
             }
         }
 
-        // memberikan nama pada file yang diupload
         $filename = time() . '-' . $request->picture->getClientOriginalName() . '.' .  $request->picture->getClientOriginalExtension();
         $request->picture->storeAs('user-picture', $filename, 'public');
 
@@ -114,7 +114,7 @@ class UserController extends Controller
         return redirect('/setting/profile');
     }
 
-    public function user_posts(User $user)
+    public function user_posts(User $user, Topic $topic)
     {
         $posts = Post::where('user_id', $user->id)
             ->paginate(10);
@@ -123,6 +123,7 @@ class UserController extends Controller
             "title" => "$user->username - Posts",
             "user" => $user,
             'posts' => $posts,
+            "topic" => $topic,
         ]);
     }
 }

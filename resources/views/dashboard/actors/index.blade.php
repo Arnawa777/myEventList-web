@@ -5,7 +5,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 	 style="padding: 30px 0px 20px 0px">
-	<h2>List Actor</h2>
+	<h2>Actors</h2>
 </div>
 
 <div class="table-responsive col-lg-8">
@@ -15,16 +15,6 @@
 	<div style="float: right">
 		<form action="/dashboard/actors">
 			<div class="input-group mb-3">
-				<select class="form-select" id="role" name="role" value="{{ request('role') }}">
-					<option value="">Select Role</option>
-					@foreach ($roles as $role)
-						@if (request('role') == $role->role)
-							<option value="{{ $role->role }}" selected>{{ $role->role }}</option>
-						@else
-							<option value="{{ $role->role }}">{{ $role->role }}</option>
-						@endif  
-					@endforeach
-				</select>
 				<input type="text" class="form-control" placeholder="Search.." 
 				name="search" value="{{ request('search') }}" id="deleteInput">
 				<button class="btn btn-primary" type="submit">Search</button>
@@ -47,7 +37,6 @@
 					<th scope="col" style="width: 3%;">#</th>
 					<th scope="col">Person Name</th>
 					<th scope="col">Character Name</th>
-					<th scope="col">Role</th>
 					<th scope="col" style="width:  10%">Action</th>
 				</tr>
 			</thead>
@@ -64,7 +53,6 @@
 						{{-- {{ Str::limit($actor->character->name, 50, $end='..') }} --}}
 						{{ $actor->character->name }}
 					</td>
-					<td>{{ $actor->character->role }}</td>
 					<td class="actionButton">
 						{{-- Menit 36 eps 17 --}}
 						<a style="pointer-events: none;" href="#"

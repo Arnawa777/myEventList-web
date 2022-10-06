@@ -15,7 +15,7 @@
         <div style="padding-bottom: 10px">
             <a href="/dashboard/people"
             class="btn btn-info border-0">
-            <span data-feather="arrow-left"></span> Back to List Person
+            <span data-feather="arrow-left"></span> Back to All People
         </a>
         <a href="/dashboard/people/{{ $person->slug }}/edit"
             class="btn btn-warning border-0">
@@ -34,7 +34,7 @@
             <div class="row" id="main-row">
                 <div class="parent-cover-event">
                     @if($person->picture)
-                    <img class="cover-event" src="/storage/person-picture/{{ $person->picture }}" alt="person-img">
+                        <img class="cover-event" src="/storage/person-picture/{{ $person->picture }}" alt="person-img">
                     @else
                         <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
                     @endif
@@ -81,16 +81,20 @@
                         @foreach ($actor->actor_event as $ac)
                             <div class="first-table" style="text-align:left; float: left;">
                                 <div style="display: inline-block;">
-                                    @if ($actor->character->picture)
+                                    <a href="/dashboard/characters/{{ $actor->character->slug }}">
+                                        @if ($actor->character->picture)
                                         <img class="image-icon" src="/storage/character-picture/{{ $actor->character->picture }}"  alt="character-picture">
-                                    @else
+                                        @else
                                         <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
-                                    @endif
+                                        @endif
+                                    </a>
                                 </div>
                                 <div class="name-table" style="display: inline-block;">
+                                    <a href="/dashboard/characters/{{ $actor->character->slug }}">
                                     <h5>
                                         {{ $actor->character->name }}
                                     </h5>
+                                    </a>
                                     <p>
                                         {{ $actor->character->role }}
                                     </p>
@@ -99,14 +103,18 @@
                             </div>
                             <div class="first-table" style="text-align:right; float: right;">
                                 <div class="name-table" style="display: inline-block; margin-right:0;">
-                                    <h5>{{ $ac->event->name }}</h5> 
+                                    <a href="/dashboard/events/{{ $ac->event->slug }}">
+                                        <h5>{{ $ac->event->name }}</h5> 
+                                    </a>
                                 </div>
                                 <div style="display: inline-block;">
-                                    @if ($ac->event->picture)
-                                        <img class="image-icon" src="/storage/event-picture/{{ $ac->event->picture }}"  alt="event-picture">
-                                    @else
-                                        <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
-                                    @endif
+                                    <a href="/dashboard/events/{{ $ac->event->slug }}">
+                                        @if ($ac->event->picture)
+                                            <img class="image-icon" src="/storage/event-picture/{{ $ac->event->picture }}"  alt="event-picture">
+                                        @else
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                    </a>
                                 </div>
                             </div>
                             <div class="clear"></div>
@@ -135,16 +143,20 @@
                 @forelse ($staff as $stf) 
                 <div class="row" style="background: white; margin: 10px; max-width:845px;">
                     <div class="col-1" style="padding-left: 0; margin-left:0px;">
-                        @if ($stf->event->picture)
-                            <img class="image-icon" src="/storage/event-picture/{{ $stf->event->picture }}"  alt="event-picture">
-                        @else
-                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
-                        @endif
+                        <a href="/dashboard/events/{{ $stf->event->slug }}">
+                            @if ($stf->event->picture)
+                                <img class="image-icon" src="/storage/event-picture/{{ $stf->event->picture }}"  alt="event-picture">
+                            @else
+                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                            @endif
+                        </a>
                     </div>
                     <div class="col-11 name-table" style="padding-left:5px">
+                        <a href="/dashboard/events/{{ $stf->event->slug }}">
                         <h5>
                             {{ $stf->event->name }}
                         </h5>
+                        </a>
                         <h6 style="padding-bottom:10px; font-style:italic; font-weight:350">
                             {{ $stf->role }}
                         </h6>

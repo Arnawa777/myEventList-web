@@ -3,75 +3,49 @@
 
 {{-- isi dari layouts/main --}}
 @section('container')
-<link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
-
 
 <div class="container">
     <div class="row" style="padding: 0px 10px">
-        <div class="col-md-12" id="title">
+        <div class="col-md-12" id="title" style="background: #333333; color:white;">
             <h3>{{ $person->name }}</h3>
         </div>
 
         {{-- Left Side --}}
         <div class="col-sm-3">
-            <div class="row" id="main-row">
-                <div class="parent-cover-event">
-                    <img class="cover-event" src="/storage/person-picture/{{ $person->picture }}" >
+            <div class="row" id="main-row" style="background: #333333; color:white;">
+                <div class="parent-cover-event" style="margin-top:10px; margin-bottom:20px;">
+                    @if($person->picture)
+                        <img class="cover-event" style="border: 2px white solid;" src="/storage/person-picture/{{ $person->picture }}" alt="person-img">
+                    @else
+                        <img class="cover-event-empty" style="border: 2px white solid;" src="/img/No_image_available.svg" alt="no-img">
+                    @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
-                    <h5 style="float: left;">Event</h5>
-                    <div style="clear: both;"></div>
+                    <h5>Information</h5>
                 </div>
-                {{-- Event --}}
-                <div> 
-                    @if ($eventList->count())
-                    @foreach ($eventList as $eventL)
-                    <div class="mid-column border-bottom">
-                        <table class="first-table">
-                            <tbody>
-                                <tr>
-                                    <td width="52px">
-                                        <img class="image-icon" src="/storage/event-picture/{{ $eventL->event->picture }}"  alt="person-picture">
-                                    </td>
-                                    <td class="name-table">
-                                        <h7>
-                                            {{ $eventL->event->name }}
-                                        </h7>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    @endforeach
-
-                    {{-- Jika data tidak ada --}}
+                <div>
+                    <p> Birthday: 
+                        @if ($person->birthday)
+                            {{ date('d M Y', strtotime($person->birthday)) }}
+                        @else
+                            Unknown
+                        @endif
+                    </p>
+                    <p> Biography : </p>
+                    @if ($person->biography)
+                        <article>
+                            {!! $person->biography !!}
+                        </article>
                     @else
-                    <div class="col">
-                        <p>This Person Doesn't Have Event</p>
-                    </div>
+                        This Person Doesn't have biography
                     @endif
-                </div> <!--// close of Data Event div //-->
+                    
+                </div>
             </div>
         </div> <!--// close of Left Side div //-->
 
         {{-- Main Side --}}
         <div class="col-sm-9">
-    
-            {{-- Biography --}}
-            <div class="row" id="main-row">
-              <div class="col-12"> 
-                <div class="border-bottom" style="margin-bottom:10px;">
-                    <h5>Biography</h5>
-                </div>
-                @if (is_null($person->biography))
-                    <p> This Person doesn't have biography yet... </p>
-                @else
-                    <article>
-                        {!! $person->biography !!}
-                    </article>
-                @endif
-              </div>
-            </div>
             
             {{-- Person --}}
             <div class="row" id="main-row">
@@ -82,50 +56,56 @@
                     </div>
                 </div>
             
-                <div class="row">
+                <div class="col-12">
                     @if ($actors->count())
                     @foreach ($actors as $actor)
                         @foreach ($actor->actor_event as $ac)
-                        <div class="left-column" style="width: 50%">
-                            <table class="first-table">
-                                <tbody>
-                                    <tr>
-                                        <td width="52px">
+                            <div class="first-table" style="text-align:left; float: left;">
+                                <div style="display: inline-block;">
+                                    <a href="/characters/{{ $actor->character->slug }}">
+                                        @if ($actor->character->picture)
                                             <img class="image-icon" src="/storage/character-picture/{{ $actor->character->picture }}"  alt="character-picture">
-                                        </td>
-                                        <td class="name-table">
-                                            <h5>
-                                                {{ $actor->character->name }}
-                                            </h5>
-                                            <p>
-                                                {{ $actor->character->role }}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="right-column" style="width: 50%">
-                            <table class="first-table">
-                                <tbody>
-                                    <tr>
-                                        <td align="right" class="name-table">
-                                            <h5>{{ $ac->event->name }}</h5> 
-                                        </td>
-                                        <td width="52px">
+                                        @else
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="name-table" style="display: inline-block;">
+                                    <a href="/characters/{{ $actor->character->slug }}">
+                                        <h5>
+                                        {{ $actor->character->name }}
+                                        </h5>
+                                    </a>
+                                    <p>
+                                        {{ $actor->character->role }}
+                                    </p>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="first-table" style="text-align:right; float: right;">
+                                <div class="name-table" style="display: inline-block; margin-right:0;">
+                                    <a href="/events/{{ $ac->event->slug }}">
+                                    <h5>{{ $ac->event->name }}</h5> 
+                                    </a>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <a href="/events/{{ $ac->event->slug }}">
+                                        @if ($ac->event->picture)
                                             <img class="image-icon" src="/storage/event-picture/{{ $ac->event->picture }}"  alt="event-picture">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> 
+                                        @else
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                        @endif
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
                         @endforeach
                     @endforeach
 
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p class="text-center fs-4">This Person Doesn't Have Actor Role</p>
+                        <p> This Person Doesn't Have Actor Role</p>
                     </div>
                     @endif
                 </div> <!--// close of Data person div //-->
@@ -140,35 +120,41 @@
                     </div>
                 </div>
             
-                <div class="row">
-                    @if ($staff->count())
-                    @foreach ($staff as $stf)
-                    <div class="mid-column">
-                        <table class="first-table">
-                            <tbody>
-                                <tr>
-                                    <td width="52px">
-                                        <img class="image-icon" src="/storage/event-picture/{{ $stf->event->picture }}"  alt="event-picture">
-                                    </td>
-                                    <td class="name-table">
-                                        <h5>
-                                            {{ $stf->event->name }}
-                                        </h5>
-                                        <p>{{ $stf->role }} </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                
+                @forelse ($staff as $stf) 
+                <div class="row" style="background: white; margin: 10px; max-width:955px;">
+                    <div class="col-1" style="padding-left: 0; margin-left:0px;">
+                        <a href="/events/{{ $stf->event->slug }}">
+                            @if ($stf->event->picture)
+                                <img class="image-icon" src="/storage/event-picture/{{ $stf->event->picture }}"  alt="event-picture">
+                            @else
+                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                            @endif
+                        </a>
                     </div>
-                    @endforeach
-
-                    {{-- Jika data tidak ada --}}
-                    @else
-                    <div class="col">
-                        <p class="text-center fs-4">This Person Doesn't Have Actor Role</p>
+                    <div class="col-11 name-table" style="padding-left:5px">
+                        <a href="/events/{{ $stf->event->slug }}">
+                            <h5>
+                                {{ $stf->event->name }}
+                            </h5>
+                        </a>
+                        <h6 style="padding-bottom:10px; font-style:italic; font-weight:350">
+                            {{ $stf->role }}
+                        </h6>
+                        <h6 style="font-size:16px; font-weight:400;">
+                            @if ($stf->description)
+                            {{-- {!!  Str::limit($stf->description, 50, $end='...')  !!} --}}
+                            
+                                {!!  $stf->description !!}
+                                @else
+                                This role doesn't have description yet...
+                                @endif 
+                        </h6> 
                     </div>
-                    @endif
                 </div> <!--// close of Data person div //-->
+                @empty
+                    <p>This Person Doesn't Have Staff Role</p>
+                @endforelse 
             </div> <!--// close of Staff div //-->
         </div>
 

@@ -1,5 +1,5 @@
 {{-- buat cek keluaran --}}
-{{-- @dd($posts) --}}
+{{-- @dd($post->event_id) --}}
 
 {{-- ambil dari halaman layouts/main --}}
 @extends('layouts.main')
@@ -60,14 +60,15 @@
                         @if ($topic->slug === "event-schedules")
                             <div class="mb-3">
                                 <label for="event_id">Post Event</label>
-                                <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id') }}">
+                                <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id', $post->event_id) }}">
                                     <option value="">Select Event</option>
                                     @foreach ($events as $event)
-                                    @if (old('event_id') == $event->id)
-                                        <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
-                                    @else
-                                        <option value="{{ $event->id }}">{{ $event->name }}</option>
-                                    @endif  
+                                        {{-- @if (old('event_id', $actor_events->event_id) == $event->id) --}}
+                                        @if (old('event_id', $post->event_id) === $event->id)
+                                            <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
+                                        @else
+                                            <option value="{{ $event->id }}">{{ $event->name }}</option>
+                                        @endif  
                                     
                                     @endforeach
                                 </select>
@@ -119,7 +120,11 @@
                         {{-- POST ID --}}
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
 
-                        <button type="submit" name="action" value="update" class="btn btn-primary" >Update</button>
+                        {{-- Button Action--}}
+                        <div class="footer-submit-right">
+                            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+                            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+                        </div>
                     </form>
                 </div> <!-- Close Category one -->
 
@@ -128,4 +133,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.form-select').select2();
+    });
+
+    // autofocus search
+    $(document).on('select2:open', () => {
+        document.querySelector('.select2-search__field').focus();
+    });
+</script>
 @endsection

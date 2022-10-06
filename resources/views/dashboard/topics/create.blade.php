@@ -15,6 +15,7 @@
         
         {{-- Topic --}}
         <div class="mb-3">
+            <label for="topic" class="form-label">Topic</label>
             <select class="form-select" name="topic" value="{{ old('topic')}}">
                 @if (old('topic'))
                     <option value="">Select Topic</option>
@@ -60,8 +61,8 @@
         {{-- Button Action --}}
         <div class="footer-submit-right">
             <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="create" id="btn-reply">create</button>
-        </div>
+            <button type="submit" name="action" value="create" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+        </div> 
     </form>
 </div>
 

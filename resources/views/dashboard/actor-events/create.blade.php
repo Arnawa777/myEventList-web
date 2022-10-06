@@ -55,6 +55,25 @@
             @enderror
         </div>
 
+        {{-- Role --}}
+        <div class="mb-3">
+            <label for="role">Character Role</label>
+            <select class="form-select" name="role" value="{{ old('role') }}">
+                    @if (old('role'))
+                        <option {{ old('role') == 'Main' ? 'selected' : '' }}  value="Main">Main</option>
+                        <option {{ old('role') == 'Support' ? 'selected' : '' }}  value="Support">Support</option>
+                    @else
+                        <option value="Main">Main</option>
+                        <option value="Support">Support</option>
+                    @endif
+            </select>
+                @error('role')
+                    <div class="alert-danger">
+                        {{ $message }}
+                    </div>
+                @enderror
+        </div>
+
         <div class="mb-3">
             @error('event_id')
                 <div class="alert-danger">
