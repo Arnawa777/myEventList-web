@@ -82,27 +82,47 @@ MEL-09
 <br>~Backend Search Done
 
 MEL-10
-<br>~
-<br>~
-<br>~
-<br>~
+<br>~Dashboard Home 
+<br>~Search All Fix Image
+<br>~New Search .deleteIconLong for long width search
+<br>~CSS card events, people, characters (index) Done
+<br>~Show People Finish & some change in dashboard show people
+<br>~Show Characters Finish
+<br>~Profile Favorite and Post not Done
+<br>~Check unique event at people and characters in frontend Done
+<br>~css score and favorited in events already done in MEL-09
+<br>notif success and fail not implement in frontend (review, comment, edit post) and maybe some backend (backend OK)
+<br>~Landing Page (HOME) DONE
+<br>~Add Phone Number in event Show(forgot before)
+<br>~event synopsis ganti description
+<br>~Seeder Finish
+<br>~Actor Event dan Character Controller
+<br>~Actor Event dan Character search(Done)
+<br>~Actor Event dan Character index, create, update (Done)
+<br>~Date seeder tahunnya blom bener(Done)
 
+
+
+
+``php artisan migrate:fresh --seed --seeder=UserSeeder
 - To Do
 
+<!-- ! Role pindah dari characters ke actor-character document coding erd all -->
+<document yang belum diganti rolenya yaitu desain antarmuka> [DONE]
+<Event Chara dan Reviews udah dibuat di figma tinggal nambahin di doc> [Done 10 Menit]
 
-Dashboard change per page 
+<Role coding>
+~return to_route (downgrade laravel)
 
-Give minimum value body(Post Done)
-
-Rombak Show People
-Check unique event at people and characters in frontend
-<br>notif success and fail not implement in frontend and maybe some backend (need check)
-<br>Finishing Some Page MEL-06
-<br>CSS card events, people, characters still not final
-<br>reviews tanpa minimal text (check document)
-<br>User favorite & post list
-<br>Dashboard Home 
-<br>css score and favorited in events 
+Change Latest show all
 
 DOC
+event synopsis ganti description DOCUMENT [Done]
+check Gambar 4 blabla (Kapital diawal) [Done]
+Update nomer gambar bab 4 masih males tiap 1 jam ganti anjg [Done]
+
+Ganti SS angklung Carehal (Show Event)
+Give minimum value body(Post Done) (document)
+review free lah jangan maksa DOC
+<br>reviews tanpa minimal text (check document)
 Hapus minimum value di review

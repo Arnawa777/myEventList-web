@@ -15,7 +15,7 @@
         <div style="padding-bottom: 10px">
             <a href="/dashboard/events"
             class="btn btn-info border-0">
-            <span data-feather="arrow-left"></span> Back to List Event
+            <span data-feather="arrow-left"></span> Back to All Events
         </a>
         <a href="/dashboard/events/{{ $event->slug }}/edit"
             class="btn btn-warning border-0">
@@ -47,6 +47,7 @@
                     <p> Category:  {{ $event->category->name }} </p>
                     <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
                     <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                    <p> Phone: {{ $event->phone }}</p>
                 </div>
             </div>
         </div> <!--// close of Left Side div //-->
@@ -87,6 +88,10 @@
                             </div>
                             <div class="col-11">
                                 <div class="card-block" style="min-height: 200px">
+                                    <p style="float: right; padding-right:10px;">
+                                        {{ date('d M Y', strtotime($rev->created_at)) }}
+                                    </p>
+                                    <div style="clear: left;"></div>
                                     <a href="/profile/{{ $rev->user->username }}">
                                         <h4 class="card-title">{{ $rev->user->username }}</h4>
                                     </a>

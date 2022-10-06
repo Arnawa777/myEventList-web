@@ -15,7 +15,7 @@
         <div style="padding-bottom: 10px">
             <a href="/dashboard/events"
             class="btn btn-info border-0">
-            <span data-feather="arrow-left"></span> Back to List Event
+            <span data-feather="arrow-left"></span> Back to All Events
         </a>
         <a href="/dashboard/events/{{ $event->slug }}/edit"
             class="btn btn-warning border-0">
@@ -46,6 +46,7 @@
                     <p> Category:  {{ $event->category->name }} </p>
                     <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
                     <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                    <p> Phone: {{ $event->phone }}</p>
                 </div>
             </div>
         </div> <!--// close of Left Side div //-->
@@ -117,17 +118,17 @@
                 
             </div> <!--// close of Rating & Video div //-->
     
-            {{-- Synopsis --}}
+            {{-- description --}}
             <div class="row" id="main-row">
               <div class="col-12"> 
                 <div class="border-bottom" style="margin-bottom:10px;">
-                    <h5>Synopsis</h5>
+                    <h5>Description</h5>
                 </div>
-                @if (is_null($event->synopsis))
-                    <p> This Event doesn't have synopsis yet... </p>
+                @if (is_null($event->description))
+                    <p> This Event doesn't have description yet... </p>
                 @else
                     <article>
-                        {!! $event->synopsis !!}
+                        {!! $event->description !!}
                     </article>
                 @endif
               </div>
@@ -166,7 +167,7 @@
                                                 {{ Str::words($ac->character->name, 2, '') }}
                                             </h7>
                                         </a>
-                                        <p class="name-table">{{ $ac->character->role }}</p>
+                                        <p class="name-table">{{ $ac->role }}</p>
                                     </td>
                                     <td align="right">
                                         <a href="/dashboard/people/{{ $ac->person->slug }}">
@@ -266,6 +267,10 @@
                                 </div>
                                 <div class="col-11">
                                     <div class="card-block" style="min-height: 200px">
+                                        <p style="float: right; padding-right:10px;">
+                                            {{ date('d M Y', strtotime($rev->created_at)) }}
+                                        </p>
+                                        <div style="clear: left;"></div>
                                         <a href="/profile/{{ $rev->user->username }}">
                                             <h4 class="card-title">{{ $rev->user->username }}</h4>
                                         </a>

@@ -39,13 +39,15 @@
 			</div>
 			
 			<div class="collapse navbar-collapse navbar-nav justify-content-lg-end">
+				
 				<form action="/search">
 					<div class="input-group" style="padding-right:20px">
 					<input type="text" class="form-control" placeholder="Search.." 
-					name="search" value="">
+					name="search" value="" id="deleteInput">
 					<button class="btn btn-primary" type="submit" ><i class="bi bi-search"></i></button>
 					</div>
 				</form>
+
 				{{-- Use AppServiceProvider --}}
 				@admin
 					<div class="nav-item dropdown">

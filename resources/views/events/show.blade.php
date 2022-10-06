@@ -3,7 +3,6 @@
 
 {{-- isi dari layouts/main --}}
 @section('container')
-<link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 {{-- {{ dd($allReviews) }} --}}
 
 <div class="container">
@@ -16,9 +15,9 @@
                 <div class="row" id="main-row">
                     <div class="parent-cover-event" style="margin-top: 10px;" id="event_id" data-field-id="{{ $event->id }}">
                         @if ($event->picture)
-                            <img class="cover-event" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
+                            <img class="cover-event" style="border: 2px white solid;" src="/storage/event-picture/{{ $event->picture }}" alt="event-img">
                         @else
-                            <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                            <img class="cover-event-empty" style="border: 2px white solid;" src="/img/No_image_available.svg" alt="no-img">
                         @endif
                     </div>
                     <div class="border-bottom" style="margin-bottom:10px;">
@@ -28,6 +27,7 @@
                         <p> Category:  {{ $event->category->name }} </p>
                         <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
                         <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                        <p> Phone: {{ $event->phone }}</p>
                     </div>
                     <div>
                         @auth
@@ -116,17 +116,17 @@
                     
                 </div> <!--// close of Rating & Video div //-->
         
-                {{-- Synopsis --}}
+                {{-- description --}}
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
-                            <h5>Synopsis</h5>
+                            <h5>Description</h5>
                         </div>
-                        @if (is_null($event->synopsis))
-                            <p> This Event doesn't have synopsis yet... </p>
+                        @if (is_null($event->description))
+                            <p> This Event doesn't have description yet... </p>
                         @else
                             <article>
-                                {!! $event->synopsis !!}
+                                {!! $event->description !!}
                             </article>
                         @endif
                     </div>
@@ -164,7 +164,7 @@
                                                     {{ Str::words($ac->character->name, 2, '') }}
                                                 </h7>
                                             </a>
-                                            <p class="name-table">{{ $ac->character->role }}</p>
+                                            <p class="name-table">{{ $ac->role }}</p>
                                         </td>
                                         <td align="right">
                                             <a href="/people/{{ $ac->person->slug }}">
@@ -262,6 +262,10 @@
                                 </div>
                                 <div class="col-11">
                                     <div class="card-block" style="min-height: 200px">
+                                        <p style="float: right; padding-right:10px;">
+                                            {{ date('d M Y', strtotime($rev->created_at)) }}
+                                        </p>
+                                        <div style="clear: left;"></div>
                                         <a href="/profile/{{ $rev->user->username }}">
                                             <h4 class="card-title">{{ $rev->user->username }}</h4>
                                         </a>

@@ -42,11 +42,11 @@ style="padding: 30px 0px 20px 0px">
                 @foreach ($characters as $chara)
                     @if (old('character_id') == $chara->id)
                         <option value="{{ $chara->id }}" selected>
-                            {{ $chara->name }} - {{ $chara->role }}
+                            {{ $chara->name }}
                         </option>
                     @else
                         <option value="{{ $chara->id }}">
-                            {{ $chara->name }} - {{ $chara->role }}
+                            {{ $chara->name }}
                         </option>
                     @endif
                 @endforeach

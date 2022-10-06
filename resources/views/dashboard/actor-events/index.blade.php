@@ -5,7 +5,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 col-lg-8 border-bottom" 
 	 style="padding: 30px 0px 20px 0px">
-	<h2>List Actor in Event</h2>
+	<h2>Actors in Event</h2>
 </div>
 
 
@@ -37,8 +37,9 @@
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
 					<th scope="col" style="width: 30%">Event</th>
-					<th scope="col" style="width: 27%">Character</th>
-					<th scope="col" style="width: 27%">Person</th>
+					<th scope="col" style="width: 25%">Character</th>
+					<th scope="col" style="width: 25%">Person</th>
+					<th scope="col" style="width: 7%">Role</th>
 					<th scope="col" style="width: 10%">Action</th>
 				</tr>
 			</thead>
@@ -51,6 +52,7 @@
 					<td>{{ $ae->event->name }}</td>
 					<td>{{ $ae->actor->character->name }}</td>
 					<td>{{ $ae->actor->person->name }}</td>
+					<td>{{ $ae->role }}</td>
 					<td class="actionButton" style="flex">
 						{{-- Menit 36 eps 17 --}}
 						<a style="pointer-events: none;" href="#"

@@ -14,11 +14,6 @@
         <a href="/">
             <i class="close-right fa-solid fa-xmark"></i>
         </a>
-        @if (session()->has('success'))
-            <h2>
-                {{ session('success') }}
-            </h2>
-        @endif
         <div class="forms-container">
             <div class="login">
                 <form action="{{ route('login.authenticate') }}" method="POST" class="login-form">
@@ -26,6 +21,11 @@
                     @if (session()->has('loginError'))
                         <h2>
                             {{ session('loginError') }}
+                        </h2>
+                    @endif
+                    @if (session()->has('success'))
+                        <h2>
+                            {{ session('success') }}
                         </h2>
                     @endif
 

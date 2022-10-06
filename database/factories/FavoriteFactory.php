@@ -17,8 +17,8 @@ class FavoriteFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => $this->faker->numberBetween(1,5),
-            'event_id' => $this->faker->numberBetween(1,5),
+            'user_id' => $this->faker->unique()->numberBetween(1, 20),
+            'event_id' => '7',
         ];
     }
 }

@@ -42,7 +42,9 @@
                             <tr>
                                 <td id="topic">
                                     <h4>
-                                        <a href="/forum/{{ $topic->slug }}/{{ $post->slug }}">{{ $post->title }}</a>
+                                        <a href="/forum/{{ $topic->slug }}/{{ $post->slug }}">
+                                            {{ Str::limit($post->title, 40, $end='...') }}
+                                        </a>
                                         </h4>
                                     <div><a href="/profile/{{ $post->author->username }}">{{ $post->author->username }}</a> - 
                                         {{ date('d-m-Y', strtotime($post->created_at)) }}</div>
@@ -63,7 +65,9 @@
                                         {{-- {{ $post->latestComment->body }} --}}
                                     </h6>
                                     <div>{{ date('d-m-Y', strtotime($post->latestComment->created_at)) }}
-                                        <a href="/profile/{{ $post->latestComment->author->username }}">{{ $post->latestComment->author->username }}</a></div>
+                                        <a href="/profile/{{ $post->latestComment->author->username }}">
+                                            {{ $post->latestComment->author->username }}
+                                        </a></div>
                                 @else
                                     <h6 class="text-center font-weight-bold mb-0">
                                         No Comments

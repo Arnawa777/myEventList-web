@@ -21,10 +21,11 @@ class HomeController extends Controller
             ->limit(6)
             // if you want to get the top 5
             ->get();
-        $popular = Review::selectRaw('reviews.event_id, count(event_id) as member, events.name, events.slug, events.picture')
+        $popular = Review::selectRaw('reviews.event_id, count(event_id) as member, sum(rating) / count(event_id) as rating, events.name, events.slug, events.picture')
             ->join('events', 'events.id', '=', 'reviews.event_id')
             ->groupBy('event_id')
             ->orderByDesc('member')
+            ->orderBy('rating', 'desc')
             ->limit(6)
             // if you want to get the top 5
             ->get();
@@ -37,15 +38,14 @@ class HomeController extends Controller
             'events' => $events,
             'people' => $people,
             'characters' => $characters,
-            'popular' => $popular
+            'popular' => $popular,
         ]);
     }
+
     public function search()
     {
         return view('search', [
             "title" => "Search All",
-            //eager loadng query dipindah ke model
-            //WithQuearyString membawa query sebelumnya pada pagination
             "events" => Event::latest()->filter(request(['search']))->get(),
             "people" => Person::latest()->filter(request(['search']))->get(),
             "characters" => Character::latest()->filter(request(['search']))->get(),

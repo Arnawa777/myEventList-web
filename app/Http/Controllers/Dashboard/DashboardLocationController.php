@@ -18,7 +18,7 @@ class DashboardLocationController extends Controller
     {
         return view('dashboard.locations.index', [
             'title' => "Dashboard - List Location",
-            'locations' => Location::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            'locations' => Location::orderBy('regency', 'asc')->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 

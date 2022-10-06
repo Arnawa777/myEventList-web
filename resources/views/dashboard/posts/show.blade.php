@@ -6,13 +6,13 @@
 {{-- <link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css"> --}}
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/forum.css">
 
-<div class="col-lg-10" style="border: 1px #9D9EA0 solid; margin-bottom:10px">
+<div class="col-lg-10" style="border: 1px #9D9EA0 solid; margin-bottom:10px; margin-top:20px;">
     <div class="row">
         <div id="title" >
             <h3 style="padding-left:10px; background-color: #9D9EA0; height:40px">{{ $post->title }}</h3>
         </div>
         <div style="margin-left:10px">
-            <a href="/dashboard/posts"class="btn btn-info border-0">Back to List Post</a>
+            <a href="/dashboard/posts"class="btn btn-info border-0">Back to All Posts</a>
             {{-- Check user --}}
             @if ($post->author->id === auth()->user()->id)
                 <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-warning border-0">Edit</a>

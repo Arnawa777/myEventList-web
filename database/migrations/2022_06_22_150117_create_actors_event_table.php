@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained('events')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('actor_id')->constrained('actors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unique(['event_id', 'actor_id']);
+            $table->string('role', 75);
             $table->timestamps();
         });
     }

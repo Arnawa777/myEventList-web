@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
+use App\Models\Character;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Character>
@@ -16,13 +18,14 @@ class CharacterFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->name();
+        $slug = SlugService::createSlug(Character::class, 'slug', $name);
+
         return [
-            'name' => $this->faker->name(),
-            'slug' => $this->faker->unique()->slug(),
-            'role' => $this->faker->word(),
-            'description' => $this->faker->paragraph(1,3),
-            'picture' => 'default.jpg',
+            'name' => $name,
+            'slug' => $slug,
+            'description' => $this->faker->paragraph(1, 3),
+            // 'picture' => '',
         ];
     }
 }
-

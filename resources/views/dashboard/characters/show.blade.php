@@ -15,7 +15,7 @@
         <div style="padding-bottom: 10px">
             <a href="/dashboard/characters"
             class="btn btn-info border-0">
-            <span data-feather="arrow-left"></span> Back to List Character
+            <span data-feather="arrow-left"></span> Back to All Characters
         </a>
         <a href="/dashboard/characters/{{ $chara->slug }}/edit"
             class="btn btn-warning border-0">
@@ -138,7 +138,7 @@
                                         <td class="name-table">
                                             <a href="/dashboard/people/{{ $actor->person->slug }}">
                                             <h7>
-                                                {{ Str::words($actor->person->name, 2, '') }}
+                                                {{ $actor->person->name }}
                                             </h7>
                                             </a>
                                         </td>

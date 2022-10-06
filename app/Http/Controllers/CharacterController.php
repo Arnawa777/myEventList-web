@@ -23,7 +23,7 @@ class CharacterController extends Controller
             "title" => "Dashboard - Show $character->name",
             'chara' => $character,
             'actors' => $character->actor,
-            'eventList' => $character->actor_event,
+            'eventList' => $character->actor_event->unique('event_id'),
         ]);
     }
 }

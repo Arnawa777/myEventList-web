@@ -23,7 +23,13 @@
                </div>
            @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        {{-- Button Action--}}
+        <div class="footer-submit-right">
+            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+        </div>
+        
     </form>
 </div>
 

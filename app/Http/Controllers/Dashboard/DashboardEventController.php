@@ -64,15 +64,28 @@ class DashboardEventController extends Controller
             return redirect('dashboard/events');
         }
         if ($request->action == 'create') {
+            // dd($check[0]);
             $rules = [
                 'name' => 'required|unique:events|min:3|max:100',
                 'location_id' => 'required',
                 'category_id' => 'required',
-                'synopsis' => 'nullable',
-                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:13',
-                'date' => 'required',
+                'description' => 'nullable',
+                'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15',
+                'date' => 'nullable',
                 'picture' => 'nullable|image|file|max:1024',
             ];
+
+            // if ($request->phone) {
+            //     $number = $request->input('phone');
+            //     preg_match('%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i', $number, $regexPhone);
+
+            // dd($regexPhone[2]);
+            //     if ($regexPhone) {
+            //         $validatedData['phone'] = $regexPhone[2];
+            //     } else {
+            //         $validatedData['phone'] = $number;
+            //     }
+            // }
 
             $validatedData = $request->validate($rules);
 
@@ -139,12 +152,6 @@ class DashboardEventController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Event $event)
     {
         $location = Location::selectRaw('locations.*')
@@ -185,9 +192,9 @@ class DashboardEventController extends Controller
                 'name' => 'required|min:3|max:100|unique:events,name,' . $event->id,
                 'location_id' => 'required',
                 'category_id' => 'required',
-                'synopsis' => 'nullable',
-                'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:13|unique:events,phone,' . $event->id,
-                'date' => 'required',
+                'description' => 'nullable',
+                'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15|unique:events,phone,' . $event->id,
+                'date' => 'nullable',
                 'picture' => 'nullable|image|file|max:1024',
             ];
 

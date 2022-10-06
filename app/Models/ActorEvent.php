@@ -32,8 +32,9 @@ class ActorEvent extends Model
         //versi arrow function
         $query->when(
             $filters['search'] ?? false,
-            fn ($query, $search) => $query->whereHas('event', fn ($query) =>
-            $query->where('name', 'like', '%' .  $search . '%'))
+            fn ($query, $search) => $query->where('role', 'like', '%' .  $search . '%')
+                ->orwhereHas('event', fn ($query) =>
+                $query->where('name', 'like', '%' .  $search . '%'))
                 ->orWhereHas(
                     'actor',
                     fn ($query) =>

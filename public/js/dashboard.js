@@ -36,3 +36,9 @@ $(document).ready(function () {
         $(this).prev('input').val('').trigger('change').focus();
     }));
 });
+
+$(document).ready(function () {
+    $('input#deleteInputLong').wrap('<span class="deleteIconLong"></span>').after($('<span>x</span>').click(function () {
+        $(this).prev('input').val('').trigger('change').focus();
+    }));
+});

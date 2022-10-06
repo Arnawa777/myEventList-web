@@ -11,9 +11,9 @@
             <div class="col-lg-6">
                 <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                 <form action="/characters">
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" style="justify-content:center">
                         <input type="text" class="form-control" placeholder="Search.." 
-                        name="search" value="{{ request('search') }}">
+                        name="search" value="{{ request('search') }}" id="deleteInputLong">
                         <button class="btn btn-primary" type="submit" >Search</button>
                     </div>
                 </form>
@@ -25,7 +25,13 @@
                     @foreach ($characters as $character)
                     <li>
                     <a href="/characters/{{ $character->slug }}" class="card">
-                        <img src="/storage/character-picture/{{ $character->picture }}" class="card__image" alt="" />
+                        <div class="parent-cover-event" style="margin-bottom:100px;">
+                            @if($character->picture)
+                                <img class="cover-event" src="/storage/character-picture/{{ $character->picture }}" alt="chara-img">
+                            @else
+                                <img class="cover-event-empty" src="/img/No_image_available.svg" alt="no-img">
+                            @endif
+                        </div>
                         <div class="card__overlay">
                         <div class="card__header">
                             <div class="card__header-text">

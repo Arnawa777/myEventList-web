@@ -10,10 +10,10 @@
             <div class="col-lg-6">
                 <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                 <form action="/users">
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" style="justify-content: center;">
                         <input type="text" class="form-control" placeholder="Search.." 
-                        name="search" value="{{ request('search') }}">
-                        <button class="btn btn-primary" type="submit" >Search</button>
+                        name="search" value="{{ request('search') }}" id="deleteInputLong">
+                        <button class="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
             </div>
@@ -21,7 +21,9 @@
         @foreach ($users as $user)
         <div class="col-lg-4" style="padding: 20px 10px">
                 <div class="card" >
-                    <img src="/storage/user-picture/{{ $user->picture }}" class="card-img-top" style="height:20rem; object-fit: cover;" alt="{{ $user->username }}">
+                    <a href="/profile/{{ $user->username }}">
+                        <img src="/storage/user-picture/{{ $user->picture }}" class="card-img-top" style="height:20rem; object-fit: cover;" alt="{{ $user->username }}">
+                    </a>
                     <div class="card-body">
                         <h5>
                             <a href="/profile/{{ $user->username }}" class="text-decoration-none text-dark">{{ $user->username }}</a>

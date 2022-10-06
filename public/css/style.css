@@ -1,5 +1,11 @@
+html,
 body {
-  min-height: 100vh;
+  height: 100%;
+}
+
+body {
+  /* min-height: 100vh; */
+
   margin: 0;
 
   display: grid;
@@ -47,10 +53,9 @@ a {
 }
 
 /* unvisited link */
-#my-navbar a:link {
+/* #my-navbar a:link {
   color: black;
-}
-
+} */
 
 /* mouse over link */
 #my-navbar a:hover,
@@ -174,6 +179,7 @@ span.deleteicon {
   position: relative;
   display: inline-flex;
   align-items: center;
+  /* width: 75%; */
 }
 
 span.deleteicon span {
@@ -196,4 +202,77 @@ span.deleteicon input {
   box-sizing: border-box;
 }
 
+
+span.deleteIconLong {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 80%;
+}
+
+span.deleteIconLong span {
+  position: absolute;
+  display: block;
+  right: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: rgb(0, 0, 0);
+  font: 14px monospace;
+  text-align: center;
+  line-height: 1em;
+  cursor: pointer;
+}
+
+span.deleteIconLong input {
+  padding-right: 18px;
+  box-sizing: border-box;
+}
+
 /* End */
+
+
+/* Select 2 */
+
+.select2.select2-container {
+  width: 100% !important;
+  font-family: Roboto, Helvetica;
+}
+
+.select2.select2-container .select2-selection {
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  height: 34px;
+  margin-bottom: 15px;
+  outline: none !important;
+  transition: all .15s ease-in-out;
+}
+
+.select2.select2-container .select2-selection .select2-selection__rendered {
+  color: #333;
+  line-height: 32px;
+  padding-right: 33px;
+}
+
+.select2.select2-container .select2-selection .select2-selection__arrow {
+  background: #f8f8f8;
+  border-left: 1px solid #ccc;
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+  height: 32px;
+  width: 33px;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--single {
+  background: #f8f8f8;
+}
+
+.select2.select2-container.select2-container--open .select2-selection.select2-selection--single .select2-selection__arrow {
+  -webkit-border-radius: 0 3px 0 0;
+  -moz-border-radius: 0 3px 0 0;
+  border-radius: 0 3px 0 0;
+}

@@ -16,15 +16,9 @@ class DashboardCharacterController extends Controller
      */
     public function index()
     {
-        $roles = Character::selectRaw('characters.*')
-            ->groupby('role')
-            ->orderby('role', 'asc')
-            ->get();
-
         return view('dashboard.characters.index', [
             "title" => "Dashboard - List Character",
-            'characters' => Character::latest()->filter(request(['search', 'role']))->paginate(5)->withQueryString(),
-            'roles' => $roles,
+            'characters' => Character::latest()->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -54,7 +48,6 @@ class DashboardCharacterController extends Controller
         if ($request->action == 'create') {
             $rules = [
                 'name' => 'required|unique:characters|min:3|max:50',
-                'role' => 'required',
                 'description' => 'nullable',
                 'picture' => 'image|file|max:1024',
             ];
@@ -125,7 +118,6 @@ class DashboardCharacterController extends Controller
         if ($request->action == 'update') {
             $rules = [
                 'name' => 'required|min:3|max:50|unique:characters,name,' . $character->id,
-                'role' => 'required',
                 'description' => 'nullable',
                 'picture' => 'nullable|image|file|max:1024',
             ];

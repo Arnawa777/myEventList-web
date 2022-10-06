@@ -14,7 +14,6 @@ trix-toolbar [data-trix-button-group="file-tools"]{
 }
 </style>
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/setting.css">
-<script src="{{ URL::to('/') }}/js/dashboard.js"></script>
 <script src=""></script>
   <div class="container">
     <!-- Tabs with Background on Card -->
@@ -46,7 +45,7 @@ trix-toolbar [data-trix-button-group="file-tools"]{
                 <div class="col-md-8">
                     <div class="card-body">
 						<h4>Upload Picture</h4>
-						<p>Must be jpg, jpeg, png or gif format. Picture maximum size 2 MB Maximum of 225 x 350 pixels (resized automatically).</p>
+						<p>Must be image maximum size 2 MB</p>
 						@error('picture')
                 <div class="text-danger">
                     {{ $message }}

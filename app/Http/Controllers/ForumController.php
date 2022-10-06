@@ -43,7 +43,7 @@ class ForumController extends Controller
         return view('forums.topic', [
             "title" => "Forums - $topic->sub_topic",
             "topic" => $topic,
-            "posts" => $topic->posts()->paginate(10),
+            "posts" => $topic->posts()->latest()->paginate(10),
         ]);
     }
 
@@ -88,6 +88,10 @@ class ForumController extends Controller
 
         $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
         $validatedData['slug'] = $slug;
+        if ($request->event_id) {
+            $validatedData['event_id'] = $request->event_id;
+        }
+
         $validatedData['user_id'] = auth()->user()->id;
 
         Post::create($validatedData);
@@ -133,6 +137,10 @@ class ForumController extends Controller
             return redirect()->back();
         }
 
+        if ($request->action == 'cancel') {
+            return to_route('forum.post', [$topic->slug,  $post->slug]);
+        }
+
         if ($request->action == 'update') {
             $rules = [
                 'title' => 'required|min:3|max:150',
@@ -153,6 +161,9 @@ class ForumController extends Controller
 
             $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
             $validatedData['slug'] = $slug;
+            if ($request->event_id) {
+                $validatedData['event_id'] = $request->event_id;
+            }
             $validatedData['user_id'] = auth()->user()->id;
 
             Post::where('id', $request->post_id)
@@ -167,8 +178,9 @@ class ForumController extends Controller
         }
     }
 
-    public function destroy(Topic $topic, Post $post)
+    public function destroy(Topic $topic, Post $post, Request $request)
     {
+        // dd($request->redirect);
         if (!empty($post->picture)) {
             if ($post->picture !== 'default.jpg') {
                 $file = public_path('/storage/post-picture/' . $post->picture);
@@ -184,6 +196,12 @@ class ForumController extends Controller
 
         // return redirect('/forum')->with('success', 'Post has been delete!!!');
         // $slug = $request->topic_slug;
-        return to_route('forum.topic', [$topic->slug])->with('success', 'Post has been deleted!!!');
+
+        if ($request->redirect == 'profile') {
+            // return to_route('forum.topic', [$topic->slug])->with('success', 'Post has been deleted!!!');
+            return redirect()->back()->with('success', 'Post has been delete!!!');
+        } else {
+            return to_route('forum.topic', [$topic->slug])->with('success', 'Post has been deleted!!!');
+        }
     }
 }

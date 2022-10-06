@@ -16,6 +16,7 @@
 
         {{-- Topic --}}
         <div class="mb-3">
+            <label for="topic" class="form-label">Topic</label>
             <select class="form-select" name="topic" value="{{ old('topic', $topic->topic)}}">
                 @if (old('topic', $topic->topic))
                     <option value="">Select Topic</option>

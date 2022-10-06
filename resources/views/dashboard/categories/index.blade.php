@@ -5,7 +5,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 	 style="padding: 30px 0px 20px 0px">
-    <h1 class="h2">List Category in Event</h1>
+    <h2>Categories</h2>
 </div>
 
 <div class="table-responsive col-lg-8">

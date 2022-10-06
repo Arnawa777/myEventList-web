@@ -35,6 +35,8 @@ body {
     padding: 0;
 }
 
+
+
 .main {
     width: 100%;
     text-align: center;
@@ -48,6 +50,7 @@ h2 {
 .top_slider {
     width: 95%;
     margin: 0px auto;
+    padding: 30px 0;
 }
 
 .slick-slide {
@@ -64,12 +67,109 @@ h2 {
     box-shadow: 1px 1px 20px #ccc;
 }
 
+
+.card-content {
+    text-align: center;
+    color: #333;
+    padding: 15px;
+}
+
+/* .card-text {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+} */
+
+.card-header {
+    padding: 0;
+}
+
+.main-header {
+    width: 100%;
+    height: 450px;
+}
+
+
+.car .main-img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    position: absolute;
+    transition-timing-function: ease-in-out;
+    transition-duration: 2s;
+}
+
+.car:hover .main-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
 .middle {
     position: absolute;
+    text-align: center;
+    background-color: #51cca0;
+    color: white;
     top: 50%;
     left: 50%;
+    overflow: hidden;
     transform: translate(-50%, -50%);
     visibility: hidden;
+    opacity: 0;
+    transition-timing-function: ease-in-out;
+    transition-duration: 2s;
+}
+
+
+.car:hover .middle {
+    text-align: center;
+    background-color: #51cca0;
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    padding: 10px;
+    visibility: visible;
+    opacity: 3;
+}
+
+.car .border-hover {
+    border: 4px darkblue solid;
+    border-image: conic-gradient(from var(--angle),
+            darkblue 0deg 90deg,
+            #F5F5F5 90deg 180deg,
+            darkblue 180deg 270deg,
+            #F5F5F5 270deg 360deg) 1 stretch;
+    background: rgb(255 255 255 / var(0.02));
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+}
+
+.car .border-hover {
+    animation: rotate 6s linear infinite, opacityChange 3s infinite alternate;
+}
+
+.car:hover .border-hover {
+    position: absolute;
+    /* visibility: visible; */
+    width: 100%;
+    height: 100%;
+}
+
+.car .border-hover {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+    transition-duration: 2s;
+}
+
+.car:hover .border-hover {
+    visibility: visible;
+    opacity: 1;
 }
 
 .card-body {
@@ -78,33 +178,170 @@ h2 {
     vertical-align: top;
 }
 
-.card-content {
-    text-align: center;
-    color: #333;
-    padding: 15px;
+.main-card-body {
+    background: #fff;
+    width: 100%;
+    height: 50px;
+    display: flex !important;
+    overflow: hidden;
+    justify-content: center !important;
+    /* align horizontal */
+    align-items: center !important;
 }
 
-.card-text {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 300;
+.car .card-title {
+    font-weight: 500;
+    font-size: 22px;
+    opacity: 1;
+    /* visibility: visible; */
+    transition: transform 3s, opacity 4s;
 }
 
-.car:hover img {
-    opacity: 0.1;
+.car:hover .card-title {
+    transform: translateY(100%);
+    opacity: 0;
 }
 
-.card:hover .middle {
-    opacity: 3;
+/* Side */
+#left-side {
+    padding-left: 30px;
 }
 
-.car:hover .middle {
-    background-color: #51cca0;
-    color: white;
-    font-size: 16px;
+
+.side-header {
+    width: 100%;
+    height: 250px;
+}
+
+.side-title-slider {
+    margin: 12px;
+    border-bottom: 5px darkblue solid;
+}
+
+.slider {
+    padding-bottom: 20px;
+}
+
+.car .side-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
     position: absolute;
-    /* top: 47%;
-    left: 35%; */
-    padding: 10px 20px;
-    visibility: visible;
+    transition-timing-function: ease-in-out;
+    transition-duration: 2s;
+}
+
+.car:hover .side-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+
+.side-card-body {
+    background: #fff;
+    width: 100%;
+    height: 50px;
+    display: flex !important;
+    overflow: hidden;
+    justify-content: center !important;
+    /* align horizontal */
+    align-items: center !important;
+    /* align vertical */
+}
+
+.side-title {
+    text-align: center;
+    margin: auto;
+    opacity: 1;
+    transition: transform 3s, opacity 4s;
+}
+
+.car:hover .side-title {
+    margin: auto;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.small-img {
+    width: 90px;
+    height: 130px;
+    object-fit: cover;
+}
+
+.popular-table {
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #E6E6E6;
+}
+
+.popular-table .popular-info {
+    padding-left: 10px;
+    display: table-cell;
+    vertical-align: top;
+}
+
+.popular-table .popular-info h3 {
+    padding-bottom: 10px;
+}
+
+.popular-table .popular-info p {
+    margin: 0;
+}
+
+.rainbow {
+    width: 400px;
+    height: 300px;
+    border-radius: 10px;
+    padding: 2rem;
+    margin: auto;
+
+    display: grid;
+    place-content: center;
+    text-align: center;
+
+    font-size: 1.5em;
+
+    --border-size: 0.3rem;
+    border: var(--border-size) solid transparent;
+
+    /* Paint an image in the border */
+    border-image: conic-gradient(from var(--angle),
+            #d53e33 0deg 90deg,
+            #fbb300 90deg 180deg,
+            #377af5 180deg 270deg,
+            #399953 270deg 360deg) 1 stretch;
+    background: rgb(255 255 255 / var(0.02));
+}
+
+.rainbow {
+    animation: rotate 6s linear infinite, opacityChange 3s infinite alternate;
+}
+
+/* Animate when Houdini is available */
+@supports (background: paint(houdini)) {
+    @property --opacity {
+        syntax: "<number>";
+        initial-value: 0.5;
+        inherits: false;
+    }
+
+    @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+    }
+
+    @keyframes opacityChange {
+        to {
+            --opacity: 1;
+        }
+    }
+
+    @keyframes rotate {
+        to {
+            --angle: 360deg;
+        }
+    }
+
 }
