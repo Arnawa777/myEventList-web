@@ -17,8 +17,8 @@ class DashboardCharacterController extends Controller
     public function index()
     {
         return view('dashboard.characters.index', [
-            "title" => "Dashboard - List Character",
-            'characters' => Character::latest()->filter(request(['search']))->paginate(5)->withQueryString(),
+            "title" => "Dashboard - Daftar Karakter",
+            'characters' => Character::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class DashboardCharacterController extends Controller
     public function create()
     {
         return view('dashboard.characters.create', [
-            "title" => "Dashboard - Create Character",
+            "title" => "Dashboard - Buat Karakter",
         ]);
     }
 
@@ -66,14 +66,14 @@ class DashboardCharacterController extends Controller
 
             Character::create($validatedData);
 
-            return redirect('/dashboard/characters')->with('success', 'New Character has been added!!!');
+            return redirect('/dashboard/characters')->with('success', 'Karakter baru telah ditambahkan!!!');
         }
     }
 
     public function show(Character $character)
     {
         return view('dashboard.characters.show', [
-            "title" => "Dashboard - Show $character->name",
+            "title" => "Dashboard - Detail $character->name",
             'chara' => $character,
             'actors' => $character->actor,
             'eventList' => $character->actor_event->unique('event_id'),
@@ -89,7 +89,7 @@ class DashboardCharacterController extends Controller
     public function edit(Character $character)
     {
         return view('dashboard.characters.edit', [
-            'title' => "Dashboard - Edit Character",
+            'title' => "Dashboard - Ubah Karakter",
             'chara' => $character,
         ]);
     }
@@ -146,7 +146,7 @@ class DashboardCharacterController extends Controller
             Character::where('id', $character->id)
                 ->update($validatedData);
 
-            return redirect('/dashboard/characters')->with('success', 'Character has been updated!!!');
+            return redirect('/dashboard/characters')->with('success', 'Karakter berhasil diperbarui!!!');
         }
     }
 
@@ -164,6 +164,6 @@ class DashboardCharacterController extends Controller
 
         Character::destroy($chara->id);
 
-        return redirect('/dashboard/characters')->with('success', 'Character has been deleted!!!');
+        return redirect('/dashboard/characters')->with('success', 'Karakter berhasil dihapus!!!');
     }
 }

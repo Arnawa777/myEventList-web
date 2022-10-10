@@ -17,8 +17,8 @@ class DashboardTopicController extends Controller
     public function index()
     {
         return view('dashboard.topics.index', [
-            'title' => "Dashboard - List Topic",
-            'topics' => Topic::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            'title' => "Dashboard - Daftar Topik",
+            'topics' => Topic::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class DashboardTopicController extends Controller
     public function create()
     {
         return view('dashboard.topics.create', [
-            'title' => "Dashboard - Create Topic",
+            'title' => "Dashboard - Buat Topik",
         ]);
     }
 
@@ -54,7 +54,7 @@ class DashboardTopicController extends Controller
             $validatedData['slug'] = SlugService::createSlug(Topic::class, 'slug', $request->sub_topic);
 
             Topic::create($validatedData);
-            return redirect('dashboard/topics')->with('success', 'New Topic has been added!!!');
+            return redirect('dashboard/topics')->with('success', 'Topik baru telah ditambahkan!!!');
         }
     }
 
@@ -72,7 +72,7 @@ class DashboardTopicController extends Controller
     public function edit(Topic $topic)
     {
         return view('dashboard.topics.edit', [
-            'title' => "Dashboard - Edit Topic",
+            'title' => "Dashboard - Ubah Topik",
             'topic' => $topic
         ]);
     }
@@ -93,7 +93,7 @@ class DashboardTopicController extends Controller
 
             Topic::where('id', $topic->id)
                 ->update($validatedData);
-            return redirect('dashboard/topics')->with('success', 'Topic has been updated!!!');
+            return redirect('dashboard/topics')->with('success', 'Topik berhasil diperbarui!!!');
         }
     }
 
@@ -107,10 +107,10 @@ class DashboardTopicController extends Controller
     {
         try {
             Topic::destroy($topic->id);
-            return redirect('dashboard/topics')->with('success', 'Topic has been deleted!!!');
+            return redirect('dashboard/topics')->with('success', 'Topik berhasil dihapus!!!');
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
-                return redirect('dashboard/topics')->with('fail', 'Topic in use!!!');
+                return redirect('dashboard/topics')->with('fail', 'Gagal.. Topik sedang digunakan!!!');
                 // return error to user here
             }
         }

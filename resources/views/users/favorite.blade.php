@@ -24,7 +24,7 @@
 <div class="container">
 	<div class="row">
 		<nav class="breadcrumb">
-            <a href="/users">Users </a>
+            <a href="/users">Daftar User </a>
             &nbsp
             >
             &nbsp
@@ -32,12 +32,12 @@
             &nbsp
             >
             &nbsp
-            <a href="/profile/{{ $user->username }}/favorites" class="active">{{ $user->username }} Favorites</a>
+            <a href="/profile/{{ $user->username }}/favorites" class="active">Daftar Favorit {{ $user->username }}</a>
         </nav>
 		<div class="col">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title">{{ $user->username }}'s Favorite</h3>
+					<h3 class="card-title">Daftar Favorit {{ $user->username }}</h3>
 				</div>
 				<div class="card-body">
 					@if ($message = Session::get('error'))
@@ -56,9 +56,9 @@
 						<thead>
 							<tr>
 							<th>No</th>
-							<th style="width: 250px;">Picture</th>
-							<th>Event Name</th>
-							<th>Description</th>
+							<th style="width: 250px;">Foto</th>
+							<th>Nama</th>
+							<th>Deskripsi</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -85,7 +85,7 @@
 								@if ($favorite->event->description)
 									{!! $favorite->event->description !!}
 								@else
-									This Event doesn't have description...
+									Komunitas ini belum memiliki deskripsi...
 								@endif
 							</td>
 							@auth
@@ -94,7 +94,7 @@
 									<form action="{{ route('favorites.destroy', $favorite->id) }}" method="post" class="d-inline">
 									@method('delete')
 									@csrf
-									<button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+									<button class="btn btn-danger" onclick="return confirm('Apa anda yakin?')">Hapus</button>
 							
 									</form>
 								</td>

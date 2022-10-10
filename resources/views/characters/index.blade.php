@@ -12,9 +12,9 @@
                 <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                 <form action="/characters">
                     <div class="input-group mb-3" style="justify-content:center">
-                        <input type="text" class="form-control" placeholder="Search.." 
+                        <input type="text" class="form-control" placeholder="Pencarian.." 
                         name="search" value="{{ request('search') }}" id="deleteInputLong">
-                        <button class="btn btn-primary" type="submit" >Search</button>
+                        <button class="btn btn-primary" type="submit">Cari</button>
                     </div>
                 </form>
             </div>
@@ -43,7 +43,7 @@
                             {{-- {!!  Str::limit($character->description, 50, $end='...')  !!} --}}
                             {!!  substr(strip_tags($character->description), 0, 50) !!}...
                             @else
-                                This character doesn't have description yet...
+                                Karakter ini belum memiliki deskripsi...
                             @endif
                         </p>
                         </div>
@@ -52,7 +52,7 @@
                     @endforeach 
                 </ul>
             @else
-                <p class="text-center fs-4">404 No Character Found.</p>  
+                <p class="text-center fs-4">404 Karakter tidak ditemukan</p>  
             @endif
         </div>
         <div class="d-flex justify-content-end">

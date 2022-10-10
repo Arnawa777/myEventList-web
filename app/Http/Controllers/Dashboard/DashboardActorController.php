@@ -19,8 +19,8 @@ class DashboardActorController extends Controller
     {
 
         return view('dashboard.actors.index', [
-            "title" => "Dashboard - List Actor",
-            'actors' => Actor::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            "title" => "Dashboard - Daftar Aktor",
+            'actors' => Actor::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -32,7 +32,7 @@ class DashboardActorController extends Controller
     public function create()
     {
         return view('dashboard.actors.create', [
-            "title" => "Dashboard - Create Actor",
+            "title" => "Dashboard - Buat Aktor",
             'people' => Person::orderBy('name', 'asc')->get(),
             'characters' => Character::orderBy('name', 'asc')->get(),
         ]);
@@ -56,20 +56,20 @@ class DashboardActorController extends Controller
                     'person_id' => 'required',
                 ],
                 [
-                    'character_id.unique' => 'Actor already exist!!!',
+                    'character_id.unique' => 'Aktor sudah ada!!!',
                 ]
             );
 
             Actor::create($validatedData);
 
-            return redirect('/dashboard/actors')->with('success', 'New Actor has been added!!!');
+            return redirect('/dashboard/actors')->with('success', 'Aktor baru telah ditambahkan!!!');
         }
     }
 
     public function edit(Actor $actor)
     {
         return view('dashboard.actors.edit', [
-            "title" => "Dashboard - Edit Actor",
+            "title" => "Dashboard - Ubah Aktor",
             'people' => Person::orderBy('name', 'asc')->get(),
             'characters' => Character::orderBy('name', 'asc')->get(),
             'actor' => $actor
@@ -95,14 +95,14 @@ class DashboardActorController extends Controller
                     'person_id' => 'required',
                 ],
                 [
-                    'character_id.unique' => 'Actor already exist!!!',
+                    'character_id.unique' => 'Aktor sudah ada!!!',
                 ]
             );
 
             Actor::where('id', $id)
                 ->update($validatedData);
 
-            return redirect('/dashboard/actors')->with('success', 'Actor has been updated!!!');
+            return redirect('/dashboard/actors')->with('success', 'Aktor berhasil diperbarui!!!');
         }
     }
 
@@ -116,6 +116,6 @@ class DashboardActorController extends Controller
     {
         Actor::destroy($id);
 
-        return redirect('/dashboard/actors')->with('success', 'Actor has been deleted!!');
+        return redirect('/dashboard/actors')->with('success', 'Aktor berhasil dihapus!!');
     }
 }

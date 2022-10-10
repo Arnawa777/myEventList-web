@@ -45,7 +45,7 @@ class HomeController extends Controller
     public function search()
     {
         return view('search', [
-            "title" => "Search All",
+            "title" => "Pencarian",
             "events" => Event::latest()->filter(request(['search']))->get(),
             "people" => Person::latest()->filter(request(['search']))->get(),
             "characters" => Character::latest()->filter(request(['search']))->get(),

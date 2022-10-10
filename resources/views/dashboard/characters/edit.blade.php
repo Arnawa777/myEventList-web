@@ -5,7 +5,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
      style="padding: 30px 0px 20px 0px">
-    <h2>Edit Character</h2>
+    <h2>Ubah Karakter</h2>
 </div>
 
 <div class="col-lg-8">
@@ -16,7 +16,7 @@
 
         {{-- Name --}}
         <div class="mb-3">
-            <label for="name" class="form-label">Character Name</label>
+            <label for="name" class="form-label">Nama Karakter</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" 
             id="name" name="name" value="{{ old('name', $chara->name) }}" autofocus>
             @error('name')
@@ -28,7 +28,7 @@
   
         {{-- Picture --}}
         <div class="mb-3">
-            <label for="picture" class="form-label">Character Picture</label>
+            <label for="picture" class="form-label">Foto Karakter</label>
             <input type="hidden" name="oldPicture" value="{{ $chara->picture }}">
             @if ($chara->picture)
                 <img src="{{ asset('storage/character-picture/' .$chara->picture) }}" class="img-preview">
@@ -42,7 +42,7 @@
                     value="{{ $chara->picture }}" onchange="previewImageData()">
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
+                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Apa anda yakin?')">Hapus</button>
                 </div>
             </div>
             @error('picture')
@@ -54,7 +54,7 @@
   
         {{-- TRIX Description --}}
         <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
+            <label for="description" class="form-label">Deskripsi</label>
             <input id="description" type="hidden" name="description" 
                     value="{{ old('description', $chara->description) }}">
                 <trix-editor input="description"></trix-editor>
@@ -67,8 +67,8 @@
 
         {{-- Button Action --}}
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Ubah</button>
         </div>
         
     </form>

@@ -55,7 +55,7 @@
 
                 <div class="panel right-panel">
                     <div class="content-register">
-                        <h3>Already have account?? </h3>  
+                        <h3>Sudah memiliki Akun?? </h3>  
                         <a href="{{ route('login') }}"><button class="btn transparent" id="login-btn">Login</button></a>
                         
                     </div>

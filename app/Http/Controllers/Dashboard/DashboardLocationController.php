@@ -17,8 +17,8 @@ class DashboardLocationController extends Controller
     public function index()
     {
         return view('dashboard.locations.index', [
-            'title' => "Dashboard - List Location",
-            'locations' => Location::orderBy('regency', 'asc')->filter(request(['search']))->paginate(10)->withQueryString(),
+            'title' => "Dashboard - Daftar Lokasi",
+            'locations' => Location::orderBy('updated_at', 'desc')->orderBy('regency', 'asc')->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class DashboardLocationController extends Controller
     public function create()
     {
         return view('dashboard.locations.create', [
-            'title' => "Dashboard - Create Location",
+            'title' => "Dashboard - Buat Lokasi",
         ]);
     }
 
@@ -52,12 +52,12 @@ class DashboardLocationController extends Controller
                     'sub_regency' => 'required|min:3|max:100',
                 ],
                 [
-                    'regency.unique' => 'Location already exist!!!',
+                    'regency.unique' => 'Lokasi sudah ada!!!',
                 ]
             );
 
             Location::create($validatedData);
-            return redirect('dashboard/locations')->with('success', 'New Location has been added!!!');
+            return redirect('dashboard/locations')->with('success', 'Lokasi baru telah ditambahkan!!!');
         }
     }
 
@@ -75,7 +75,7 @@ class DashboardLocationController extends Controller
     public function edit(Location $location)
     {
         return view('dashboard.locations.edit', [
-            'title' => "Dashboard - Edit Location",
+            'title' => "Dashboard - Ubah Lokasi",
             'location' => $location
         ]);
     }
@@ -99,14 +99,14 @@ class DashboardLocationController extends Controller
                     'sub_regency' => 'required|min:3|max:100',
                 ],
                 [
-                    'regency.unique' => 'Location already exist!!!',
+                    'regency.unique' => 'Lokasi sudah ada!!!',
                 ]
             );
 
             Location::where('id', $id)
                 ->update($validatedData);
 
-            return redirect('dashboard/locations')->with('success', 'Location has been updated!!!');
+            return redirect('dashboard/locations')->with('success', 'Lokasi berhasil diperbarui!!!');
         }
     }
 
@@ -114,11 +114,11 @@ class DashboardLocationController extends Controller
     {
         try {
             Location::destroy($location->id);
-            return redirect('dashboard/locations')->with('success', 'Location has been deleted!!!');
+            return redirect('dashboard/locations')->with('success', 'Lokasi berhasil dihapus!!!');
         } catch (\Illuminate\Database\QueryException $e) {
 
             if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
-                return redirect('dashboard/locations')->with('fail', 'Location in use!!!');
+                return redirect('dashboard/locations')->with('fail', 'Gagal.. Lokasi sedang digunakan!!!');
                 // return error to user here
             }
         }

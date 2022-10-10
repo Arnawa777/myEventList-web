@@ -5,7 +5,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
      style="padding: 30px 0px 20px 0px">
-    <h2>Assign New Staff</h2>
+    <h2>Tetapkan Staf</h2>
 </div>
 
 <div class="col-lg-8">
@@ -15,7 +15,7 @@
 
         {{-- Event --}}
         <div class="mb-3">
-            <label for="event_id">Event</label>
+            <label for="event_id">Komunitas</label>
             <select class="form-select" id="event" name="event_id" value="{{ old('event_id') }}">
                 @foreach ($events as $event)
                 @if (old('event_id') == $event->id)
@@ -30,7 +30,7 @@
 
         {{-- Person --}}
         <div class="mb-3">
-            <label for="person_id">Person</label>
+            <label for="person_id">Orang</label>
             <select class="form-select" name="person_id" value="{{ old('person_id') }}">
                 @foreach ($people as $person)
                 @if (old('person_id') == $person->id)
@@ -49,7 +49,7 @@
 
         {{-- Role --}}
         <div class="mb-3">
-            <label for="role" class="form-label">Staff Role</label>
+            <label for="role" class="form-label">Peran Staf</label>
             <input type="text" class="form-control @error('role') is-invalid @enderror" 
              id="role" name="role" value="{{ old('role') }}" autofocus>
              @error('role')
@@ -61,7 +61,7 @@
 
          {{-- TRIX Descriptionn --}}
          <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
+            <label for="description" class="form-label">Deskripsi</label>
             <input id="description" type="hidden" name="description" 
                    value="{{ old('description') }}">
                 <trix-editor input="description"></trix-editor>
@@ -82,8 +82,8 @@
 
         {{-- Button Action--}}
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="create" id="btn-reply">Assign</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="create" id="btn-reply">Tetapkan</button>
         </div>
 
     </form>

@@ -5,19 +5,19 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
      style="padding: 30px 0px 20px 0px">
-     <h2>List Staff in Event</h2>
+     <h2>Daftar Staf pada Komunitas</h2>
 </div>
 
 <div class="table-responsive col-lg-8">
 	<div style="float:left">
-		<a href="/dashboard/staff/create" class="btn btn-primary mb-3">Assign Staff</a>
+		<a href="/dashboard/staff/create" class="btn btn-primary mb-3">Tetapkan Staf</a>
 	</div>
 	<div style="float: right">
 		<form action="/dashboard/staff">
 			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Search.." 
+				<input type="text" class="form-control" placeholder="Pencarian.." 
 				name="search" value="{{ request('search') }}" id="deleteInput">
-				<button class="btn btn-primary" type="submit" >Search</button>
+				<button class="btn btn-primary" type="submit" >Cari</button>
 			</div>
 		</form>
 	</div>
@@ -40,11 +40,11 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
-					<th scope="col">Event</th>
-					<th scope="col">Person</th>
-					<th scope="col">Role</th>
-					<th scope="col">Description</th>
-					<th scope="col" style="width:  10%">Action</th>
+					<th scope="col">Komunitas</th>
+					<th scope="col">Orang</th>
+					<th scope="col">Peran</th>
+					<th scope="col">Deskripsi</th>
+					<th scope="col" style="width:  10%">Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -66,7 +66,7 @@
 							{!!  substr(strip_tags($staff->description), 0, 50) !!}...
 							{{-- {!! $staff->description  !!} --}}
 						@else
-							No Description...
+							Staf tidak memiliki deskripsi..
                         @endif</td>
 					<td class="actionButton">
 						{{-- Menit 36 eps 17 --}}
@@ -78,7 +78,7 @@
 						<form action="/dashboard/staff/{{ $staff->id }}" method="post" class="d-inline">
 						@method('delete')
 						@csrf
-						<button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+						<button class="badge bg-danger border-0" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
 						</form> 
 					</td>
 				</tr>
@@ -87,7 +87,7 @@
 		</table>
 	@else
 		<p class="text-center fs-4">404</p>
-		<p class="text-center fs-4">Data Not Found</p>
+		<p class="text-center fs-4">Data tidak ditemukan</p>
 	@endif
 	<div class="d-flex justify-content-end">
 		{{ $workers->links('vendor.pagination.custom') }}

@@ -1,7 +1,6 @@
 {{-- ambil dari halaman layouts/main --}}
 @extends('dashboard.layouts.main')
-
-
+{{-- @dd($actors) --}}
 @section('container')
 <link rel="stylesheet" href="{{ URL::to('/') }}/css/events.css">
 
@@ -15,7 +14,7 @@
         <div style="padding-bottom: 10px">
             <a href="/dashboard/people"
             class="btn btn-info border-0">
-            <span data-feather="arrow-left"></span> Back to All People
+            <span data-feather="arrow-left"></span> Kembali ke Daftar Orang
         </a>
         <a href="/dashboard/people/{{ $person->slug }}/edit"
             class="btn btn-warning border-0">
@@ -24,8 +23,8 @@
         <form action="/dashboard/people/{{ $person->slug }}" method="post" class="d-inline">
             @method('delete')
             @csrf
-            <button class="btn btn-danger" onclick="return confirm('Are you sure?')">  
-            <span data-feather="x-circle"></span> Delete</button>
+            <button class="btn btn-danger" onclick="return confirm('Apa anda yakin?')">  
+            <span data-feather="x-circle"></span> Hapus</button>
             </form>
         </div>
 
@@ -40,23 +39,23 @@
                     @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
-                    <h5>Information</h5>
+                    <h5>Informasi</h5>
                 </div>
                 <div>
-                    <p> Birthday: 
+                    <p> Tanggal Lahir: 
                         @if ($person->birthday)
                             {{ date('d M Y', strtotime($person->birthday)) }}
                         @else
-                            Unknown
+                            Tidak diketahui
                         @endif
                     </p>
-                    <p> Biography : </p>
+                    <p> Biografi : </p>
                     @if ($person->biography)
                         <article>
                             {!! $person->biography !!}
                         </article>
                     @else
-                        This Person Doesn't have biography
+                        Orang ini belum memiliki biografi..
                     @endif
                     
                 </div>
@@ -70,63 +69,65 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5 style="float: left;">Actor Roles</h5>
+                        <h5 style="float: left;">Peran Aktor</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
             
                 <div class="col-12">
-                    @if ($actors->count())
-                    @foreach ($actors as $actor)
-                        @foreach ($actor->actor_event as $ac)
-                            <div class="first-table" style="text-align:left; float: left;">
-                                <div style="display: inline-block;">
-                                    <a href="/dashboard/characters/{{ $actor->character->slug }}">
-                                        @if ($actor->character->picture)
-                                        <img class="image-icon" src="/storage/character-picture/{{ $actor->character->picture }}"  alt="character-picture">
-                                        @else
-                                        <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
-                                        @endif
-                                    </a>
+                    @forelse ($actors as $ac)
+                        {{-- @foreach ($actor->actor_event as $ac) --}}
+                            
+                                <div class="first-table" style="text-align:left; float: left;">
+                                    <div style="display: inline-block;">
+                                        <a href="/dashboard/characters/{{ $ac->actor->character->slug }}">
+                                            @if ($ac->actor->character->picture)
+                                            <img class="image-icon" src="/storage/character-picture/{{ $ac->actor->character->picture }}"  alt="character-picture">
+                                            @else
+                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
+                                    </div>
+                                    <div class="name-table" style="display: inline-block;">
+                                        <a href="/dashboard/characters/{{ $ac->actor->character->slug }}">
+                                        <h5>
+                                            {{ $ac->actor->character->name }}
+                                        </h5>
+                                        </a>
+                                        <p>
+                                            {{ $ac->actor->character->role }}
+                                        </p>
+                                    </div>
+                                    <div class="clear"></div>
                                 </div>
-                                <div class="name-table" style="display: inline-block;">
-                                    <a href="/dashboard/characters/{{ $actor->character->slug }}">
-                                    <h5>
-                                        {{ $actor->character->name }}
-                                    </h5>
-                                    </a>
-                                    <p>
-                                        {{ $actor->character->role }}
-                                    </p>
+                                <div class="first-table" style="text-align:right; float: right;">
+                                    <div class="name-table" style="display: inline-block; margin-right:0;">
+                                        <a href="/dashboard/events/{{ $ac->event->slug }}">
+                                            <h5>{{ $ac->event->name }}</h5> 
+                                        </a>
+                                    </div>
+                                    <div style="display: inline-block;">
+                                        <a href="/dashboard/events/{{ $ac->event->slug }}">
+                                            @if ($ac->event->picture)
+                                                <img class="image-icon" src="/storage/event-picture/{{ $ac->event->picture }}"  alt="event-picture">
+                                            @else
+                                                <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
+                                            @endif
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="clear"></div>
-                            </div>
-                            <div class="first-table" style="text-align:right; float: right;">
-                                <div class="name-table" style="display: inline-block; margin-right:0;">
-                                    <a href="/dashboard/events/{{ $ac->event->slug }}">
-                                        <h5>{{ $ac->event->name }}</h5> 
-                                    </a>
-                                </div>
-                                <div style="display: inline-block;">
-                                    <a href="/dashboard/events/{{ $ac->event->slug }}">
-                                        @if ($ac->event->picture)
-                                            <img class="image-icon" src="/storage/event-picture/{{ $ac->event->picture }}"  alt="event-picture">
-                                        @else
-                                            <img class="image-icon-empty" src="/img/No_image_available.svg" alt="no-img">
-                                        @endif
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="clear"></div>
-                        @endforeach
-                    @endforeach
+                            
+                        {{-- @endforeach --}}
+                        {{-- Jika data tidak ada --}}
+                        
+                    @empty
+                        <div class="col">
+                            <p>Orang ini belum memiliki peran sebagai Aktor</p>
+                        </div>
+                    @endforelse
 
-                    {{-- Jika data tidak ada --}}
-                    @else
-                    <div class="col">
-                        <p> This Person Doesn't Have Actor Role</p>
-                    </div>
-                    @endif
+                    
                 </div> <!--// close of Data person div //-->
             </div> <!--// close of Staff div //-->
 
@@ -134,7 +135,7 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5 style="float: left;">Staff Roles</h5>
+                        <h5 style="float: left;">Peran Staf</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -166,13 +167,13 @@
                             
                                 {!!  $stf->description !!}
                                 @else
-                                This role doesn't have description yet...
+                                    Peran ini belum memiliki deskripsi...
                                 @endif 
                         </h6> 
                     </div>
                 </div> <!--// close of Data person div //-->
                 @empty
-                    <p>This Person Doesn't Have Staff Role</p>
+                    <p>Orang ini belum memiliki peran sebagai Staf</p>
                 @endforelse 
             </div> <!--// close of Staff div //-->
         </div>

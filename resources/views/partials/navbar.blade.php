@@ -1,36 +1,26 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container" id="my-navbar">    
-			<a class="navbar-brand" href="/"><b>MyEventList</b></a> 
+			<a class="navbar-brand" href="/"><b>SanggarJogja</b></a> 
 			<div class="collapse navbar-collapse justify-content-start">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="/events" class="nav-link">Events</a>
+						<a href="/events" class="nav-link">Komunitas</a>
 					</li>
-					{{-- Community --}}
-					<div class="collapse navbar-collapse">
-						<ul class="navbar-nav">
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Community
-								</a>
-								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-									<li><a class="dropdown-item" href="/forum">Forums</a></li>
-									<li><a class="dropdown-item" href="/users">Users</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
+					{{-- Forum --}}
+					<li class="nav-item">
+						<a href="/forum" class="nav-link">Forum</a>
+					</li>
 					{{-- Other --}}
 					<div class="collapse navbar-collapse">
 						<ul class="navbar-nav">
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Other
+									Lainnya
 								</a>
 								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-									<li><a class="dropdown-item" href="/people">People</a></li>
-									<li><a class="dropdown-item" href="/characters">Characters</a></li>
-									<li><a class="dropdown-item" href="/about">About</a></li>
+									<li><a class="dropdown-item" href="/users">User</a></li>
+									<li><a class="dropdown-item" href="/people">Orang</a></li>
+									<li><a class="dropdown-item" href="/characters">Karakter</a></li>
 								</ul>
 							</li>
 						</ul>

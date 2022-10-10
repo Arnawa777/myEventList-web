@@ -9,7 +9,7 @@ use App\Models\Event;
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
-use Redirect;
+use Illuminate\Support\Facades\Redirect;
 
 class ForumController extends Controller
 {
@@ -32,7 +32,7 @@ class ForumController extends Controller
         //     ->get();
 
         return view('forums.index', [
-            "title" => "Forums",
+            "title" => "Forum",
             "posts" => Post::latest()->paginate(10),
             "threads" => $threads,
         ]);
@@ -41,7 +41,7 @@ class ForumController extends Controller
     public function topic(Topic $topic)
     {
         return view('forums.topic', [
-            "title" => "Forums - $topic->sub_topic",
+            "title" => "Forum - $topic->sub_topic",
             "topic" => $topic,
             "posts" => $topic->posts()->latest()->paginate(10),
         ]);
@@ -51,7 +51,7 @@ class ForumController extends Controller
     public function post(Topic $topic, Post $post)
     {
         return view('forums.post.show', [
-            "title" => "Forums - $post->title",
+            "title" => "Forum - $post->title",
             "topic" => $topic,
             "post" => $post,
             "comments" => $post->comments()->paginate(5),
@@ -61,7 +61,7 @@ class ForumController extends Controller
     public function create(Topic $topic)
     {
         return view('forums.post.create', [
-            "title" => "Create Post - $topic->sub_topic",
+            "title" => "Buat Post - $topic->sub_topic",
             "topic" => $topic,
             "events" => Event::all(),
         ]);
@@ -99,9 +99,9 @@ class ForumController extends Controller
         //! Cara 1
         // return Redirect::to('forum/' . $topic->slug . '/' . $slug);
         //! Cara 2
-        // return Redirect::route('forum.post', array('topic' => $topic->slug, 'post' => $slug))->with('success', 'New Post has been added!!!');
+        return Redirect::route('forum.post', array('topic' => $topic->slug, 'post' => $slug))->with('success', 'Post berhasil dibuat!!!');
         //! Cara 3 Laravel 9
-        return to_route('forum.post', [$topic->slug,  $slug])->with('success', 'New Post has been added!!!');
+        // return to_route('forum.post', [$topic->slug,  $slug])->with('success', 'Post berhasil dibuat!!!');
     }
 
     public function show($id)
@@ -112,7 +112,7 @@ class ForumController extends Controller
     public function edit(Topic $topic, Post $post)
     {
         return view('forums.post.edit', [
-            "title" => "Edit Post - $post->title",
+            "title" => "Ubah Post - $post->title",
             "topic" => $topic,
             "post" => $post,
             "events" => Event::all(),
@@ -138,7 +138,7 @@ class ForumController extends Controller
         }
 
         if ($request->action == 'cancel') {
-            return to_route('forum.post', [$topic->slug,  $post->slug]);
+            return Redirect::route('forum.post', array('topic' => $topic->slug, 'post' => $post->slug));
         }
 
         if ($request->action == 'update') {
@@ -172,9 +172,9 @@ class ForumController extends Controller
             //! Cara 1
             // return Redirect::to('forum/' . $topic->slug . '/' . $slug);
             //! Cara 2
-            // return Redirect::route('forum.post', array('topic' => $topic->slug, 'post' => $slug))->with('success', 'New Post has been added!!!');
+            return Redirect::route('forum.post', array('topic' => $topic->slug, 'post' => $slug))->with('success', 'Post berhasil diubah!!!');
             //! Cara 3 Laravel 9
-            return to_route('forum.post', [$topic->slug,  $slug])->with('success', 'Post has been updated!!!');
+            // return to_route('forum.post', [$topic->slug,  $slug])->with('success', 'Post berhasil diubah!!!');
         }
     }
 
@@ -199,9 +199,10 @@ class ForumController extends Controller
 
         if ($request->redirect == 'profile') {
             // return to_route('forum.topic', [$topic->slug])->with('success', 'Post has been deleted!!!');
-            return redirect()->back()->with('success', 'Post has been delete!!!');
+            return redirect()->back()->with('success', 'Post telah dihapus!!!');
         } else {
-            return to_route('forum.topic', [$topic->slug])->with('success', 'Post has been deleted!!!');
+            return Redirect::route('forum.topic', array('topic' => $topic->slug))->with('success', 'Post telah dihapus!!!');
+            // return to_route('forum.topic', [$topic->slug])->with('success', 'Post telah dihapus!!!');
         }
     }
 }

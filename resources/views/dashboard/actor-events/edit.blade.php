@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 style="padding: 30px 0px 20px 0px">
-    <h2>Edit Assigned Actor</h2>
+    <h2>Ubah Aktor yang ditetapkan</h2>
 </div>
 
 <div class="col-lg-8">
@@ -17,7 +17,7 @@ style="padding: 30px 0px 20px 0px">
 
         {{-- Event --}}
         <div class="mb-3">
-            <label for="event_id">Event</label>
+            <label for="event_id">Komunitas</label>
             <select class="form-select" id="event" name="event_id" value="{{ old('event_id') }}">
                 @foreach ($events as $event)
                     @if (old('event_id', $actor_events->event_id) == $event->id)
@@ -31,20 +31,20 @@ style="padding: 30px 0px 20px 0px">
 
         {{-- Actor --}}
         <div class="mb-3">
-            <label for="actor_id">Actor</label>
+            <label for="actor_id">Aktor</label>
             <select class="form-select" name="actor_id" value="{{ old('actor_id') }}">
                 @foreach ($actors as $actor)
                     @if (old('actor_id', $actor_events->actor_id) == $actor->id)
                         <option value="{{ $actor->id }}" selected>
-                            Character: {{ Str::words($actor->chara_name, 2, '') }}
+                            Karakter: {{ Str::words($actor->chara_name, 2, '') }}
                                 &nbsp;&nbsp;&nbsp;───&nbsp;&nbsp;&nbsp;
-                            Person: {{ $actor->person_name }}
+                            Pemeran: {{ $actor->person_name }}
                         </option>
                     @else
                         <option value="{{ $actor->id }}">
-                            Character: {{ Str::words($actor->chara_name, 2, '') }}
+                            Karakter: {{ Str::words($actor->chara_name, 2, '') }}
                                 &nbsp;&nbsp;&nbsp;───&nbsp;&nbsp;&nbsp;
-                            Person: {{ $actor->person_name }}
+                            Pemeran: {{ $actor->person_name }}
                         </option>
                     @endif
                 @endforeach
@@ -59,14 +59,14 @@ style="padding: 30px 0px 20px 0px">
 
         {{-- Role --}}
         <div class="mb-3">
-            <label for="role">Character Role</label>
+            <label for="role">Peran Karakter</label>
             <select class="form-select" name="role" value="{{ old('role') }}">
                     @if (old('role', $actor->role))
-                        <option {{ old('role', $actor->role) == 'Main' ? 'selected' : '' }}  value="Main">Main</option>
-                        <option {{ old('role', $actor->role) == 'Support' ? 'selected' : '' }}  value="Support">Support</option>
+                        <option {{ old('role', $actor->role) == 'Utama' ? 'selected' : '' }}  value="Utama">Utama</option>
+                        <option {{ old('role', $actor->role) == 'Pembantu' ? 'selected' : '' }}  value="Pembantu">Pembantu</option>
                     @else
-                        <option value="Main">Main</option>
-                        <option value="Support">Support</option>
+                        <option value="Utama">Utama</option>
+                        <option value="Pembantu">Pembantu</option>
                     @endif
             </select>
                 @error('role')
@@ -86,8 +86,8 @@ style="padding: 30px 0px 20px 0px">
 
         {{-- Button Action--}}
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Ubah</button>
         </div>
     </form>
 </div> <!--// close of Form div //-->

@@ -21,23 +21,23 @@
                     @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
-                    <h5>Information</h5>
+                    <h5>Informasi</h5>
                 </div>
                 <div>
-                    <p> Birthday: 
+                    <p> Tanggal Lahir: 
                         @if ($person->birthday)
                             {{ date('d M Y', strtotime($person->birthday)) }}
                         @else
-                            Unknown
+                            Tidak diketahui
                         @endif
                     </p>
-                    <p> Biography : </p>
+                    <p> Biografi : </p>
                     @if ($person->biography)
                         <article>
                             {!! $person->biography !!}
                         </article>
                     @else
-                        This Person Doesn't have biography
+                        Orang ini belum memiliki biografi..
                     @endif
                     
                 </div>
@@ -51,7 +51,7 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5 style="float: left;">Actor Roles</h5>
+                        <h5 style="float: left;">Peran Aktor</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p> This Person Doesn't Have Actor Role</p>
+                        <p>Orang ini belum memiliki peran sebagai Aktor</p>
                     </div>
                     @endif
                 </div> <!--// close of Data person div //-->
@@ -115,7 +115,7 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5 style="float: left;">Staff Roles</h5>
+                        <h5 style="float: left;">Peran Staf</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -147,13 +147,13 @@
                             
                                 {!!  $stf->description !!}
                                 @else
-                                This role doesn't have description yet...
+                                    Peran ini belum memiliki deskripsi...
                                 @endif 
                         </h6> 
                     </div>
                 </div> <!--// close of Data person div //-->
                 @empty
-                    <p>This Person Doesn't Have Staff Role</p>
+                    <p>Orang ini belum memiliki peran sebagai Staf</p>
                 @endforelse 
             </div> <!--// close of Staff div //-->
         </div>

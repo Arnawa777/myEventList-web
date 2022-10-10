@@ -62,7 +62,7 @@
 
                 <div class="panel left-panel">
                     <div class="content-login">
-                        <h3>New Here? </h3>
+                        <h3>Belum memiliki Akun?</h3>
                         <a href="/register"><button class="btn transparent" id="register-btn">Register</button></a>
                         
                     </div>

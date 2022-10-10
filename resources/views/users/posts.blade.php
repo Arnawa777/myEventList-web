@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row forum">
         <nav class="breadcrumb">
-            <a href="/users">Users </a>
+            <a href="/users">Daftar User </a>
             &nbsp
             >
             &nbsp
@@ -14,7 +14,7 @@
             &nbsp
             >
             &nbsp
-            <a href="/profile/{{ $user->username }}/posts" class="active">{{ $user->username }} Posts</a>
+            <a href="/profile/{{ $user->username }}/posts" class="active">Daftar Post {{ $user->username }}</a>
         </nav>
         <div class="col-lg-12">
             <div class="row">
@@ -31,7 +31,7 @@
 						</div>
 					@endif
                     <div class="card-header" style="border-bottom: 2px black solid">
-                        <h3 class="card-title">{{ $user->username }}'s Posts</h3>
+                        <h3 class="card-title">Daftar Post {{ $user->username }}</h3>
                     </div>
                     <table width="100%">
                         <tbody>
@@ -69,7 +69,7 @@
                                             <a href="/profile/{{ $post->latestComment->author->username }}">{{ $post->latestComment->author->username }}</a></div>
                                     @else
                                         <h6 class="text-center font-weight-bold mb-0">
-                                            No Comments
+                                            Tidak ada Komentar
                                         </h6>
                                     @endif
                                 </td>
@@ -85,7 +85,7 @@
                                                     @csrf
                                                     
                                                     <input type="hidden" name="redirect" value="profile">
-                                                    <button style="margin:0 0 0 0;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                                    <button style="margin:0 0 0 0;" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
                                                 </form>
                                             </div>
                                         @elseif (auth()->user()->role === "admin")
@@ -94,7 +94,7 @@
                                                     @method('delete')
                                                     @csrf
                                                     <input type="hidden" name="redirect" value="profile">
-                                                    <button style="margin:0 0 0 0;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                                    <button style="margin:0 0 0 0;" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
                                                 </form>
                                             </div>
                                         @endif
@@ -104,7 +104,7 @@
                             @endforeach
                         @else
                         <tr>
-                            <p class="text-center fs-4">There are no posts from this user</p> 
+                            <p class="text-center fs-4">Tidak ada post pada User ini</p> 
                         </tr>
                         @endif
                         </tbody>

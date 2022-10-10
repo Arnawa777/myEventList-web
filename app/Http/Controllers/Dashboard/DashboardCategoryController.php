@@ -18,8 +18,8 @@ class DashboardCategoryController extends Controller
     public function index()
     {
         return view('dashboard.categories.index', [
-            'title' => "Dashboard - List Category",
-            'categories' => Category::latest()->filter(request(['search']))->paginate(5)->withQueryString(),
+            'title' => "Dashboard - Daftar Kategori",
+            'categories' => Category::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -31,7 +31,7 @@ class DashboardCategoryController extends Controller
     public function create()
     {
         return view('dashboard.categories.create', [
-            'title' => "Dashboard - Create Category",
+            'title' => "Dashboard - Buat Kategori",
         ]);
     }
 
@@ -53,14 +53,14 @@ class DashboardCategoryController extends Controller
             $validatedData['slug'] = SlugService::createSlug(Category::class, 'slug', $request->name);
 
             Category::create($validatedData);
-            return redirect('dashboard/categories')->with('success', 'New Category has been added!!!');
+            return redirect('dashboard/categories')->with('success', 'Kategori baru telah ditambahkan!!!');
         }
     }
 
     public function edit(Category $category)
     {
         return view('dashboard.categories.edit', [
-            'title' => "Dashboard - Edit Category",
+            'title' => "Dashboard - Ubah Kategori",
             'category' => $category
         ]);
     }
@@ -87,7 +87,7 @@ class DashboardCategoryController extends Controller
             Category::where('id', $category->id)
                 ->update($validatedData);
 
-            return redirect('dashboard/categories')->with('success', 'Category has been update!!!');
+            return redirect('dashboard/categories')->with('success', 'Kategori berhasil diperbarui!!!');
         }
     }
 
@@ -103,11 +103,11 @@ class DashboardCategoryController extends Controller
         // || $category->employee()->exists())
         try {
             Category::destroy($category->id);
-            return redirect('dashboard/categories')->with('success', 'Category has been delete!!!');
+            return redirect('dashboard/categories')->with('success', 'Kategori berhasil dihapus!!!');
         } catch (\Illuminate\Database\QueryException $e) {
 
             if ($e->getCode() == "23000") { //23000 is sql code for integrity constraint violation
-                return redirect('dashboard/categories')->with('fail', 'Category in use!!!');
+                return redirect('dashboard/categories')->with('fail', 'Gagal.. Kategori sedang digunakan!!!');
                 // return error to user here
             }
         }

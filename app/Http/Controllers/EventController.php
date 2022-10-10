@@ -24,7 +24,7 @@ class EventController extends Controller
             ->get();
 
         return view('events.index', [
-            "title" => "Events",
+            "title" => "Daftar Komunitas",
             //eager loadng query dipindah ke model
             //WithQuearyString membawa query sebelumnya pada pagination
             "events" => Event::latest()->filter(request(['search', 'category', 'location']))->paginate(4)->withQueryString(),

@@ -25,8 +25,8 @@ class DashboardEventController extends Controller
             ->get();
 
         return view('dashboard.events.index', [
-            "title" => "Dashboard - List Event",
-            'events' => Event::latest()->filter(request(['search', 'category', 'location']))->paginate(5)->withQueryString(),
+            "title" => "Dashboard - Daftar Komunitas",
+            'events' => Event::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search', 'category', 'location']))->paginate(5)->withQueryString(),
             "categories" => Category::all(),
             "locations" => $locations
         ]);
@@ -45,7 +45,7 @@ class DashboardEventController extends Controller
             ->get();
 
         return view('dashboard.events.create', [
-            "title" => "Dashboard - Create Event",
+            "title" => "Dashboard - Buat Komunitas",
             'events' => Event::class,
             'categories' => Category::all(),
             'locations' => $location
@@ -112,7 +112,7 @@ class DashboardEventController extends Controller
 
             Event::create($validatedData);
 
-            return redirect('dashboard/events')->with('success', 'New Event has been added!!!');
+            return redirect('dashboard/events')->with('success', 'Komunitas baru telah ditambahkan!!!');
         }
     }
 
@@ -142,7 +142,7 @@ class DashboardEventController extends Controller
         }
 
         return view('dashboard.events.show', [
-            "title" => "Dashboard - Show $event->name",
+            "title" => "Dashboard - Detail $event->name",
             'event' => $event,
             'actors' => $event->actor()->paginate(10),
             'staff' => $event->staff()->paginate(10),
@@ -160,7 +160,7 @@ class DashboardEventController extends Controller
             ->get();
 
         return view('dashboard.events.edit', [
-            "title" => "Dashboard - Edit Event",
+            "title" => "Dashboard - Ubah Komunitas",
             'event' => $event,
             'categories' => Category::all(),
             'locations' => $location,
@@ -235,7 +235,7 @@ class DashboardEventController extends Controller
             Event::where('id', $event->id)
                 ->update($validatedData);
 
-            return redirect('dashboard/events')->with('success', 'Event has been updated!!!');
+            return redirect('dashboard/events')->with('success', 'Komunitas berhasil diperbarui!!!');
         }
     }
 
@@ -257,13 +257,13 @@ class DashboardEventController extends Controller
 
         Event::destroy($event->id);
 
-        return redirect('/dashboard/events')->with('success', 'Event has been delete!!!');
+        return redirect('/dashboard/events')->with('success', 'Komunitas berhasil dihapus!!!');
     }
 
     public function characters(Event $event)
     {
         return view('dashboard.events.characters', [
-            "title" => "$event->name - Characters & Staff",
+            "title" => "$event->name - Karakter & Staf",
             'event' => $event,
             'actors' => $event->actor()->get(),
             'staff' => $event->staff()->get(),
@@ -280,7 +280,7 @@ class DashboardEventController extends Controller
             ->paginate(10);
 
         return view('dashboard.events.reviews', [
-            "title" => "$event->name - Reviews",
+            "title" => "$event->name - Ulasan",
             'event' => $event,
             'allReviews' =>  $allReview,
         ]);

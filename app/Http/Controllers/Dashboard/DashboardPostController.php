@@ -26,8 +26,8 @@ class DashboardPostController extends Controller
             ->get();
 
         return view('dashboard.posts.index', [
-            "title" => "Dashboard - List Post",
-            'posts' => Post::latest()->filter(request(['search', 'topic']))->paginate(10)->withQueryString(),
+            "title" => "Dashboard - Daftar Post",
+            'posts' => Post::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search', 'topic']))->paginate(10)->withQueryString(),
             'topics' => $topic,
         ]);
     }
@@ -51,7 +51,7 @@ class DashboardPostController extends Controller
             ->get();
 
         return view('dashboard.posts.create', [
-            "title" => "Dashboard - Create Post",
+            "title" => "Dashboard - Buat Post",
             'topics' => $topicSort,
             'events' => $eventSort,
         ]);
@@ -97,14 +97,14 @@ class DashboardPostController extends Controller
 
             Post::create($validatedData);
 
-            return redirect('dashboard/posts')->with('success', 'New Post has been added!!!');
+            return redirect('dashboard/posts')->with('success', 'Post baru telah ditambahkan!!!');
         }
     }
 
     public function show(Post $post, Topic $topic,)
     {
         return view('dashboard.posts.show', [
-            "title" => "Dashboard - Show $post->title",
+            "title" => "Dashboard - Detail $post->title",
             "topic" => $topic,
             "post" => $post,
             "comments" => $post->comments()->paginate(5),
@@ -124,7 +124,7 @@ class DashboardPostController extends Controller
             ->get();
 
         return view('dashboard.posts.edit', [
-            "title" => "Dashboard - Edit Post",
+            "title" => "Dashboard - Ubah Post",
             'post' => $post,
             'topics' => $topicSort,
             'events' => $eventSort,
@@ -189,7 +189,7 @@ class DashboardPostController extends Controller
             Post::where('id', $post->id)
                 ->update($validatedData);
 
-            return redirect('dashboard/posts')->with('success', 'Post has been updated!!!');
+            return redirect('dashboard/posts')->with('success', 'Post berhasil diperbarui!!!');
         }
     }
 
@@ -205,6 +205,6 @@ class DashboardPostController extends Controller
 
         Post::destroy($post->id);
 
-        return redirect('/dashboard/posts')->with('success', 'Post has been deleted!!!');
+        return redirect('/dashboard/posts')->with('success', 'Post berhasil dihapus!!!');
     }
 }

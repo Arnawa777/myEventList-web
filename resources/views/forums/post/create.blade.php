@@ -21,14 +21,14 @@
                 <div class="col-lg-12" id="category">
                     
                     <!-- second section  -->
-                    <h4 id="title">Create Post</h4>
+                    <h4 id="title">Buat Post</h4>
                     {{-- @dd($topic) --}}
                     <form method="post" action="/forum/{{$topic->slug}}" enctype="multipart/form-data">
                         @csrf
                         
                         {{-- Title --}}
                         <div class="mb-3">
-                          <label for="title" class="form-label">Post Title</label>
+                          <label for="title" class="form-label">Judul Post</label>
                           <input type="text" class="form-control @error('title') is-invalid @enderror" 
                             name="title" value="{{ old('title') }}" autofocus>
                            @error('title')
@@ -40,7 +40,7 @@
                 
                         {{-- Topic --}}
                         <div class="mb-3">
-                            <label for="topic_id">Post Topic</label>
+                            <label for="topic_id">Topik Post</label>
                             <select class="form-select" id="topic_id" name="topic_id" value="{{ $topic->id }}">
                                 <option value="{{ $topic->id }}">{{ $topic->sub_topic }}</option>
                             </select>
@@ -54,9 +54,9 @@
                         {{-- Evemt --}}
                         @if ($topic->slug === "event-schedules")
                             <div class="mb-3">
-                                <label for="event_id">Post Event</label>
+                                <label for="event_id">Komunitas</label>
                                 <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id') }}">
-                                    <option value="">Select Event</option>
+                                    <option value="">Pilih Komunitas</option>
                                     @foreach ($events as $event)
                                     @if (old('event_id') == $event->id)
                                         <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
@@ -76,7 +76,7 @@
 
                         {{-- Picture --}}
                         <div class="mb-3">
-                            <label for="picture" class="form-label">Post Picture</label>
+                            <label for="picture" class="form-label">Foto</label>
                             <img class="img-preview">
                             <input class="form-control @error('picture') is-invalid @enderror" type="file" id="picture" name="picture" 
                             onchange="previewImage()">
@@ -89,7 +89,7 @@
                 
                           {{-- TRIX Body --}}
                         <div class="mb-3">
-                            <label for="body" class="form-label">Body</label>
+                            <label for="body" class="form-label">Isi</label>
                             <input id="body" type="hidden" name="body" value="{{ old('body') }}">
                                 <trix-editor input="body"></trix-editor>
                              @error('body')
@@ -99,7 +99,7 @@
                              @enderror
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Buat</button>
                     </form>
                 </div> <!-- Close Category one -->
 

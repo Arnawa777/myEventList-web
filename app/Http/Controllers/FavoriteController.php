@@ -45,12 +45,12 @@ class FavoriteController extends Controller
             ->first();
         if ($validasiwishlist) {
             $validasiwishlist->delete(); //kalo udah ada, berarti wishlist dihapus
-            return back()->with('success', 'Event has been deleted from Favorite');
+            return back()->with('success', 'Komunitas telah dihapus dari favorit');
         } else {
             $inputan = $request->all();
             $inputan['user_id'] = $itemuser->id;
             Favorite::create($inputan);
-            return back()->with('success', 'Event has been added to Favorite');
+            return back()->with('success', 'Komunitas telah ditambahkan ke favorit');
         }
     }
 
@@ -66,7 +66,7 @@ class FavoriteController extends Controller
             ->paginate(10);
 
         return view('users.favorite', [
-            "title" => "Favorite",
+            "title" => "Daftar Komunitas Favorit",
             "user" => $user,
             'favorites' => $favorites,
         ]);

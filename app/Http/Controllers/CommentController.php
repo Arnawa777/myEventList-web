@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Topic;
-use App\Models\Post;
 use App\Models\Comment;
 
 class CommentController extends Controller
@@ -23,7 +21,7 @@ class CommentController extends Controller
         // dd($validatedData);
         Comment::create($validatedData);
         //Unfinish - Blom ada output buat nampilin text
-        return redirect()->back()->with('success', 'Comment has been added!!!');
+        return redirect()->back()->with('success', 'Komentar berhasil ditambahkan!!!');
     }
 
     public function destroy(Request $request)
@@ -32,7 +30,7 @@ class CommentController extends Controller
         // dd($request->comment_id);
         Comment::destroy($request->comment_id);
         // Comment::destroy($comment->id);
-        return redirect()->back()->with('success', 'Comment has been delete!!!');
+        return redirect()->back()->with('success', 'Komentar berhasil dihapus!!!');
     }
 
     public function update(Request $request)
@@ -52,6 +50,6 @@ class CommentController extends Controller
             ->where('user_id', auth()->user()->id)
             ->update($validatedData);
 
-        return redirect()->back()->with('success', 'Comment has been update!!!');
+        return redirect()->back()->with('success', 'Komentar berhasil diubah!!!');
     }
 }

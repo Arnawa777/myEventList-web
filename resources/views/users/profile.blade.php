@@ -12,30 +12,31 @@
 				<div class="card-body">
 					<h3>
 						@if (is_null($user->name))
-							{{ $user->username }}'s Profile
+							{{ $user->username }}
 						@else
-							{{ Str::words($user->name, 2, '') }}'s Profile
-							<p style="font-size: 15px;">{{ $user->username }}</p>
+							{{ Str::words($user->name, 2, '') }}
+							<p style="font-size: 15px;">
+								{{ $user->username }}</p>
 						@endif
 						{{-- Cek profile yang dibuka merupakan user yang sedang login --}}
 					</h3>
 					<h4>
 						@if (auth()->user() == $user)
-							<a href="/setting/profile">Edit Profile</a>
+							<a href="/setting/profile">Edit Profil</a>
 						@endif
 					</h4>
 				</div>
 				<ul class="list-group list-group-flush">
 					{{-- <li class="list-group-item">Last Online 1 Minutes Ago</li> --}}
-					<li class="list-group-item">Joined date : {{ $user->created_at->format('d F Y'); }}</li>
-					<li class="list-group-item">Posts Forum : {{ $user->posts_count }}</li>
+					<li class="list-group-item">Tanggal Bergabung : {{ $user->created_at->format('d F Y'); }}</li>
+					<li class="list-group-item">Jumlah Post : {{ $user->posts_count }}</li>
 				</ul>
 				<div class="card-body">
 					<a href="/profile/{{ $user->username }}/favorites">
-						<button>Favorites List</button>
+						<button>Daftar Favorit</button>
 					</a>
 					<a href="/profile/{{ $user->username }}/posts">
-						<button>Posts List</button>
+						<button>Daftar Post</button>
 					</a>
 				</div>
 			</div>
@@ -44,10 +45,10 @@
 			<div class="card" style="min-height: 700px;">
 				{{-- Bio --}}
 				<div class="card-body">
-				<h5 class="card-title">Biography</h5>
+				<h5 class="card-title">Biografi</h5>
 					<p class="card-text">
 					@if (is_null($user->biography))
-						<p> This user doesn't have biography yet... </p>
+						<p> User ini belum memiliki biografi... </p>
 					@else
 						{!! $user->biography !!}
 					@endif
@@ -55,7 +56,7 @@
 				</div>
 				{{-- Bio --}}
 				<div class="card-body">
-				<h5 class="card-title ">Favorites</h5>
+				<h5 class="card-title ">Favorit</h5>
 
 				{{-- {{ dd($favorites) }} --}}
 					
@@ -80,7 +81,7 @@
 						
 					</div>
 				@empty
-					<p>No Favorite</p>
+					<p>Tidak ada Favorit</p>
 				@endforelse
 
 						

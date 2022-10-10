@@ -12,9 +12,9 @@
                     <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                     <form action="/search">
                         <div class="input-group mb-3" style="justify-content: center">
-                            <input type="text" class="form-control" placeholder="Search.." 
+                            <input type="text" class="form-control" placeholder="Pencarian.." 
                             name="search" value="{{ request('search') }}" id="deleteInputLong">
-                            <button class="btn btn-primary" type="submit" >Search</button>
+                            <button class="btn btn-primary" type="submit" >Cari</button>
                         </div>
                     </form>
                 </div>
@@ -24,7 +24,7 @@
             <div class="row" id="main-row" style="justify-content: center">
                 <div class="col-12"> 
                     <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
-                        <h5 style="float: left;">Events</h5>
+                        <h5 style="float: left;">Daftar Komunitas</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p class="text-center fs-4">404 no Event Found</p>
+                        <p class="text-center fs-4">404 Tidak ada Komunitas yang sama</p>
                     </div>
                     @endif
                 </div> <!--// close of Data Event div //-->
@@ -72,7 +72,7 @@
             <div class="row" id="main-row" style="justify-content: center">
                 <div class="col-12"> 
                     <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
-                        <h5 style="float: left;">People</h5>
+                        <h5 style="float: left;">Daftar Orang</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                                         @if ($person->birthday)
                                             <p>{{ $person->birthday }} </p>
                                         @else
-                                            <p>Unknown</p>
+                                            <p>Tanggal Lahir tidak diketahui</p>
                                         @endif
                                     </td>
                                 </tr>
@@ -114,7 +114,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p class="text-center fs-4">404 no People Found</p>
+                        <p class="text-center fs-4">404 Tidak ada Orang yang sama</p>
                     </div>
                     @endif
                 </div> <!--// close of Data People div //-->
@@ -125,7 +125,7 @@
             <div class="row" id="main-row" style="justify-content: center">
                 <div class="col-12"> 
                     <div style="margin-bottom:10px; border-bottom:2px solid #c0c0c0;">
-                        <h5 style="float: left;">Characters</h5>
+                        <h5 style="float: left;">Karakter</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p class="text-center fs-4">404 no Characters Found</p>
+                        <p class="text-center fs-4">404 Tidak ada Karakter yang sama</p>
                     </div>
                     @endif
                 </div> <!--// close of Data Characters div //-->

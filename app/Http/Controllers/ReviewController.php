@@ -46,7 +46,7 @@ class ReviewController extends Controller
 
         Review::create($validatedData);
 
-        return redirect()->back()->with('success', 'Your review has been added!!!');
+        return redirect()->back()->with('success', 'Ulasan anda telah ditambahkan!!!');
     }
 
     public function update(Request $request)
@@ -69,7 +69,7 @@ class ReviewController extends Controller
             ->where('event_id', $request->event_id)
             ->update($validatedData);
 
-        return redirect()->back()->with('success', 'Review has been update!!!');
+        return redirect()->back()->with('success', 'Ulasan telah diubah!!!');
     }
 
     /**
@@ -85,6 +85,6 @@ class ReviewController extends Controller
         // dd($request);
         Review::destroy($request->my_review_id);
         // Review::destroy($review->id);
-        return redirect()->back()->with('success', 'Your Review has been delete!!!');
+        return redirect()->back()->with('success', 'Ulasan Anda telah dihapus!!!');
     }
 }
