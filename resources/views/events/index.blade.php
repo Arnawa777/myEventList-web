@@ -13,7 +13,7 @@
                 <form action="/events">
                     <div class="input-group mb-3">
                         <select class="form-select" id="category" name="category" value="{{ request('category') }}">
-                            <option value="">Select Category</option>
+                            <option value="">Pilih Kategori</option>
                             @foreach ($categories as $category)
                                 @if (request('category') == $category->id)
                                     <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
@@ -23,7 +23,7 @@
                             @endforeach
                         </select>
                         <select class="form-select" id="location" name="location" value="{{ request('location') }}">
-                            <option value="">Select Location</option>
+                            <option value="">Pilih Lokasi</option>
                             @foreach ($locations as $location)
                                 @if (request('location') == $location->regency)
                                     <option value="{{ $location->regency }}" selected>{{ $location->regency }}</option>
@@ -32,9 +32,9 @@
                                 @endif  
                             @endforeach
                         </select>
-                        <input type="text" class="form-control" placeholder="Search.." 
+                        <input type="text" class="form-control" placeholder="Pencarian.." 
                         name="search" value="{{ request('search') }}" id="deleteInput">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary" type="submit">Cari</button>
                     </div>
                 </form>
             </div>
@@ -62,7 +62,7 @@
                             
                             <p class="card__description">
                             @if (is_null($event->description))
-                                This Event doesn't have description yet...
+                                Komunitas ini belum memiliki deskripsi...
                             @else
                                 {{-- {!!  Str::limit($event->description, 50, $end='...')  !!} --}}
                                 {!!  substr(strip_tags($event->description), 0, 50) !!}...
@@ -75,7 +75,7 @@
                     @endforeach 
                 </ul>
             @else
-                <p class="text-center fs-4">404 No Event Found.</p>  
+                <p class="text-center fs-4">404 Komunitas tidak ditemukan</p>  
             @endif
         </div>
         <div class="d-flex justify-content-end">

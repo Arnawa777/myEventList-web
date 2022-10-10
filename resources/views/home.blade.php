@@ -44,7 +44,7 @@
 
 				{{-- Event --}}
 				<div class="side-title-slider">
-					<h5>Latest Updated Event</h5>
+					<h5>Daftar Komunitas terbaru</h5>
 				</div>
 				<div class="slider">
 					@forelse ($events as $event)
@@ -70,12 +70,12 @@
 						</a>
 					</div>
 					@empty
-						<h1>Event 404</h1>
+						<h1>Komunitas 404</h1>
 					@endforelse
 				</div>
 				{{-- People --}}
 				<div class="side-title-slider">
-					<h5>Latest Updated People</h5>
+					<h5>Daftar Orang Terbaru</h5>
 				</div>
 				<div class="slider">
 					@forelse ($people as $person)
@@ -101,13 +101,13 @@
 							</a>
 						</div>
 					@empty
-						<h1>People 404</h1>
+						<h1>Orang 404</h1>
 					@endforelse
 				</div>
 
 				{{-- Characters --}}
 				<div class="side-title-slider">
-					<h5>Latest Updated Character</h5>
+					<h5>Daftar Karakter Terbaru</h5>
 				</div>
 				<div class="slider">
 					@forelse ($characters as $character)
@@ -135,7 +135,7 @@
 						</a>
 					</div>
 					@empty
-						<h1>Character 404</h1>
+						<h1>Karakter 404</h1>
 					@endforelse
 				</div>
 			</div>
@@ -146,7 +146,7 @@
 				<div class="card">
 					<h4 class="card-title" 
 					style="background-color: #74c0ff; margin: 0; padding: 10px;"
-					>Popular Event</h4>
+					>Komunitas Populer</h4>
 					<div class="card-body">
 						@forelse ($popular as $pp)
 						<table class="popular-table">
@@ -163,16 +163,16 @@
 									</td>
 									<td class="popular-info">
 										<a href="/events/{{ $pp->slug }}">
-											<h3>{{ $pp->name }}</h3>
+											<h5>{{ $pp->name }}</h5>
 										</a>
-										<p>Scored: {{ substr($pp->rating, 0, 4) }}</p>
-										<p>{{ $pp->member }} Member</p>
+										<p>Skor: {{ substr($pp->rating, 0, 4) }}</p>
+										<p>Dari {{ $pp->member }} User</p>
 									</td>
 								</tr>	
 							</tbody>
 						</table>
 						@empty
-							<p>There are no popular event yet</p>
+							<p>Tidak ada Komunitas populer</p>
 						@endforelse
 					</div>
 				</div>

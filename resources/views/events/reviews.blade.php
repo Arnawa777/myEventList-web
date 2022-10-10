@@ -21,13 +21,21 @@
                         @endif
                     </div>
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5>Information</h5>
+                        <h5>Informasi</h5>
                     </div>
                     <div>
-                        <p> Category:  {{ $event->category->name }} </p>
-                        <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
-                        <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
-                        <p> Phone: {{ $event->phone }}</p>
+                        <p> Kategori:  {{ $event->category->name }} </p>
+                        @if ($event->date)
+                            <p> Berdiri: {{ date('d M Y', strtotime($event->date)) }}</p>
+                        @else
+                            <p> Berdiri: Tidak diketahui</p>
+                        @endif
+                        <p> Lokasi: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                        @if ($event->phone)
+                            <p> Ponsel: {{ $event->phone }}</p>
+                        @else
+                            <p> Ponsel: Tidak diketahui</p>
+                        @endif
                     </div>
                     <div>
                         @auth
@@ -37,10 +45,10 @@
                             
                             @if($favorite)
                             <button type="submit" class="btn btn-sm btn-outline-danger">
-                            <i class="fas fa-heart"></i> Favorited
+                            <i class="fas fa-heart"></i> Favorit
                             @else
                             <button type="submit" class="btn btn-sm btn-outline-secondary">
-                            <i class="far fa-heart"></i> Add to Favorite
+                            <i class="far fa-heart"></i> Tambah Favorit
                             @endif
                             </button>
                           </form>
@@ -54,11 +62,11 @@
             <div class="col-sm-9">
                 <div id="horiznav_nav" style="margin: 5px 0 10px 0;">
                     <ul style="margin-right: 0; padding-right: 0;">
-                          <li><a href="/events/{{ $event->slug }}">Details</a>
+                          <li><a href="/events/{{ $event->slug }}">Detail</a>
                       </li>
-                          <li><a href="/events/{{ $event->slug }}/characters">Characters &amp; Staff</a>
+                          <li><a href="/events/{{ $event->slug }}/characters">Karakter &amp; Staf</a>
                       </li>
-                          <li><a href="/events/{{ $event->slug }}/reviews">Reviews</a>
+                          <li><a href="/events/{{ $event->slug }}/reviews">Ulasan</a>
                       </li>
                       </ul>
                 </div>
@@ -67,7 +75,7 @@
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
-                            <h5 style="float: left;">Reviews</h5>
+                            <h5 style="float: left;">Ulasan</h5>
                             <div style="clear: left;"></div>
                         </div>
                     </div>
@@ -94,11 +102,11 @@
                                             <h4 class="card-title">{{ $rev->user->username }}</h4>
                                         </a>
                                         @if ($rev->rating >=8)
-                                            <p style="color: blue">Reviewer Rating: {{ $rev->rating }}</p>
+                                            <p style="color: blue">Skor: {{ $rev->rating }}</p>
                                         @elseif($rev->rating <=7 && $rev->rating >=4 )
-                                            <p style="color: rgba(208, 196, 23, 0.967)">Reviewer Rating: {{ $rev->rating }}</p>
+                                            <p style="color: rgba(208, 196, 23, 0.967)">Skor: {{ $rev->rating }}</p>
                                         @else
-                                            <p style="color: red">Reviewer Rating: {{ $rev->rating }}</p>
+                                            <p style="color: red">Skor: {{ $rev->rating }}</p>
                                         @endif
                                         
                                         <p class="card-text">{!! $rev->body !!}</p>
@@ -110,10 +118,8 @@
                             </div>
                         </div>
                         {{-- View Comment --}}
-                        
-                        
                         @empty
-                            <p>No reviews have been submitted for this event. Be the first to make a review</p>
+                            <p>Belum ada ulasan yang diberikan pada Komunitas ini</p>
                         @endforelse
                     </div>
                 </div>

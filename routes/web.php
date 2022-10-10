@@ -4,11 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\TopicController;
 use App\Http\Controllers\PersonController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Dashboard\DashboardEventController;
@@ -40,15 +37,6 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search']);
-
-Route::get('/about', function () {
-    return view('about', [
-        "title" => "About",
-        "name" => "Arnawa Juan Ibnuaji",
-        "email" => "kurohaku12@gmail.com",
-        "image" => "kuro.jpg"
-    ]);
-});
 
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -119,8 +107,6 @@ Route::group(['middleware' => 'role:user'], function () {
 });
 
 
-Route::get('/users', [PostController::class, 'index']);
-
 Route::get('/profile/{user:username}', [UserController::class, 'profile']);
 Route::get('/profile/{user:username}/favorites', [FavoriteController::class, 'show']);
 Route::get('/profile/{user:username}/posts', [UserController::class, 'user_posts']);
@@ -133,7 +119,6 @@ Route::get('/forum/{topic:slug}', [ForumController::class, 'topic'])->name('foru
 Route::get('/forum/{topic:slug}/{post:slug}', [ForumController::class, 'post'])->name('forum.post');
 //Halaman Single Post
 //Use route model binding
-Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 
 
@@ -146,8 +131,6 @@ Route::get('/events/{event:slug}/reviews', [EventController::class, 'reviews']);
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{user:username}', [UserController::class, 'show']);
 
-Route::get('/topics', [TopicController::class, 'index']);
-Route::get('/categories', [CategoryController::class, 'index']);
 
 
 Route::get('/people', [PersonController::class, 'index']);

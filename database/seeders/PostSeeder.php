@@ -30,5 +30,14 @@ class PostSeeder extends Seeder
             'slug' => 'event-hanya-di-jogja',
             'body' => "Event terlalu sedikit tolong tambahin lagi diluar jogja!!",
         ]);
+
+        Post::create([
+            'user_id' => '1',
+            'topic_id' => '7',
+            'title' => 'Perkenalan admin',
+            'slug' => 'perkenalan-admin',
+            'body' => "Hallo disini admin pertama 
+            feel free to give us a suggestions",
+        ]);
     }
 }

@@ -5,7 +5,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
      style="padding: 30px 0px 20px 0px">
-    <h2>Create New Location</h2>
+    <h2>Buat Lokasi</h2>
 </div>
 
 <div class="col-lg-8">
@@ -15,7 +15,7 @@
 
         {{-- Regency --}}
         <div class="mb-3">
-          <label for="regency" class="form-label">Regency Name</label>
+          <label for="regency" class="form-label">Nama Kabupaten</label>
           <input type="text" class="form-control @error('regency') is-invalid @enderror" 
            id="regency" name="regency" value="{{ old('regency') }}" autofocus>
            @error('regency')
@@ -27,7 +27,7 @@
 
         {{-- Sub Regency --}}
         <div class="mb-3">
-            <label for="sub_regency" class="form-label">Sub Regency Name</label>
+            <label for="sub_regency" class="form-label">Nama Kecamatan</label>
             <input type="text" class="form-control @error('sub_regency') is-invalid @enderror" 
              id="sub_regency" name="sub_regency" value="{{ old('sub_regency') }}">
              @error('sub_regency')
@@ -39,8 +39,8 @@
 
           {{-- Button Action--}}
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="create" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="create" id="btn-reply">Buat</button>
         </div>
     </form>
 </div>

@@ -14,11 +14,11 @@ class DashboardPersonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         return view('dashboard.people.index', [
-            'title' => 'Dashboard - List Person',
-            'people' => Person::latest()->filter(request(['search']))->paginate(5)->withQueryString(),
+            'title' => 'Dashboard - Daftar Orang',
+            'people' => Person::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(5)->withQueryString(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class DashboardPersonController extends Controller
     public function create()
     {
         return view('dashboard.people.create', [
-            'title' => 'Dashboard - Create Person',
+            'title' => 'Dashboard - Buat Orang',
         ]);
     }
 
@@ -61,16 +61,16 @@ class DashboardPersonController extends Controller
 
             Person::create($validatedData);
 
-            return redirect('/dashboard/people')->with('success', 'New Person has been added!!!');
+            return redirect('/dashboard/people')->with('success', 'Orang baru telah ditambahkan!!!');
         }
     }
 
     public function show(Person $person)
     {
         return view('dashboard.people.show', [
-            'title' => "Dashboard - Show $person->name",
+            'title' => "Dashboard - Detail $person->name",
             'person' => $person,
-            'actors' => $person->actor,
+            'actors' => $person->actor_event,
             'staff' => $person->staff,
             'eventList' => $person->actor_event->unique('event_id'),
         ]);
@@ -79,7 +79,7 @@ class DashboardPersonController extends Controller
     public function edit(Person $person)
     {
         return view('dashboard.people.edit', [
-            'title' => 'Dashboard - Edit Person',
+            'title' => 'Dashboard - Ubah Orang',
             'person' => $person,
         ]);
     }
@@ -136,7 +136,7 @@ class DashboardPersonController extends Controller
             Person::where('id', $person->id)
                 ->update($validatedData);
 
-            return redirect('/dashboard/people')->with('success', 'Person has been updated!!!');
+            return redirect('/dashboard/people')->with('success', 'Orang berhasil diperbarui!!!');
         }
     }
 
@@ -152,6 +152,6 @@ class DashboardPersonController extends Controller
 
         Person::destroy($person->id);
 
-        return redirect('/dashboard/people')->with('success', 'Person has been deleted!!!');
+        return redirect('/dashboard/people')->with('success', 'Orang berhasil dihapus!!!');
     }
 }

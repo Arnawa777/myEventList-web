@@ -12,9 +12,9 @@
                 <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                 <form action="/people">
                     <div class="input-group mb-3" style="justify-content: center">
-                        <input type="text" class="form-control" placeholder="Search.." 
+                        <input type="text" class="form-control" placeholder="Pencarian.." 
                         name="search" value="{{ request('search') }}" id="deleteInputLong">
-                        <button class="btn btn-primary" type="submit" >Search</button>
+                        <button class="btn btn-primary" type="submit" >Cari</button>
                     </div>
                 </form>
             </div>
@@ -40,7 +40,7 @@
                         </div>
                             <p class="card__description">
                             @if (is_null($person->biography))
-                                This person doesn't have biography yet...
+                                Orang ini belum memiliki biografi...
                             @else
                                 {!!  substr(strip_tags($person->biography), 0, 50) !!}...                
                             @endif
@@ -51,7 +51,7 @@
                     @endforeach 
                 </ul>
             @else
-                <p class="text-center fs-4">404 No People Found.</p>  
+                <p class="text-center fs-4">404 Orang tidak ditemukan.</p>  
             @endif
         </div>
         <div class="d-flex justify-content-end">

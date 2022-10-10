@@ -6,7 +6,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 style="padding: 30px 0px 20px 0px">
-    <h2>Create New Actor</h2>
+    <h2>Buat Aktor</h2>
 </div>
 
 <div class="col-lg-8">
@@ -16,7 +16,7 @@ style="padding: 30px 0px 20px 0px">
 
         {{-- Person --}}
         <div class="mb-3">
-            <label for="person_id">Person</label>
+            <label for="person_id">Orang</label>
             <select class="form-select" name="person_id" value="{{ old('person_id') }}">
                 @foreach ($people as $person)
                     @if (old('person_id') == $person->id)
@@ -37,7 +37,7 @@ style="padding: 30px 0px 20px 0px">
 
         {{-- Character --}}
         <div class="mb-3">
-            <label for="character_id">Character</label>
+            <label for="character_id">Karakter</label>
             <select class="form-select" name="character_id" value="{{ old('character_id') }}">
                 @foreach ($characters as $chara)
                     @if (old('character_id') == $chara->id)
@@ -63,8 +63,8 @@ style="padding: 30px 0px 20px 0px">
         
         {{-- Button Action--}}
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="create" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="create" id="btn-reply">Buat</button>
         </div>
     </form>
 </div> <!--// close of Form div //-->

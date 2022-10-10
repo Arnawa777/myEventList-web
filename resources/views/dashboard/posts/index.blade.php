@@ -5,18 +5,18 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 	 style="padding: 30px 0px 20px 0px">
-    <h2>Posts</h2>
+    <h2>Daftar Post</h2>
 </div>
 
 <div class="table-responsive col-lg-8">
 	<div style="float: left">
-	<a href="/dashboard/posts/create" class="btn btn-primary mb-3">Create New Post</a>
+	<a href="/dashboard/posts/create" class="btn btn-primary mb-3">Buat Post</a>
 	</div>
 	<div style="float: right">
 		<form action="/dashboard/posts">
 			<div class="input-group mb-3">
 				<select class="form-select" id="topic" name="topic" value="{{ request('topic') }}">
-					<option value="">Select Topic</option>
+					<option value="">Pilih Topik</option>
 					@foreach ($topics as $topic)
 						@if (request('topic') == $topic->id)
 							<option value="{{ $topic->id }}" selected>{{ $topic->topic }} - {{ $topic->sub_topic }}</option>
@@ -25,9 +25,9 @@
 						@endif  
 					@endforeach
 				</select>
-				<input type="text" class="form-control" placeholder="Search.." 
+				<input type="text" class="form-control" placeholder="Pencarian.." 
 				name="search" value="{{ request('search') }}" id="deleteInput">
-				<button class="btn btn-primary" type="submit" >Search</button>
+				<button class="btn btn-primary" type="submit" >Cari</button>
 			</div>
 		</form>
 	</div>
@@ -46,11 +46,11 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
-					<th scope="col" style="width: 12%">Picture</th>
-					<th scope="col" style="width: 22%">Title</th>
-					<th scope="col" style="width: 20%">Create by</th>
-					<th scope="col" style="width: 20%">Topic</th>
-					<th scope="col" style="width: 8%;">Action</th>
+					<th scope="col" style="width: 12%">Foto</th>
+					<th scope="col" style="width: 22%">Judul</th>
+					<th scope="col" style="width: 20%">Dibuat Oleh</th>
+					<th scope="col" style="width: 20%">Topik</th>
+					<th scope="col" style="width: 8%;">Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -92,7 +92,7 @@
 						<form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
 							@method('delete')
 							@csrf
-							<button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+							<button class="badge bg-danger border-0" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
 						</form> 
 					</td>
 				</tr>
@@ -101,7 +101,7 @@
 		</table>
 	@else
 		<p class="text-center fs-4">404</p>
-		<p class="text-center fs-4">Data Not Found</p>
+		<p class="text-center fs-4">Data tidak ditemukan</p>
 	@endif
 	<div class="d-flex justify-content-end">
 		{{ $posts->links('vendor.pagination.custom') }}

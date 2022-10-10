@@ -5,19 +5,19 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 	 style="padding: 30px 0px 20px 0px">
-    <h2>People</h2>
+    <h2>Daftar Orang</h2>
 </div>
 
 <div class="table-responsive col-lg-8">
 	<div style="float:left">
-	<a href="/dashboard/people/create" class="btn btn-primary mb-3">Create New Person</a>
+	<a href="/dashboard/people/create" class="btn btn-primary mb-3">Buat Orang</a>
 	</div>
 	<div style="float: right">
 		<form action="/dashboard/people">
 			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Search.." 
+				<input type="text" class="form-control" placeholder="Pencarian.." 
 				name="search" value="{{ request('search') }}" id="deleteInput">
-				<button class="btn btn-primary" type="submit" >Search</button>
+				<button class="btn btn-primary" type="submit" >Cari</button>
 			</div>
 		</form>
 	</div>
@@ -35,10 +35,10 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
-					<th scope="col" style="width: 12%">Picture</th>
-					<th scope="col" style="width: 50%">Name</th>
-					<th scope="col" style="width: 12%">Birthday</th>
-					<th scope="col" style="width: 8%">Action</th>
+					<th scope="col" style="width: 12%">Foto</th>
+					<th scope="col" style="width: 50%">Nama</th>
+					<th scope="col" style="width: 12%">Tanggal Lahir</th>
+					<th scope="col" style="width: 8%">Aksi</th>
 				</tr>
 			</thead>
 			<tbody style="height: 100px">
@@ -58,7 +58,7 @@
 						@if ($person->birthday)
 							{{ $person->birthday }}
 						@else
-							Unknown
+							Tidak diketahui
 						@endif
 					</td>
 					<td class="action align-middle text-center">
@@ -73,7 +73,7 @@
 						<form action="/dashboard/people/{{ $person->slug }}" method="post" class="d-inline">
 							@method('delete')
 							@csrf
-							<button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+							<button class="badge bg-danger border-0" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
 						</form> 
 					</td>
 				</tr>
@@ -82,7 +82,7 @@
 		</table>
 	@else
 		<p class="text-center fs-4">404</p>
-		<p class="text-center fs-4">Data Not Found</p>
+		<p class="text-center fs-4">Data tidak ditemukan</p>
 	@endif
 	<div class="d-flex justify-content-end">
 		{{ $people->links('vendor.pagination.custom') }}

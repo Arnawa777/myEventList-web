@@ -11,9 +11,9 @@
                 <h1 class="mb-3 text-center" style="padding-top: 20px">{{ $title }}</h1>
                 <form action="/users">
                     <div class="input-group mb-3" style="justify-content: center;">
-                        <input type="text" class="form-control" placeholder="Search.." 
+                        <input type="text" class="form-control" placeholder="Pencarian.." 
                         name="search" value="{{ request('search') }}" id="deleteInputLong">
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary" type="submit">Cari</button>
                     </div>
                 </form>
             </div>
@@ -30,7 +30,7 @@
                         </h5>
                     </div>
                     <div class="card-footer text-muted">
-                        <p>Joined Date : {{ $user->created_at->format('d F Y'); }}</p>
+                        <p>Tanggal Bergabung : {{ $user->created_at->format('d F Y'); }}</p>
                     </div>
                 </div>
         </div>

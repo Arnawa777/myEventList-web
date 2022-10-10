@@ -5,7 +5,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
 	 style="padding: 30px 0px 20px 0px">
-    <h2>Edit Event</h2>
+    <h2>Ubah Komunitas</h2>
 </div>
 
 <div class="col-lg-8">
@@ -16,7 +16,7 @@
 
         {{-- Name --}}
         <div class="mb-3">
-          <label for="name" class="form-label">Event Name</label>
+          <label for="name" class="form-label">Nama Komunitas</label>
           <input type="text" class="form-control @error('name') is-invalid @enderror" 
            id="name" name="name" value="{{ old('name', $event->name) }}" autofocus>
            @error('name')
@@ -28,9 +28,9 @@
 
         {{-- Category --}}
         <div class="mb-3">
-            <label for="category_id">Category</label>
+            <label for="category_id">Kategori</label>
             <select class="form-select" id="category_id" name="category_id" value="{{ old('category_id') }}">
-                <option value="">Select Category</option>
+                <option value="">Pilih Kategori</option>
                 @foreach ($categories as $category)
                 @if (old('category_id', $event->category_id) == $category->id)
                     <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
@@ -49,9 +49,9 @@
 
         {{-- Location --}}
         <div class="mb-3">
-            <label for="location_id">Event Location</label>
+            <label for="location_id">Lokasi Komunitas</label>
             <select class="form-select" id="location_id" name="location_id" value="{{ old('location_id') }}">
-                <option value="">Select Location</option>
+                <option value="">Pilih Lokasi</option>
                 @foreach ($locations as $location)
                 @if (old('location_id', $event->location_id) == $location->id)
                     <option value="{{ $location->id }}" selected>{{ $location->regency }} - {{ $location->sub_regency }}</option>
@@ -70,7 +70,7 @@
 
         {{-- Phone --}}
         <div class="mb-3">
-          <label for="phone" class="form-label">Event Phone</label>
+          <label for="phone" class="form-label">Nomor Ponsel</label>
           <input type="text" class="form-control @error('phone') is-invalid @enderror" 
            id="phone" name="phone" value="{{ old('phone', $event->phone) }}">
            @error('phone')
@@ -82,7 +82,7 @@
 
         {{-- Date --}}
         <div class="mb-3">
-          <label for="date" class="form-label">Event Established</label>
+          <label for="date" class="form-label">Tanggal Berdiri</label>
           <input type="date" class="form-control @error('date') is-invalid @enderror" 
            id="date" name="date" 
            {{-- value="{{ old('date', Carbon\Carbon::parse($event->date)->isoFormat('Y-m-d\TH:i')) }}" --}}
@@ -97,7 +97,7 @@
 
         {{-- Picture --}}
         <div class="mb-3">
-            <label for="picture" class="form-label">Event Picture</label>
+            <label for="picture" class="form-label">Foto Komunitas</label>
             <input type="hidden" name="oldPicture" value="{{ $event->picture }}">
             @if ($event->picture)
                 <img src="{{ asset('storage/event-picture/' .$event->picture) }}" class="img-preview">
@@ -111,7 +111,7 @@
                     value="{{ $event->picture }}" onchange="previewImageData()">
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
+                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Apa anda yakin?')">Hapus</button>
                 </div>
             </div>
             @error('picture')
@@ -128,9 +128,9 @@
             @else
                 <img class="img-video-preview" src="{{ URL::to('/') }}/img/no-video.jpg">
             @endif
-            <label for="video" class="form-label">Event Video</label>
+            <label for="video" class="form-label">Video</label>
             <input type="text" class="form-control"  id="video" name="video" value="{{ old('video', $event->video) }}"
-            onkeyup="previewImageVideo()" onclick="previewImageVideo()"  placeholder="Youtube only or it won't save">
+            onkeyup="previewImageVideo()" onclick="previewImageVideo()"  placeholder="Video youtube saja yang dapat digunakan">
              @error('video')
                  <div class="invalid-feedback">
                      {{ $message }}
@@ -140,7 +140,7 @@
 
         {{-- Description --}}
         <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
+            <label for="description" class="form-label">Deskripsi</label>
             <input id="description" type="hidden" name="description" value="{{ old('description', $event->description) }}">
             <trix-editor input="description"></trix-editor>
              @error('description')
@@ -150,8 +150,8 @@
              @enderror
         </div>
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Ubah</button>
         </div>
     </form>
 </div>

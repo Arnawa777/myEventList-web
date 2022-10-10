@@ -12,7 +12,7 @@
             <h3 style="padding-left:10px; background-color: #9D9EA0; height:40px">{{ $post->title }}</h3>
         </div>
         <div style="margin-left:10px">
-            <a href="/dashboard/posts"class="btn btn-info border-0">Back to All Posts</a>
+            <a href="/dashboard/posts"class="btn btn-info border-0">Kembali ke Daftar Post</a>
             {{-- Check user --}}
             @if ($post->author->id === auth()->user()->id)
                 <a href="/dashboard/posts/{{ $post->slug }}/edit" class="btn btn-warning border-0">Edit</a>
@@ -23,7 +23,7 @@
             <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="d-inline">
                 @method('delete')
                 @csrf
-                <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                <button class="btn btn-danger" onclick="return confirm('Apa anda yakin?')">Hapus</button>
             </form>
         </div>
 
@@ -34,8 +34,8 @@
                     <img class="userPicture" src="/storage/user-picture/{{ $post->author->picture }}">
                     <a href="/profile/{{ $post->author->username }}"><h5 style="text-align: center;">{{ $post->author->username }}</h5></a>
                     <br><br>
-                    <h6>Joined: {{ date('d-m-Y', strtotime($post->author->created_at)) }}</h6>
-                    <h6>Posts : {{ $post->author->posts_count }}</h6>
+                    <h6>Bergabung: {{ date('d-m-Y', strtotime($post->author->created_at)) }}</h6>
+                    <h6>Jumlah Post : {{ $post->author->posts_count }}</h6>
                 </div>
 
                 <div class="col-lg-10 right-column">
@@ -45,7 +45,11 @@
                         @if ($post->picture)
                             <img class="postPicture" src="/storage/post-picture/{{ $post->picture }}" alt="post-picture">
                             <br>
-                        @endif   
+                        @endif
+                        @if ($post->event_id)
+                            <h5>Komunitas:  <a href="/dashboard/events/{{ $post->event->slug }}">{{ $post->event->name }}</a></h5>
+                        @endif
+                        <br>   
                         {!! $post->body !!}
                     </article>
                 </div>
@@ -60,8 +64,8 @@
                             <img class="userPicture" src="/storage/user-picture/{{ $comment->author->picture }}">
                             <a href="/profile/{{ $comment->author->username }}"><h5 style="text-align: center;">{{ $comment->author->username }}</h5></a>
                             <br><br>
-                            <h6>Joined: {{ date('d-m-Y', strtotime($comment->author->created_at)) }}</h6>
-                            <h6>Posts : {{ $comment->author->posts_count }}</h6>
+                            <h6>Bergabung: {{ date('d-m-Y', strtotime($comment->author->created_at)) }}</h6>
+                            <h6>Jumlah Post : {{ $comment->author->posts_count }}</h6>
                         </div>
 
                         <div class="col-lg-10 right-column" style="position: relative;" id="showcomment-{{ $comment->id }}">

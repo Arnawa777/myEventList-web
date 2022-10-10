@@ -5,20 +5,20 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 col-lg-8 border-bottom" 
 	 style="padding: 30px 0px 20px 0px">
-	<h2>Actors in Event</h2>
+	<h2>Daftar Aktor pada Komunitas</h2>
 </div>
 
 
 <div class="table-responsive col-lg-8">
 	<div style="float: left">
-		<a href="/dashboard/actor-events/create" class="btn btn-primary mb-3">Assign Actor</a>
+		<a href="/dashboard/actor-events/create" class="btn btn-primary mb-3">Tetapkan Aktor</a>
   	</div>
 	<div style="float: right">
 		<form action="/dashboard/actor-events">
 			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Search.." 
+				<input type="text" class="form-control" placeholder="Pencarian.." 
 				name="search" value="{{ request('search') }}" id="deleteInput">
-				<button class="btn btn-primary" type="submit" >Search</button>
+				<button class="btn btn-primary" type="submit" >Cari</button>
 			</div>
 		</form>
 	</div>
@@ -36,11 +36,11 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 3%;">#</th>
-					<th scope="col" style="width: 30%">Event</th>
-					<th scope="col" style="width: 25%">Character</th>
-					<th scope="col" style="width: 25%">Person</th>
-					<th scope="col" style="width: 7%">Role</th>
-					<th scope="col" style="width: 10%">Action</th>
+					<th scope="col" style="width: 30%">Komunitas</th>
+					<th scope="col" style="width: 25%">Karakter</th>
+					<th scope="col" style="width: 25%">Orang</th>
+					<th scope="col" style="width: 7%">Peran</th>
+					<th scope="col" style="width: 10%">Aksi</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -64,7 +64,7 @@
 							<form action="/dashboard/actor-events/{{ $ae->id }}" method="post" class="d-inline">
 							@method('delete')
 							@csrf
-							<button class="badge bg-danger border-0" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+							<button class="badge bg-danger border-0" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
 							</form> 
 					</td>
 				</tr>
@@ -73,7 +73,7 @@
 		</table>
 	@else
 		<p class="text-center fs-4">404</p>
-		<p class="text-center fs-4">Data Not Found</p>
+		<p class="text-center fs-4">Data tidak ditemukan</p>
 	@endif
 	<div class="d-flex justify-content-end">
 		{{ $actor_events->links('vendor.pagination.custom') }}

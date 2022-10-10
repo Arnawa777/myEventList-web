@@ -21,8 +21,9 @@
                 <div class="col-lg-12" id="category">
                     {{-- Jika slug tidak sama tampilkan button --}}
                     @if ($topic->slug !== 'announcements')
-                        <button type="button" onclick="location.href='/forum/{{ $topic->slug }}/create-post'">Create New Post</button>
-                        <h4><a href=""></a></h4>
+                    <div style="margin-bottom:10px;">
+                        <button type="button" onclick="location.href='/forum/{{ $topic->slug }}/create-post'">Buat Post Baru</button>
+                    </div>
                     @endif
                     
                     <!-- second section  -->
@@ -50,8 +51,8 @@
                                         {{ date('d-m-Y', strtotime($post->created_at)) }}</div>
                                 </td>
                                 <td class="count">
-                                    <div class="first">N/A <br> Views</div>
-                                    <div class="last">{{ $post->comments->count() }} <br>Comment</div>
+                                    {{-- <div class="first">N/A <br> Views</div> --}}
+                                    <div class="last">{{ $post->comments->count() }} <br>Komentar</div>
                                     
                                 </td>
                                 <td>
@@ -70,7 +71,7 @@
                                         </a></div>
                                 @else
                                     <h6 class="text-center font-weight-bold mb-0">
-                                        No Comments
+                                        Tidak ada Komentar
                                     </h6>
                                 @endif
                                 </td>
@@ -78,7 +79,7 @@
                             @endforeach
                         @else
                         <tr>
-                            <p class="text-center fs-4">There are no posts on this topic yet</p> 
+                            <p class="text-center fs-4">Belum ada Post pada Topik ini</p> 
                         </tr>
                         @endif
                         </tbody>

@@ -29,7 +29,7 @@
                 <!-- Category one -->
                 <div class="col-lg-12" id="category">
                     <!-- second section  -->
-                    <h4 id="title">MyEventList</h4>
+                    <h4 id="title">SanggarJogja</h4>
                     <table width="100%">
                         <thead>
                             <tr>
@@ -39,7 +39,7 @@
                             </tr>
                         </thead>
                     <tbody>
-                    @foreach($threads->where('topic', 'MyEventList') as $thread)
+                    @foreach($threads->where('topic', 'SanggarJogja') as $thread)
                         @if ($thread)
                             <tr>
                                 <td id="topic">
@@ -54,8 +54,8 @@
                                     @endif
                                 </td>
                                 <td class="count">
-                                    <div class="first">N/A <br> Views</div>
-                                    <div class="last">{{ $thread->posts->count() }} <br>Posts</div>
+                                    {{-- <div class="first">N/A <br> Views</div> --}}
+                                    <div class="last">{{ $thread->posts->count() }} <br>Post</div>
                                 </td>
                                 <td>
                                     @if ($thread->latestPost)
@@ -71,13 +71,13 @@
                                     </div>
                                     @else
                                         <h6 class="text-center font-weight-bold mb-0">
-                                            No Post
+                                            Tidak ada Post
                                         </h6>
                                     @endif
                                 </td>
                             </tr>
                         @else
-                            <h1 class="empty">No Data</h1>
+                            <h1 class="empty">Tidak ada Data</h1>
                         @endif
                     @endforeach
                     </tbody>
@@ -87,7 +87,7 @@
                 <!-- Category two -->
                 <div class="col-lg-12" id="category">
                     <!-- second section  -->
-                    <h4 id="title">Event</h4>
+                    <h4 id="title">Komunitas</h4>
                     <table width="100%">
                     <thead>
                         <tr>
@@ -97,7 +97,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($threads->where('topic', 'Event') as $thread)
+                        @foreach($threads->where('topic', 'Komunitas') as $thread)
                             @if ($thread)
                                 <tr>
                                     <td id="topic">
@@ -112,8 +112,8 @@
                                         @endif
                                     </td>
                                     <td class="count">
-                                        <div class="first">N/A <br> Views</div>
-                                        <div class="last">{{ $thread->posts->count() }} <br>Posts</div>
+                                        {{-- <div class="first">N/A <br> Views</div> --}}
+                                        <div class="last">{{ $thread->posts->count() }} <br>Post</div>
                                     </td>
                                     <td>
                                         @if ($thread->latestPost)
@@ -129,13 +129,13 @@
                                         </div>
                                         @else
                                             <h6 class="text-center font-weight-bold mb-0">
-                                                No Post
+                                                Tidak ada Post
                                             </h6>
                                         @endif
                                     </td>
                                 </tr>
                             @else
-                                <h1 class="empty">No Data</h1>
+                                <h1 class="empty">Tidak ada Data</h1>
                             @endif
                         @endforeach
                     </tbody>
@@ -145,7 +145,7 @@
                 <!-- Category three -->
                 <div class="col-lg-12" id="category">
                     <!-- second section  -->
-                    <h4 id="title">General</h4>
+                    <h4 id="title">Umum</h4>
                     <table width="100%">
                     <thead>
                         <tr>
@@ -155,7 +155,7 @@
                         </tr>
                     </thead>  
                     <tbody>
-                        @foreach($threads->where('topic', 'General') as $thread)
+                        @foreach($threads->where('topic', 'Umum') as $thread)
                             @if ($thread)
                                 <tr>
                                     <td id="topic">
@@ -170,7 +170,7 @@
                                         @endif
                                     </td>
                                     <td class="count">
-                                        <div class="first">N/A <br> Views</div>
+                                        {{-- <div class="first">N/A <br> Views</div> --}}
                                         <div class="last">{{ $thread->posts->count() }} <br>Posts</div>
                                     </td>
                                     <td>
@@ -188,20 +188,20 @@
                                         </div>
                                         @else
                                             <h6 class="text-center font-weight-bold mb-0">
-                                                No Post
+                                                Tidak ada Post
                                             </h6>
                                         @endif
                                     </td>
                                 </tr>
                             @else
-                                <h1 class="empty">No Data</h1>
+                                <h1 class="empty">Tidak ada Data</h1>
                             @endif
                         @endforeach
                     </tbody> 
                     </table>
                 </div>
             @else
-                <p class="text-center fs-4">Data Not Found</p>
+                <p class="text-center fs-4">Data tidak ditemukan</p>
             @endif
             </div>
         </div>
@@ -212,7 +212,7 @@
             <div class="card">
                 <h4 class="card-title" 
                 style="background-color: #74c0ff; margin: 0; padding: 10px;"
-                >Recent Post</h4>
+                >Post Terbaru</h4>
                 <div class="card-body">
                 
                     <table width="100%">
@@ -239,11 +239,11 @@
                                     </td>
                                 </tr>
                             @else
-                                <h1 class="empty">No Data</h1>
+                                <h1 class="empty">Tidak ada Data</h1>
                             @endif
                         @endforeach
                     @else
-                        <p>There are no posts yet</p>
+                        <p>Belum ada Post</p>
                     @endif
                     </tbody>
                     </table>

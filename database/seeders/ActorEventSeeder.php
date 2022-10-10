@@ -18,33 +18,33 @@ class ActorEventSeeder extends Seeder
         ActorEvent::create([
             'event_id' => '2',
             'actor_id' => '1',
-            'role' => 'Main',
+            'role' => 'Utama',
         ]);
 
         ActorEvent::create([
             'event_id' => '2',
             'actor_id' => '2',
-            'role' => 'Main',
+            'role' => 'Utama',
         ]);
         ActorEvent::create([
             'event_id' => '2',
             'actor_id' => '3',
-            'role' => 'Support',
+            'role' => 'Pembantu',
         ]);
         ActorEvent::create([
             'event_id' => '2',
             'actor_id' => '4',
-            'role' => 'Support',
+            'role' => 'Pembantu',
         ]);
         ActorEvent::create([
             'event_id' => '2',
             'actor_id' => '5',
-            'role' => 'Support',
+            'role' => 'Pembantu',
         ]);
         ActorEvent::create([
             'event_id' => '2',
             'actor_id' => '6',
-            'role' => 'Support',
+            'role' => 'Pembantu',
         ]);
     }
 }

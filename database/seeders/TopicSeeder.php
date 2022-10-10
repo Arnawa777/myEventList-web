@@ -16,59 +16,61 @@ class TopicSeeder extends Seeder
     public function run()
     {
         Topic::create([
-            'topic' => 'MyEventList',
-            'sub_topic' => 'Announcements',
-            'slug' => 'announcements',
-            'description' => 'Updates, changes, and additions to MyEventList.',
+            'topic' => 'SanggarJogja',
+            'sub_topic' => 'Pengumuman',
+            'slug' => 'pengumuman',
+            'description' => 'Pembaruan, perubahan, dan penambahan pada Website..',
         ]);
 
         Topic::create([
-            'topic' => 'MyEventList',
-            'sub_topic' => 'Support',
-            'slug' => 'support',
-            'description' => 'Have a problem using the site or think you found a bug? Post here',
+            'topic' => 'SanggarJogja',
+            'sub_topic' => 'Dukungan',
+            'slug' => 'dukungan',
+            'description' => 'Punya masalah saat menggunakan situs atau merasa menemukan bug? Post di sini',
         ]);
 
         Topic::create([
-            'topic' => 'MyEventList',
-            'sub_topic' => 'Suggestions',
-            'slug' => 'suggestions',
-            'description' => 'Have an idea or suggestion for the site? Share it here.',
+            'topic' => 'SanggarJogja',
+            'sub_topic' => 'Saran',
+            'slug' => 'saran',
+            'description' => 'Punya ide atau saran untuk situs ini? Bagikan di sini.',
         ]);
 
         Topic::create([
-            'topic' => 'Event',
-            'sub_topic' => 'Event Schedules',
-            'slug' => 'event-schedules',
-            'description' => 'Share upcoming event.',
+            'topic' => 'Komunitas',
+            'sub_topic' => 'Jadwal Komunitas',
+            'slug' => 'jadwal-komunitas',
+            'description' => 'Bagikan Jadwal Pertunjukkan Komunitas yang akan datang.',
+        ]);
+
+        //5
+        Topic::create([
+            'topic' => 'Komunitas',
+            'sub_topic' => 'Rekomendasi Komunitas',
+            'slug' => 'rekomendasi-komunitas',
+            'description' => 'Mintalah rekomendasi Komunitas dari sini atau bantu pengguna lain mencari saran.',
         ]);
 
         Topic::create([
-            'topic' => 'Event',
-            'sub_topic' => 'Event Recommendations',
-            'slug' => 'event-recommendations',
-            'description' => 'Ask the community for event recommendations or help other users looking for suggestions.',
+            'topic' => 'Komunitas',
+            'sub_topic' => 'Diskusi Komunitas',
+            'slug' => 'diskusi-komunitas',
+            'description' => 'Diskusi Umum yang tidak khusus untuk Komunitas Sanggar tertentu.',
         ]);
 
         Topic::create([
-            'topic' => 'Event',
-            'sub_topic' => 'Event Discussion',
-            'slug' => 'event-discussion',
-            'description' => 'General event discussion that is not specific to any particular event.',
+            'topic' => 'Umum',
+            'sub_topic' => 'Perkenalan',
+            'slug' => 'perkenalan',
+            'description' => 'Baru di Forum ini? Perkenalkan diri Anda di sini.',
         ]);
 
+        //8
         Topic::create([
-            'topic' => 'General',
-            'sub_topic' => 'Introductions',
-            'slug' => 'introductions',
-            'description' => 'New to MyEventList? Introduce yourself here.',
-        ]);
-
-        Topic::create([
-            'topic' => 'General',
-            'sub_topic' => 'Casual Discussion',
-            'slug' => 'casual-discussion',
-            'description' => 'General interest topics',
+            'topic' => 'Umum',
+            'sub_topic' => 'Diskusi Santai',
+            'slug' => 'diskusi-santai',
+            'description' => 'Diskusi santai secara umum',
         ]);
     }
 }

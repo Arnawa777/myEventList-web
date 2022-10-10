@@ -20,6 +20,13 @@
                 </a>
 
             </nav>
+
+            {{-- Message --}}
+            @if (session()->has('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
             {{-- Post --}}
             <h4>{{ $post->title }}</h4>
             <div class="row postData">
@@ -27,8 +34,8 @@
                     <img class="userPicture" src="/storage/user-picture/{{ $post->author->picture }}">
                     <a href="/profile/{{ $post->author->username }}"><h5 style="text-align: center;">{{ $post->author->username }}</h5></a>
                     <br><br>
-                    <h6>Joined: {{ date('d-m-Y', strtotime($post->author->created_at)) }}</h6>
-                    <h6>Posts : {{ $post->author->posts_count }}</h6>
+                    <h6>Bergabung : {{ date('d-m-Y', strtotime($post->author->created_at)) }}</h6>
+                    <h6>Jumlah Post : {{ $post->author->posts_count }}</h6>
                 </div>
 
                 <div class="col-lg-10 right-column">
@@ -43,7 +50,7 @@
                                     @method('delete')
                                     @csrf
                                     <input type="hidden" name="topic_slug" value="{{ $topic->slug }}">
-                                    <button style="margin:0 0 0 0;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                    <button style="margin:0 0 0 0;" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
                                 </form>
                             </div>
                         @elseif (auth()->user()->role === "admin")
@@ -52,7 +59,7 @@
                                     @method('delete')
                                     @csrf
                                     <input type="hidden" name="topic_slug" value="{{ $topic->slug }}">
-                                    <button style="margin:0 0 0 0;" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash"></i></button>
+                                    <button style="margin:0 0 0 0;" onclick="return confirm('Apa anda yakin?')"><i class="fa-solid fa-trash"></i></button>
                                 </form>
                             </div>
                         @endif
@@ -62,7 +69,12 @@
                         @if ($post->picture)
                             <img class="postPicture" src="/storage/post-picture/{{ $post->picture }}" alt="post-picture">
                             <br>
-                        @endif   
+                        @endif  
+                        @if ($post->event_id)
+                            <h5>Komunitas:  <a href="/events/{{ $post->event->slug }}">{{ $post->event->name }}</a></h5>
+                        @endif
+                        
+                        <br>
                         {!! $post->body !!}
                     </article>
                 </div>
@@ -77,8 +89,8 @@
                             <img class="userPicture" src="/storage/user-picture/{{ $comment->author->picture }}">
                             <a href="/profile/{{ $comment->author->username }}"><h5 style="text-align: center;">{{ $comment->author->username }}</h5></a>
                             <br><br>
-                            <h6>Joined: {{ date('d-m-Y', strtotime($comment->author->created_at)) }}</h6>
-                            <h6>Posts : {{ $comment->author->posts_count }}</h6>
+                            <h6>Bergabung : {{ date('d-m-Y', strtotime($comment->author->created_at)) }}</h6>
+                            <h6>Jumlah Post : {{ $comment->author->posts_count }}</h6>
                         </div>
 
                         <div class="col-lg-10 right-column" style="position: relative;" id="showcomment-{{ $comment->id }}">
@@ -106,7 +118,7 @@
                                         @csrf
                                             {{-- yang penting kan jalan --}}
                                             <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                                            <button type="submit" onclick="return confirm('Are you sure?')" id="btn-action"><i class="fa-solid fa-trash"></i> Delete</button>
+                                            <button type="submit" onclick="return confirm('Apa anda yakin?')" id="btn-action"><i class="fa-solid fa-trash"></i> Hapus</button>
                                         </form>
                                     </div>
                                 @endif
@@ -136,8 +148,8 @@
                                 </div>
                             </div> {{--! End of Editbox  --}}
                             <div class="footer-button">
-                                <button type="submit" id="btn-edit"><i class="fa-regular fa-floppy-disk"></i> SAVE</button>
-                                <button type="button" class="canceledit" id="btn-cancel" data-id="{{ $comment->id }}">CANCEL</button>
+                                <button type="submit" id="btn-edit"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
+                                <button type="button" class="canceledit" id="btn-cancel" data-id="{{ $comment->id }}">Batal</button>
                             </div> 
                             
                             </form>
@@ -175,7 +187,7 @@
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                             </div>
                             <div class="footer-reply-right">
-                                <button type="submit" id="btn-reply"><i class="fa-solid fa-reply"></i> POST REPLY</button>
+                                <button type="submit" id="btn-reply"><i class="fa-solid fa-reply"></i> Tambah Komentar</button>
                             </div>           
                         </form>
                     </div>

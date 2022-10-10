@@ -19,8 +19,8 @@ class DashboardActorEventController extends Controller
     public function index()
     {
         return view('dashboard.actor-events.index', [
-            'title' => "Dashboard - List Actor in Event",
-            'actor_events' => ActorEvent::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            'title' => "Dashboard - Daftar Aktor pada Komunitas",
+            'actor_events' => ActorEvent::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -38,7 +38,7 @@ class DashboardActorEventController extends Controller
         // dd($actorSortBy);
 
         return view('dashboard.actor-events.create', [
-            'title' => "Dashboard - Create Actor Events",
+            'title' => "Dashboard - Tetapkan Aktor pada Komunitas",
             'events' => Event::orderBy('name', 'asc')->get(),
             'actors' => $actorSortBy,
         ]);
@@ -68,7 +68,7 @@ class DashboardActorEventController extends Controller
             );
             ActorEvent::create($validatedData);
 
-            return redirect('/dashboard/actor-events')->with('success', 'Assign Actor to Event has been added!!!');
+            return redirect('/dashboard/actor-events')->with('success', 'Aktor berhasil ditambahkan pada data Komunitas!!!');
         }
     }
 
@@ -88,7 +88,7 @@ class DashboardActorEventController extends Controller
             ->get();
 
         return view('dashboard.actor-events.edit', [
-            "title" => "Dashboard - Edit Actor Event",
+            "title" => "Dashboard - Ubah Aktor yang ditetapkan",
             'actor_events' => $actorEvent,
             'events' => Event::orderBy('name', 'asc')->get(),
             'actors' => $actorSortBy,
@@ -115,7 +115,7 @@ class DashboardActorEventController extends Controller
             ActorEvent::where('id', $id)
                 ->update($validatedData);
 
-            return redirect('/dashboard/actor-events')->with('success', 'Assigned Actor in Event has been updated!!!');
+            return redirect('/dashboard/actor-events')->with('success', 'Aktor berhasil diubah pada data Komunitas!!!');
         }
     }
 
@@ -129,6 +129,6 @@ class DashboardActorEventController extends Controller
     {
         ActorEvent::destroy($id);
 
-        return redirect('/dashboard/actor-events')->with('success', 'Assigned Actor in Event has been deleted!!');
+        return redirect('/dashboard/actor-events')->with('success', 'Aktor pada data Komunitas berhasil dihapus!!');
     }
 }

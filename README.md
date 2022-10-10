@@ -2,6 +2,10 @@
 php artisan serve --port=8080
 <!-- Route List -->
 php artisan route:list
+<!-- Before run -->
+php artisan composer install
+php artisan storage:link
+
 
 Change Log
 
@@ -101,18 +105,26 @@ MEL-10
 <br>~Actor Event dan Character index, create, update (Done)
 <br>~Date seeder tahunnya blom bener(Done)
 
-
-
+MEL-11
+<br>~fix storage ignore
+<br>~sort by created_at and updated_at in dasboard index
+<br>~return to_route (downgrade laravel) [DONE]
+<br>~Change output to indonesian
+<br>~Role pindah dari characters ke actor-character document coding erd all [DONE]
+<br>~
 
 ``php artisan migrate:fresh --seed --seeder=UserSeeder
 - To Do
 
-<!-- ! Role pindah dari characters ke actor-character document coding erd all -->
+
+
 <document yang belum diganti rolenya yaitu desain antarmuka> [DONE]
 <Event Chara dan Reviews udah dibuat di figma tinggal nambahin di doc> [Done 10 Menit]
 
+<!--! Ubah frontend website ke indonesia  -->
+
 <Role coding>
-~return to_route (downgrade laravel)
+
 
 Change Latest show all
 

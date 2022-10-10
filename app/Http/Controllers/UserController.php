@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         return view('users.users', [
-            'title' => 'Users',
+            'title' => 'Daftar User',
             //withQueryString membawa semua query diatas ke pagination (blom kepake)
             'users' => User::latest()->filter(request(['search']))->paginate(6)->withQueryString(),
         ]);
@@ -38,7 +38,7 @@ class UserController extends Controller
         return view('users.setting.picture', [
             //data user yang sedang login
             'user' => Auth::user(),
-            'title' => 'User Setting - Picture',
+            'title' => 'Pengaturan User - Foto',
 
         ]);
     }
@@ -93,7 +93,7 @@ class UserController extends Controller
         return view('users.setting.profile', [
             //data user yang sedang login
             'user' => Auth::user(),
-            'title' => 'User Setting - Profile',
+            'title' => 'Pengaturan User - Profil',
 
         ]);
     }
@@ -120,7 +120,7 @@ class UserController extends Controller
             ->paginate(10);
 
         return view('users.posts', [
-            "title" => "$user->username - Posts",
+            "title" => "$user->username - Daftar Post",
             "user" => $user,
             'posts' => $posts,
             "topic" => $topic,

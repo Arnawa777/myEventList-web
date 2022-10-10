@@ -25,7 +25,7 @@
                 <div class="col-lg-12" id="category">
                     
                     <!-- second section  -->
-                    <h4 id="title">Create Post</h4>
+                    <h4 id="title">Ubah Post</h4>
                     {{-- @dd($topic) --}}
                     <form method="post" action="/forum/{{$topic->slug}}/{{ $post->slug }}" enctype="multipart/form-data">
                         @method('put')
@@ -33,7 +33,7 @@
                         
                         {{-- Title --}}
                         <div class="mb-3">
-                          <label for="title" class="form-label">Post Title</label>
+                          <label for="title" class="form-label">Judul Post</label>
                           <input type="text" class="form-control @error('title') is-invalid @enderror" 
                             name="title" value="{{ old('title', $post->title) }}" autofocus>
                            @error('title')
@@ -45,7 +45,7 @@
                 
                         {{-- Topic --}}
                         <div class="mb-3">
-                            <label for="topic_id">Post Topic</label>
+                            <label for="topic_id">Topik Post</label>
                             <select class="form-select" id="topic_id" name="topic_id" value="{{ $topic->id }}">
                                 <option value="{{ $topic->id }}">{{ $topic->sub_topic }}</option>
                             </select>
@@ -59,7 +59,7 @@
                         {{-- Evemt --}}
                         @if ($topic->slug === "event-schedules")
                             <div class="mb-3">
-                                <label for="event_id">Post Event</label>
+                                <label for="event_id">Komunitas</label>
                                 <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id', $post->event_id) }}">
                                     <option value="">Select Event</option>
                                     @foreach ($events as $event)
@@ -82,7 +82,7 @@
 
                         {{-- Picture --}}
                         <div class="mb-3">
-                            <label for="picture" class="form-label">Post Picture</label>
+                            <label for="picture" class="form-label">Foto</label>
                             <input type="hidden" name="oldPicture" value="{{ $post->picture }}">
                             @if ($post->picture)
                                 <img src="{{ asset('storage/post-picture/' .$post->picture) }}" class="img-preview">
@@ -95,7 +95,7 @@
                                     onchange="previewImageData()">
                                 </div>
                                 <div class="col-lg-2">
-                                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
+                                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Apa anda yakin?')">Hapus</button>
                                 </div>
                             </div>
                             
@@ -108,7 +108,7 @@
                 
                           {{-- TRIX Body --}}
                         <div class="mb-3">
-                            <label for="body" class="form-label">Body</label>
+                            <label for="body" class="form-label">Isi</label>
                             <input id="body" type="hidden" name="body" value="{{ old('body', $post->body) }}">
                                 <trix-editor input="body"></trix-editor>
                              @error('body')
@@ -122,8 +122,8 @@
 
                         {{-- Button Action--}}
                         <div class="footer-submit-right">
-                            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-                            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+                            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+                            <button type="submit" name="action" value="update" id="btn-reply">Ubah</button>
                         </div>
                     </form>
                 </div> <!-- Close Category one -->

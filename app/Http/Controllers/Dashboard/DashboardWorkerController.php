@@ -18,8 +18,8 @@ class DashboardWorkerController extends Controller
     public function index()
     {
         return view('dashboard.staff.index', [
-            "title" => "Dashboard - List Staff",
-            'workers' => Worker::latest()->filter(request(['search']))->paginate(10)->withQueryString(),
+            "title" => "Dashboard - Daftar Staf pada Komunitas",
+            'workers' => Worker::orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->filter(request(['search']))->paginate(10)->withQueryString(),
         ]);
     }
 
@@ -31,7 +31,7 @@ class DashboardWorkerController extends Controller
     public function create()
     {
         return view('dashboard.staff.create', [
-            "title" => "Dashboard - Create Staff",
+            "title" => "Dashboard - Tetapkan Staf pada Komunitas",
             'events' => Event::orderBy('name', 'asc')->get(),
             'people' => Person::orderBy('name', 'asc')->get(),
             'staff' => Worker::class,
@@ -65,14 +65,14 @@ class DashboardWorkerController extends Controller
 
             Worker::create($validatedData);
 
-            return redirect('/dashboard/staff')->with('success', 'New Staff has been added in Event!!!');
+            return redirect('/dashboard/staff')->with('success', 'Staf baru telah ditambahkan!!!');
         }
     }
 
     public function edit(Worker $staff)
     {
         return view('dashboard.staff.edit', [
-            "title" => "Dashboard Edit Staff",
+            "title" => "Dashboard - Ubah Staf",
             'staff' => $staff,
             'events' => Event::orderBy('name', 'asc')->get(),
             'people' => Person::orderBy('name', 'asc')->get(),
@@ -100,14 +100,14 @@ class DashboardWorkerController extends Controller
                     'description' => ''
                 ],
                 [
-                    'event_id.unique' => 'Staff already in Event!!!',
+                    'event_id.unique' => 'Staf sudah ada pada Komunitas!!!',
                 ]
             );
 
             Worker::where('id', $id)
                 ->update($validatedData);
 
-            return redirect('/dashboard/staff')->with('success', 'Staff has been updated!!!');
+            return redirect('/dashboard/staff')->with('success', 'Staf berhasil diperbarui!!!');
         }
     }
 
@@ -115,6 +115,6 @@ class DashboardWorkerController extends Controller
     {
         Worker::destroy($id);
 
-        return redirect('/dashboard/staff')->with('success', 'Staff has been deleted!!!');
+        return redirect('/dashboard/staff')->with('success', 'Staf berhasil dihapus!!!');
     }
 }

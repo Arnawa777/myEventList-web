@@ -22,7 +22,7 @@
                     @endif
                 </div>
                 <div class="border-bottom" style="margin-bottom:10px;">
-                    <h5 style="float: left;">Event</h5>
+                    <h5 style="float: left;">Komunitas</h5>
                     <div style="clear: both;"></div>
                 </div>
                 {{-- Event --}}
@@ -58,7 +58,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p>This Character Doesn't Have Event</p>
+                        <p>Karakter ini belum memiliki komunitas</p>
                     </div>
                     @endif
                 </div> <!--// close of Data Event div //-->
@@ -72,10 +72,10 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5>Description</h5>
+                        <h5>Deskripsi</h5>
                     </div>
                     @if (is_null($chara->description))
-                        <p> This Character doesn't have description yet... </p>
+                        <p> Karakter ini belum memiliki deskripsi... </p>
                     @else
                         <article>
                             {!! $chara->description !!}
@@ -88,7 +88,7 @@
             <div class="row" id="main-row">
                 <div class="col-12"> 
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5 style="float: left;">Actor</h5>
+                        <h5 style="float: left;">Aktor</h5>
                         <div style="clear: both;"></div>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                                         @if ($actor->person->birthday)
                                             <p>{{ $actor->person->birthday }} </p>
                                         @else
-                                            <p>Unknown</p>
+                                            <p>Tanggal lahir tidak diketahui</p>
                                         @endif
                                     </td>
                                 </tr>
@@ -128,7 +128,7 @@
                     {{-- Jika data tidak ada --}}
                     @else
                     <div class="col">
-                        <p>This Characters Doesn't Have Actor</p>
+                        <p>Karakter ini belum memiliki Aktor</p>
                     </div>
                     @endif
                 </div> 

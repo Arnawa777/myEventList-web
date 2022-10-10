@@ -21,13 +21,21 @@
                         @endif
                     </div>
                     <div class="border-bottom" style="margin-bottom:10px;">
-                        <h5>Information</h5>
+                        <h5>Informasi</h5>
                     </div>
                     <div>
-                        <p> Category:  {{ $event->category->name }} </p>
-                        <p> Established: {{ date('d M Y', strtotime($event->date)) }}</p>
-                        <p> Location: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
-                        <p> Phone: {{ $event->phone }}</p>
+                        <p> Kategori:  {{ $event->category->name }} </p>
+                        @if ($event->date)
+                            <p> Berdiri: {{ date('d M Y', strtotime($event->date)) }}</p>
+                        @else
+                            <p> Berdiri: Tidak diketahui</p>
+                        @endif
+                        <p> Lokasi: {{ $event->location->sub_regency }}, {{ $event->location->regency }}</p>
+                        @if ($event->phone)
+                            <p> Ponsel: {{ $event->phone }}</p>
+                        @else
+                            <p> Ponsel: Tidak diketahui</p>
+                        @endif
                     </div>
                     <div>
                         @auth
@@ -37,10 +45,10 @@
                             
                             @if($favorite)
                             <button type="submit" class="btn btn-sm" style="color: rgb(253, 53, 53); border: 2px rgb(253, 53, 53) solid">
-                            <i class="fas fa-heart"></i> Favorited
+                            <i class="fas fa-heart"></i> Favorit
                             @else
                             <button type="submit" class="btn btn-sm btn-outline-secondary">
-                            <i class="far fa-heart"></i> Add to Favorite
+                            <i class="far fa-heart"></i> Tambah Favorit
                             @endif
                             </button>
                           </form>
@@ -54,11 +62,11 @@
             <div class="col-sm-9">
                 <div id="horiznav_nav" style="margin: 0 0 10px 0;">
                     <ul style="margin-right: 0; padding-right: 0;">
-                          <li><a href="/events/{{ $event->slug }}">Details</a>
+                          <li><a href="/events/{{ $event->slug }}">Detail</a>
                       </li>
-                          <li><a href="/events/{{ $event->slug }}/characters">Characters &amp; Staff</a>
+                          <li><a href="/events/{{ $event->slug }}/characters">Karakter &amp; Staf</a>
                       </li>
-                          <li><a href="/events/{{ $event->slug }}/reviews">Reviews</a>
+                          <li><a href="/events/{{ $event->slug }}/reviews">Ulasan</a>
                       </li>
                     </ul>
                 </div>
@@ -67,20 +75,20 @@
                     <div class="col-3 col-sm-3">
                         <div class="card" style="height: 200px; width:100%">
                             <div class="card-body" style="text-align:center;">
-                                <h2 class="card-title">Score</h2>
+                                <h2 class="card-title">Skor</h2>
                                 <h2 class="numberCircle">
                                     {{-- 4 digit --}}
                                     {{ substr($totalRating, 0, 4) }}
                                     {{-- {{$event->reviews->sum('rating')}} --}}
                                 </h2>
-                              <p>From {{ $userReview }} User</p>
+                              <p>Dari {{ $userReview }} User</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-3 col-sm-3">
                         <div class="card" style="height: 200px; width:100%">
                             <div class="card-body" style="text-align:center;">
-                              <h2 class="card-title">Favorited</h2>
+                              <h2 class="card-title">Favorit</h2>
                                 @if ($event->favorites->count() >= 1000)
                                     <h2 class="favCircleMany">
                                         {{ $event->favorites->count() }} <i class="fas fa-heart"></i>
@@ -120,10 +128,10 @@
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
-                            <h5>Description</h5>
+                            <h5>Deskripsi</h5>
                         </div>
                         @if (is_null($event->description))
-                            <p> This Event doesn't have description yet... </p>
+                            <p> Komunitas ini belum memiliki deskripsi.. </p>
                         @else
                             <article>
                                 {!! $event->description !!}
@@ -136,9 +144,9 @@
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
-                            <h5 style="float: left;">Character & Actor</h5>
+                            <h5 style="float: left;">Karakter & Aktor</h5>
                             @if($actors->count())
-                            <a style="text-decoration: none; float: right; " href="/events/{{ $event->slug }}/characters">View More</a>
+                            <a style="text-decoration: none; float: right; " href="/events/{{ $event->slug }}/characters">Tampil lebih banyak</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -172,7 +180,7 @@
                                                     {{ Str::words($ac->person->name, 2, '') }}
                                                 </h7>
                                             </a>
-                                            <p class="name-table">Actor</p>
+                                            <p class="name-table">Aktor</p>
                                         </td>
                                         <td width="52px">
                                             <a href="/people/{{ $ac->person->slug }}">
@@ -187,7 +195,7 @@
                                 </tbody>
                             </table>
                         @empty
-                            <p>No Character & Actor have been added for this event.</p>
+                            <p>Belum ada Karakter dan Aktor yang ditambahkan pada Komunitas ini..</p>
                         @endforelse
                        
                     </div> <!--// close of Data Chara div //-->
@@ -197,9 +205,9 @@
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
-                            <h5 style="float: left;">Staff</h5>
+                            <h5 style="float: left;">Staf</h5>
                             @if($staff->count())
-                            <a style="text-decoration: none; float: right;" href="/events/{{ $event->slug }}/characters#staff">View More</a>
+                            <a style="text-decoration: none; float: right;" href="/events/{{ $event->slug }}/characters#staff">Tampil lebih banyak</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -231,7 +239,7 @@
                                     </tbody>
                                 </table>
                             @empty
-                                <p>No Staff have been added for this event.</p>
+                                <p>Belum ada Staf yang ditambahkan pada Komunitas ini</p>
                             @endforelse
                     </div> <!--// close of Data Chara div //-->
                 </div> <!--// close of Staff div //-->
@@ -240,9 +248,9 @@
                 <div class="row" id="main-row">
                     <div class="col-12"> 
                         <div class="border-bottom" style="margin-bottom:10px;">
-                            <h5 style="float: left;">Review</h5>
+                            <h5 style="float: left;">Ulasan</h5>
                             @if($allReviews->count())
-                            <a style="text-decoration: none; float: right;" href="/events/{{ $event->slug }}/reviews">View More</a>
+                            <a style="text-decoration: none; float: right;" href="/events/{{ $event->slug }}/reviews">Tampil lebih banyak</a>
                             @endif
                             <div style="clear: both;"></div>
                         </div>
@@ -271,11 +279,11 @@
                                         </a>
 
                                         @if ($rev->rating >=8)
-                                            <p style="color: blue">Reviewer Rating: {{ $rev->rating }}</p>
+                                            <p style="color: blue">Skor: {{ $rev->rating }}</p>
                                         @elseif($rev->rating <=7 && $rev->rating >=4 )
-                                            <p style="color: rgba(208, 196, 23, 0.967)">Reviewer Rating: {{ $rev->rating }}</p>
+                                            <p style="color: rgba(208, 196, 23, 0.967)">Skor: {{ $rev->rating }}</p>
                                         @else
-                                            <p style="color: red">Reviewer Rating: {{ $rev->rating }}</p>
+                                            <p style="color: red">Skor: {{ $rev->rating }}</p>
                                         @endif
                                         
                                         <p class="card-text">{!! $rev->body !!}</p>
@@ -284,7 +292,7 @@
                             </div>
                         </div>
                         @empty
-                            <p>No reviews have been submitted for this event. Be the first to make a review</p>
+                            <p>Belum ada ulasan yang diberikan pada Komunitas ini</p>
                         @endforelse
                     </div>
                 </div>
@@ -295,7 +303,7 @@
                     <div class="row" id="main-row">
                         <div class="col-12"> 
                             <div class="border-bottom" style="margin-bottom:10px;">
-                                <h5 style="float: left;">Your Review</h5>
+                                <h5 style="float: left;">Ulasan Anda</h5>
                                 <div style="clear: both;"></div>
                             </div>
                         </div>
@@ -304,11 +312,11 @@
                                 <div class="card-body">
                                 <h3 class="card-title">{{ $myReview->user->username }}</h3>
                                 @if ($myReview->rating >=8)
-                                    <p style="color: blue">Reviewer Rating: {{ $myReview->rating }}</p>
+                                    <p style="color: blue">Skor: {{ $myReview->rating }}</p>
                                 @elseif($rev->rating <=7 && $rev->rating >=4 )
-                                    <p style="color: rgba(208, 196, 23, 0.967)">Reviewer Rating: {{ $myReview->rating }}</p>
+                                    <p style="color: rgba(208, 196, 23, 0.967)">Skor: {{ $myReview->rating }}</p>
                                 @else
-                                    <p style="color: red">Reviewer Rating: {{ $myReview->rating }}</p>
+                                    <p style="color: red">Skor: {{ $myReview->rating }}</p>
                                 @endif
                                 <p>{!! $myReview->body !!}</p>
                                 <div class="footer-action">
@@ -319,7 +327,7 @@
                                     @csrf
                                         {{-- yang penting kan jalan --}}
                                         <input type="hidden" name="my_review_id" value="{{ $myReview->id }}">
-                                        <button type="submit" onclick="return confirm('Are you sure?')" id="btn-action"><i class="fa-solid fa-trash"></i> Delete</button>
+                                        <button type="submit" onclick="return confirm('Apa anda yakin?')" id="btn-action"><i class="fa-solid fa-trash"></i> Hapus</button>
                                     </form>
                                 </div>
                                 {{-- <p class="card-text" style="padding-left:20px">{!! $rev->body !!}</p> --}}
@@ -378,8 +386,8 @@
                                 <input type="hidden" name="review_id" value="{{ $myReview->id }}">
                             </div>
                             <div class="footer-button">
-                                <button type="submit" id="btn-edit"><i class="fa-regular fa-floppy-disk"></i> Save</button>
-                                <button type="button" id="btn-cancel" class="canceledit" class="canceledit" data-id="{{ $myReview->id }}">Cancel</button>
+                                <button type="submit" id="btn-edit"><i class="fa-regular fa-floppy-disk"></i> Simpan</button>
+                                <button type="button" id="btn-cancel" class="canceledit" class="canceledit" data-id="{{ $myReview->id }}">Batal</button>
                             </div>
                             </form>
                         </div>
@@ -388,7 +396,7 @@
                     
                         <div class="col-12"> 
                             <div class="border-bottom" style="margin-bottom:10px;">
-                                <h5 style="float: left;">Post Your Review</h5>
+                                <h5 style="float: left;">Berikan Ulasan Anda</h5>
                                 <div style="clear: both;"></div>
                             </div>
                         </div>
@@ -439,7 +447,7 @@
                                 <input type="hidden" name="event_id" value="{{ $event->id }}">
                             </div>
                             <div class="footer-submit-right">
-                                <button type="submit" id="btn-reply"><i class="fa-regular fa-pen-to-square"></i> Submit</button>
+                                <button type="submit" id="btn-reply">Tambah</button>
                             </div>
                             
                             </form>

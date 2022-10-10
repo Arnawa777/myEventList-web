@@ -10,7 +10,7 @@ class PersonController extends Controller
     public function index()
     {
         return view('people.index', [
-            'title' => 'People',
+            'title' => 'Daftar Orang',
             //eager loadng query dipindah ke model
             'people' => Person::latest()->filter(request(['search']))->paginate(4)->withQueryString(),
         ]);

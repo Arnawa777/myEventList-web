@@ -5,7 +5,7 @@
 @section('container')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mb-3 border-bottom"
      style="padding: 30px 0px 20px 0px">
-    <h2>Edit Post</h2>
+    <h2>Ubah Post</h2>
 </div>
 
 <div class="col-lg-8">
@@ -16,7 +16,7 @@
 
         {{-- Title --}}
         <div class="mb-3">
-            <label for="title" class="form-label">Post Title</label>
+            <label for="title" class="form-label">Judul Post</label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" 
             id="title" name="title" value="{{ old('title', $post->title) }}" autofocus>
             @error('title')
@@ -28,9 +28,9 @@
   
         {{-- Topic --}}
         <div class="mb-3">
-            <label for="topic_id">Post Topic</label>
+            <label for="topic_id">Topik Post</label>
             <select class="form-select" id="topic_id" name="topic_id" value="{{ old('topic_id') }}">
-                <option value="">Select Topic</option>
+                <option value="">Pilih Topik</option>
                 @foreach ($topics as $topic)
                 @if (old('topic_id', $post->topic_id) == $topic->id)
                     <option value="{{ $topic->id }}" selected>{{ $topic->topic }} - {{ $topic->sub_topic }}</option>
@@ -49,9 +49,9 @@
   
         {{-- Event --}}
         <div class="mb-3">
-            <label for="event_id">Post Event</label>
+            <label for="event_id">Komunitas</label>
             <select class="form-select" id="event_id" name="event_id" value="{{ old('event_id') }}">
-                <option value="">Select Event</option>
+                <option value="">Pilih Komunitas</option>
                 @foreach ($events as $event)
                 @if (old('event_id', $post->event_id) == $event->id)
                     <option value="{{ $event->id }}" selected>{{ $event->name }}</option>
@@ -70,7 +70,7 @@
   
         {{-- Picture --}}
         <div class="mb-3">
-            <label for="picture" class="form-label">Post Picture</label>
+            <label for="picture" class="form-label">Foto</label>
             <input type="hidden" name="oldPicture" value="{{ $post->picture }}">
             @if ($post->picture)
                 <img src="{{ asset('storage/post-picture/' .$post->picture) }}" class="img-preview">
@@ -84,7 +84,7 @@
                     value="{{ $post->picture }}" onchange="previewImageData()">
                 </div>
                 <div class="col-lg-2">
-                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Are you sure?')">Remove</button>
+                    <button class="btn btn-danger" name="action" value="remove" onclick="return confirm('Apa anda yakin?')">Hapus</button>
                 </div>
             </div>
             @error('picture')
@@ -93,12 +93,10 @@
                </div>
            @enderror
         </div>
-
-
   
         {{-- TRIX Body --}}
         <div class="mb-3">
-            <label for="body" class="form-label">Body</label>
+            <label for="body" class="form-label">Isi</label>
             <input id="body" type="hidden" name="body" 
                     value="{{ old('body', $post->body) }}">
                 <trix-editor input="body"></trix-editor>
@@ -111,8 +109,8 @@
 
         {{-- Button Action --}}
         <div class="footer-submit-right">
-            <button name="action" value="cancel" id="btn-cancel">Cancel</button>
-            <button type="submit" name="action" value="update" id="btn-reply">Update</button>
+            <button name="action" value="cancel" id="btn-cancel">Batal</button>
+            <button type="submit" name="action" value="update" id="btn-reply">Ubah</button>
         </div>
         
     </form>
